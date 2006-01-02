@@ -12,18 +12,18 @@
   If you have more than one nice-menu and want to target a particular one, use its id (e.g. ul.#nice-menu-2)
 */
 
+/* its a block but without a title, so hide the title */
+.block-nice_menus h2 {
+  display: none;
+}
+
 ul.nice-menu,
 ul.nice-menu ul {
   width: 150px; /* override this for a different menu width */
   margin: 0;
   padding: 0;
   list-style: none;
-  background: #000; /* IE6 Bug */
-}
-	
-ul.nice-menu {
-  float: left;
-  width: 100%;
+  border-bottom: 1px #ccc solid;
 }
 	
 ul.nice-menu:after {
@@ -38,13 +38,16 @@ ul.nice-menu li {
   position: relative;
   float: left;
   width: 150px; /* Width of Menu Items */
+  border-top: 1px #ccc solid;
+  border-right: 1px #ccc solid;
+  border-left: 1px #ccc solid;
+  background: #eee; /* IE6 Bug */
 }
 
 ul.nice-menu li a,
 ul.nice-menu li li a {
   display: block;
   text-decoration: none;
-  color: #fff;
   padding: 3px;
 }
 
@@ -87,17 +90,42 @@ ul.nice-menu li li li.over ul {
 } 
 
 ul.nice-menu li.menuparent { 
-  background: transparent url(arrow-down.gif) right center no-repeat; 
+  background: #eee url(arrow-down.gif) right center no-repeat; 
 }
 ul.nice-menu li li.menuparent { 
-  background: transparent url(arrow-right.gif) right center no-repeat; 
+  background: #eee url(arrow-right.gif) right center no-repeat; 
 }
 
 ul.nice-menu li a:hover { 
-  color: yellow; 
+  /*color: yellow; */
 }
 
 ul.nice-menu li.menuparent:hover,
 ul.nice-menu li.over {
-  background: #666 !important;
+  background: #ccc !important;
+}
+
+
+/* Now stuff specific to the menu type (down, left or right menu pop) */
+
+/* stuff for VERTICAL menus where submenus pop RIGHT (default) */
+ul.nice-menu-right ul {
+  left: 150px;
+  top: 0;
+}
+
+/* stuff for VERTICAL menus where submenus pop LEFT */
+ul.nice-menu-left ul {
+  left: -152px;
+  top: 0;
+}
+
+/* stuff for HORIZONTAL menus where submenus pop DOWN */
+ul.nice-menu-down {
+  float: left;
+  width: 100%;
+}
+
+ul.nice-menu-down ul {
+  left: -1px;
 }
