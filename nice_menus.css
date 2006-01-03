@@ -1,6 +1,4 @@
 /*
-$ID: $
-
   To help understand the CSS, the HTML looks like this (where x is a number):
   <ul id='nice-menu-x' class='nice-menu'>
     <li><a href='#'>This is a menu item</a></li>
@@ -127,7 +125,7 @@ ul.nice-menu-left ul ul {
   top: 0;
 }
 
-ul.nice-menu-left li a {
+ul.nice-menu-left li a, ul.nice-menu-left li li a {
   padding-left: 14px;
 }
 
