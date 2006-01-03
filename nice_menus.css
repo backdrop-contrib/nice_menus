@@ -95,12 +95,12 @@ ul.nice-menu li li li.over ul {
 
 /* stuff for VERTICAL menus where submenus pop RIGHT (default) */
 ul.nice-menu-right ul {
-  left: 150px;
+  left: 149px;
   top: 0;
 }
 
 ul.nice-menu-right ul ul {
-  left: 150px;
+  left: 149px;
   top: 0;
 }
 
@@ -155,24 +155,33 @@ ul.nice-menu-down {
 ul.nice-menu-down li.menuparent {
   border-bottom: 1px #ccc solid;
 }
+ul.nice-menu-down li.menuparent li {
+  border-bottom: 0;
+}
 
 ul.nice-menu-down ul {
   left: 0;
 }
 
 ul.nice-menu-down ul ul {
-  left: 150px;
+  left: 149px;
   top: 0;
 }
 
-ul.nice-menu-down li.menuparent,
-ul.nice-menu-down li li.menuparent { 
+ul.nice-menu-down li.menuparent { 
   background: #eee url(arrow-down.png) right center no-repeat; 
 }
 
 ul.nice-menu-down li.menuparent:hover,
-ul.nice-menu-down li.over,
+ul.nice-menu-down li.over {
+  background: #ccc url(arrow-down.png) right center no-repeat;
+}
+
+ul.nice-menu-down li li.menuparent { 
+  background: #eee url(arrow-right.png) right center no-repeat; 
+}
+
 ul.nice-menu-down li li.menuparent:hover,
 ul.nice-menu-down li li.over {
-  background: #ccc url(arrow-down.png) right center no-repeat;
+  background: #ccc url(arrow-right.png) right center no-repeat;
 }
