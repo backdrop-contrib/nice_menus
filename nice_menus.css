@@ -1,4 +1,6 @@
 /*
+$ID: $
+
   To help understand the CSS, the HTML looks like this (where x is a number):
   <ul id='nice-menu-x' class='nice-menu'>
     <li><a href='#'>This is a menu item</a></li>
@@ -12,20 +14,22 @@
   If you have more than one nice-menu and want to target a particular one, use its id (e.g. ul.#nice-menu-2)
 */
 
-/* its a block but without a title, so hide the title */
+/* most people won't want to see the menu's title */
 .block-nice_menus h2 {
   display: none;
 }
 
+
 ul.nice-menu,
 ul.nice-menu ul {
-  width: 150px; /* override this for a different menu width */
+  width: 150px; /* override this for a different menu width. WARNING: have to change in other places too */
   margin: 0;
   padding: 0;
   list-style: none;
   border-bottom: 1px #ccc solid;
 }
 	
+
 ul.nice-menu:after {
   content: "."; 
   display: block; 
@@ -34,13 +38,11 @@ ul.nice-menu:after {
   visibility: hidden;
 }
 
+
 ul.nice-menu li {
   position: relative;
   float: left;
   width: 150px; /* Width of Menu Items */
-  border-top: 1px #ccc solid;
-  border-right: 1px #ccc solid;
-  border-left: 1px #ccc solid;
   background: #eee; /* IE6 Bug */
 }
 
@@ -49,6 +51,8 @@ ul.nice-menu li li a {
   display: block;
   text-decoration: none;
   padding: 3px;
+  border: 1px #ccc solid;
+  border-bottom: 0;
 }
 
 /* Fix IE. Hide from IE Mac \*/
@@ -56,15 +60,12 @@ ul.nice-menu li li a {
 * html ul.nice-menu li a { height: 1%; }
 /* End */
 
+
 ul.nice-menu ul {
   position: absolute;
   display: none;
 }
-	
-ul.nice-menu ul ul {
-  left: 150px;
-  top: 0;
-}
+
 
 /* Sub Menu Styles */
 ul.nice-menu li ul li a { 
@@ -89,22 +90,6 @@ ul.nice-menu li li li.over ul {
   display: block; 
 } 
 
-ul.nice-menu li.menuparent { 
-  background: #eee url(arrow-down.gif) right center no-repeat; 
-}
-ul.nice-menu li li.menuparent { 
-  background: #eee url(arrow-right.gif) right center no-repeat; 
-}
-
-ul.nice-menu li a:hover { 
-  /*color: yellow; */
-}
-
-ul.nice-menu li.menuparent:hover,
-ul.nice-menu li.over {
-  background: #ccc !important;
-}
-
 
 /* Now stuff specific to the menu type (down, left or right menu pop) */
 
@@ -114,18 +99,80 @@ ul.nice-menu-right ul {
   top: 0;
 }
 
-/* stuff for VERTICAL menus where submenus pop LEFT */
-ul.nice-menu-left ul {
-  left: -152px;
+ul.nice-menu-right ul ul {
+  left: 150px;
   top: 0;
 }
 
+ul.nice-menu-right li.menuparent,
+ul.nice-menu-right li li.menuparent { 
+  background: #eee url(arrow-right.png) right center no-repeat; 
+}
+
+ul.nice-menu-right li.menuparent:hover,
+ul.nice-menu-right li.over,
+ul.nice-menu-right li li.menuparent:hover,
+ul.nice-menu-right li li.over {
+  background: #ccc url(arrow-right.png) right center no-repeat;
+}
+
+/* stuff for VERTICAL menus where submenus pop LEFT */
+ul.nice-menu-left ul {
+  left: -149px;
+  top: 0;
+}
+
+ul.nice-menu-left ul ul {
+  left: -149px;
+  top: 0;
+}
+
+ul.nice-menu-left li a {
+  padding-left: 14px;
+}
+
+
+ul.nice-menu-left li.menuparent,
+ul.nice-menu-left li li.menuparent { 
+  background: #eee url(arrow-left.png) left center no-repeat; 
+}
+
+ul.nice-menu-left li.menuparent:hover,
+ul.nice-menu-left li.over,
+ul.nice-menu-left li li.menuparent:hover,
+ul.nice-menu-left li li.over {
+  background: #ccc url(arrow-left.png) left center no-repeat;
+}
+
 /* stuff for HORIZONTAL menus where submenus pop DOWN */
+
 ul.nice-menu-down {
   float: left;
   width: 100%;
+  border: 0;
+}
+
+ul.nice-menu-down li.menuparent {
+  border-bottom: 1px #ccc solid;
 }
 
 ul.nice-menu-down ul {
-  left: -1px;
+  left: 0;
+}
+
+ul.nice-menu-down ul ul {
+  left: 150px;
+  top: 0;
+}
+
+ul.nice-menu-down li.menuparent,
+ul.nice-menu-down li li.menuparent { 
+  background: #eee url(arrow-down.png) right center no-repeat; 
+}
+
+ul.nice-menu-down li.menuparent:hover,
+ul.nice-menu-down li.over,
+ul.nice-menu-down li li.menuparent:hover,
+ul.nice-menu-down li li.over {
+  background: #ccc url(arrow-down.png) right center no-repeat;
 }

@@ -20,7 +20,9 @@ Installation
 
 Features
 --------
-* unlimited menus. Through settings you can configure the number of 'nice menus'
+* Unlimited menus. Through settings you can configure the number of 'nice menus'
+* Horizontal menus or vertical menus popping right or left
+* Simple styling which can be overriden using your own stylesheet
 
 
 

@@ -74,9 +74,9 @@ function nice_menus_block($op = 'list', $delta = 0, $edit = array()) {
     break;
 
     case 'view':
-      $block['subject'] = false; // no title for the block
       if ($menu_tree = _nice_menu_tree(variable_get('nice_menus_menu_'.$delta, '0'))) {
-        $block['content'] = "<ul class='nice-menu nice-menu-".variable_get('nice_menus_type_'.$delta,'right')."' id='nice-menu-".$delta."'>".$menu_tree."</ul>";
+        $block['content'] = "<ul class='nice-menu nice-menu-".variable_get('nice_menus_type_'.$delta,'right')."' id='nice-menu-".$delta."'>".$menu_tree['content']."</ul>";
+        $block['subject'] = $menu_tree['subject']; // no title for the block
       }
       else $block['content'] = false;
 
@@ -90,19 +90,22 @@ function nice_menus_block($op = 'list', $delta = 0, $edit = array()) {
 
 function _nice_menu_tree($pid = 0) { 
   $menu = menu_get_menu($pid); 
-  $output = ''; 
+  $output['content'] = ''; 
+
+  $output['subject'] = $menu['items'][$pid]['title'];
 
   if ($menu['visible'][$pid]['children']) {
     foreach ($menu['visible'][$pid]['children'] as $mid) {
       if (count($menu['visible'][$mid]['children']) > 0) {
-        $output.= "<li class='menuparent'>".menu_item_link($mid); //."</li>";
-        $output.= "<ul>";
-        $output.= _nice_menu_tree($mid);
-        $output.= "</ul>";
-        $output.= "</li>";
+        $output['content'].= "<li class='menuparent'>".menu_item_link($mid); //."</li>";
+        $output['content'].= "<ul>";
+        $tmp = _nice_menu_tree($mid);
+        $output['content'].= $tmp['content'];
+        $output['content'].= "</ul>";
+        $output['content'].= "</li>";
       } 
       else {
-        $output.= "<li>".menu_item_link($mid)."</li>";
+        $output['content'].= "<li>".menu_item_link($mid)."</li>";
       }
     }
   }
