@@ -29,11 +29,11 @@ function nice_menus_menu() {
 // Implementation of hook_settings()
 function nice_menus_settings() {
   $form['nice_menus_number'] = array(
-    '#type' => 'textfield', 
+    '#type' => 'select', 
     '#title' => t('Number of Nice Menus'), 
-    '#size' => '2',
     '#description' => t('The total number of independend nice menus you want. You configure them as normal in admin/blocks'),
-    '#default_value' => variable_get('nice_menus_number', '2')
+    '#default_value' => variable_get('nice_menus_number', '2'),
+    '#options' => drupal_map_assoc(array(0, 1, 2, 3, 4, 5, 6, 7, 8))
   );
 
   return $form;
@@ -46,29 +46,36 @@ function nice_menus_block($op = 'list', $delta = 0, $edit = array()) {
   switch ($op) {
     case 'list':
       for ($i=1;$i<=variable_get('nice_menus_number', '2');$i++) {
-        $blocks[$i]['info'] = t('Nice Menu '.$i);
+        $blocks[$i]['info'] = variable_get('nice_menus_name_'. $i, 'Nice Menu ' . $i) . ' (Nice Menu)';
       }
       return $blocks;
     break;
 
     case 'configure':
-      $form['nice_menus_menu_'. $delta] = array(
+      $form['nice_menus_name_'. $delta] = array(
         '#type' => 'textfield', 
-        '#title' => t('Menu Tree'), 
-        '#description' => t('The menu tree number (ID) from which to show a nice menu. Find out what this is at admin/menu and noting the ID in the URL for the menu you want to use'),
-        '#default_value' => variable_get('nice_menus_menu_'. $delta, '0')
+        '#title' => t('Menu Name'), 
+        '#default_value' => variable_get('nice_menus_name_'. $delta, 'Nice Menu ' . $delta)
       );
-
+      $form['nice_menus_menu_'. $delta] = array(
+        '#type' => 'select', 
+        '#title' => t('Source Menu Tree'), 
+        '#description' => t('The menu tree from which to show a nice menu.'),
+        '#default_value' => variable_get('nice_menus_menu_'. $delta, '0'),
+        '#options' => menu_parent_options(0)
+      );
       $form['nice_menus_type_'. $delta] = array(
-        '#type' => 'textfield', 
+        '#type' => 'select', 
         '#title' => t('Menu Style'), 
-        '#description' => t('down: menu items are listed side by side and expand down <br />right: menu items are listed on top of each other and expand to the right <br />left: menu items are listed on top of each other and expand to the left'),
-        '#default_value' => variable_get('nice_menus_type_'. $delta, 'right')
+        '#description' => t('right: menu items are listed on top of each other and expand to the right <br />left: menu items are listed on top of each other and expand to the left<br />down: menu items are listed side by side and expand down'),
+        '#default_value' => variable_get('nice_menus_type_'. $delta, 'right'),
+        '#options' => drupal_map_assoc(array('right','left','down'))
       );
       return $form;
     break;
 
     case 'save':
+      variable_set('nice_menus_name_'. $delta, $edit['nice_menus_name_'.$delta]);
       variable_set('nice_menus_menu_'. $delta, $edit['nice_menus_menu_'.$delta]);
       variable_set('nice_menus_type_'. $delta, $edit['nice_menus_type_'.$delta]);
     break;
@@ -111,6 +118,3 @@ function _nice_menu_tree($pid = 0) {
   }
   return $output;
 }
-
-
-?>

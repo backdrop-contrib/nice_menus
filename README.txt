@@ -16,7 +16,7 @@ Installation
 4. Configure the menu blocks at admin/block
 5. See below section on 'Customization'
 
-
+**IMORTANT ** This module requires the menu.module to be enabled!
 
 Features
 --------
