@@ -82,8 +82,10 @@ function nice_menus_block($op = 'list', $delta = 0, $edit = array()) {
 
     case 'view':
       if ($menu_tree = _nice_menu_tree(variable_get('nice_menus_menu_'.$delta, '1'))) {
-        $block['content'] = "<ul class='nice-menu nice-menu-".variable_get('nice_menus_type_'.$delta,'right')."' id='nice-menu-".$delta."'>".$menu_tree['content']."</ul>";
-        $block['subject'] = $menu_tree['subject']; // no title for the block
+        if ($menu_tree['content']) {
+          $block['content'] = "<ul class='nice-menu nice-menu-".variable_get('nice_menus_type_'.$delta,'right')."' id='nice-menu-".$delta."'>".$menu_tree['content']."</ul>";
+          $block['subject'] = $menu_tree['subject']; // no title for the block
+        }
       }
       else $block['content'] = false;
 
