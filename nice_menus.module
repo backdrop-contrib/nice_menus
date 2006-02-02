@@ -1,8 +1,8 @@
 <?php
 /*
   By Jake Gordon (jakeg)
-
   Module to enable nice navigation menus
+  Modified by Simon Rawson 30-01-06.
 */
 
 // Implementation of hook_help()
@@ -18,11 +18,13 @@ function nice_menus_help($section) {
   return $output;
 }
 
+
 // Implemention of hook_menu()
-function nice_menus_menu() {
-  // Load the necessary JavaScript on every page
-  drupal_add_js(drupal_get_path('module', 'nice_menus').'/nice_menus.js');
-  theme_add_style(drupal_get_path('module', 'nice_menus').'/nice_menus.css');
+function nice_menus_menu($may_cache) {
+  if (!$may_cache) {
+    drupal_add_js(drupal_get_path('module', 'nice_menus').'/nice_menus.js');
+    theme_add_style(drupal_get_path('module', 'nice_menus').'/nice_menus.css');
+  }
 }
 
 
@@ -93,7 +95,6 @@ function nice_menus_block($op = 'list', $delta = 0, $edit = array()) {
     break;
   }
 }
-
 
 // Private functions below
 
