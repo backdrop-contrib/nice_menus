@@ -107,7 +107,7 @@ function _nice_menu_tree($pid = 1) {
   if ($menu['visible'][$pid]['children']) {
     foreach ($menu['visible'][$pid]['children'] as $mid) {
       if (count($menu['visible'][$mid]['children']) > 0) {
-        $output['content'].= "<li class='menuparent'>".menu_item_link($mid); //."</li>";
+        $output['content'].= "<li id = 'menu-$mid' class='menuparent'>".menu_item_link($mid);
         $output['content'].= "<ul>";
         $tmp = _nice_menu_tree($mid);
         $output['content'].= $tmp['content'];
@@ -115,7 +115,7 @@ function _nice_menu_tree($pid = 1) {
         $output['content'].= "</li>";
       } 
       else {
-        $output['content'].= "<li>".menu_item_link($mid)."</li>";
+        $output['content'].= "<li id='menu-$mid'>".menu_item_link($mid)."</li>";
       }
     }
   }
