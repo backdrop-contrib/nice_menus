@@ -1,3 +1,4 @@
+/* $Id$ */
 /*
   To help understand the CSS, the HTML looks like this (where x is a number):
   <ul id='nice-menu-x' class='nice-menu nice-menu-TYPE'>
@@ -10,6 +11,8 @@
   </ul>
 
   If you have more than one nice-menu and want to target a particular one, use its id (e.g. ul.#nice-menu-2)
+
+  See README.txt for some CSS customization examples!
 
   First we're going to define CSS for all menus, then we'll define based on the type of menu
 */

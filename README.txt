@@ -1,11 +1,15 @@
-NICE_MENUS MODULE
------------------
+// $Id$
 
-By: Jake Gordon (jakeg)
+NICE_MENUS MODULE - CSS DROPDOWNS
+---------------------------------
+
+By: Jake Gordon (jakeg) http://drupal.org/user/15674/contact and http://www.jakeg.co.uk/
 
 This module should make it easy to add dropdown Javascript/CSS menus.
 
+Javascript is only loaded for Internet Explorer. With browsers such as Firefox, the nice-menus will work with CSS alone without any Javascript!
 
+Nice menus should work with all of the latest browsers (Opera, Firefox, IE, Safari etc) but please report any bugs, feature requests etc at: http://drupal.org/project/issues/nice_menus?categories=bug
 
 
 Installation
@@ -13,7 +17,8 @@ Installation
 1. Copy nice_modules folder to modules directory
 2. At admin/modules enable the module
 3. Configure the module at admin/settings/nice_menus
-4. Configure the menu blocks at admin/block
+4. Go to the blocks page and enable one of the nice menus blocks, e.g. 'Nice Menu 1 (Nice Menu)'
+5. Configure the block, changing its 'type', which menu it draws from etc.
 5. See below section on 'Customization'
 
 **IMORTANT ** This module requires the menu.module to be enabled!
@@ -24,14 +29,86 @@ Features
 * Horizontal menus or vertical menus popping right or left
 * Simple styling which can be overriden using your own stylesheet
 
+Issues
+------
 
-
+* Because this module tries not to be as Javascript light as possible, various wishlist features cannot be added, such as a menu disappearing as soon as your mouse falls off it by a pixel
+* The menus may not work perfectly with all themes. Try nice-menus out with the default bluemarine first to check it works there (it should) before filing a bug report or trying to write a patch for other themes.
+* The version for Drupal 4.7 has more features than 4.6 and its not planned to backport these features
+* Track bugs at http://drupal.org/project/issues/nice_menus?categories=bug
+* Try adding .block-nice_menus {position: relative;} or .block-nice_menus {position: absolute;} to a stylesheet which may fix some issues.
 
 Customization
 -------------
+The module includes a css file which is loaded for all pages. Whilst you can edit this file directly, it is suggested that you instead use your normal style.css file to override values in the module's css file, as this way you won't experience problems when updating to the latest version of nice_menus in the future. Here are some common customization examples for your own stylesheet:
 
-The module includes a css file which is loaded for all pages. Whilst you can edit this file directly, it is suggested that you instead use your normal style.css file to override values in the module's css file. For example, say you want to change the colour of hovered links. You'll see this line in nice_menus.css:
+Display all nice-menus blocks' titles (hidden by default to stop problems with e.g. 'down' menus):
 
-ul#primary-nav li a:hover { color: yellow; }
+  .block-nice_menus h2 {
+    display: block;
+  }
 
-But rather than editing it there, instead copy the line to your theme's style.css and make the changes there. This way, you'll avoid conflicts if you  have to upgrade nice_menus when new features come out.
+Display the block title only for a single nice-menu block (replace '1' with number of block):
+
+  #block-nice_menus-1 h2 {
+    display: block;
+  }
+
+Make hovered links white with a black background:
+
+  ul.nice-menu li a:hover { 
+    color: white; 
+    background: black;
+  }
+
+Make the link to the current page that you're on black with yellow text:
+
+  ul.nice-menu li a.active { 
+    color: yellow; 
+    background: black;
+  }
+
+Get rid of all borders:
+
+  ul.nice-menu,
+  ul.nice-menu ul,
+  ul.nice-menu li {
+    border: 0;
+  }
+
+Get rid of the borders and background colour for all top-level menu items:
+
+  ul.nice-menu,
+  ul.nice-menu ul,
+  ul.nice-menu li {
+    border: 0;
+    background: none;
+  }
+
+  ul.nice-menu-right li.menuparent,
+  ul.nice-menu-right li li.menuparent{ 
+    background: url('/modules/nice_menus/arrow-right.png') right center no-repeat; 
+  }
+
+  li.menuparent li, li.menuparent ul {
+    background: #eee;
+  }
+
+Have a nice menu right at the top of the page e.g. for an admin menu:
+
+  #block-nice_menus-1 {
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+
+In Firefox, as above but where the menu doesn't move as you scroll down the page:
+
+  #block-nice_menus-1 {
+    position: fixed;
+    top: 0;
+    left: 0;
+  }
+
+
+... that should be enough to get you started! If you have more style ideas, please post them in the Drupal forums or email them to Jake - http://drupal.org/user/15674/contact

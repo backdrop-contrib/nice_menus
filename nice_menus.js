@@ -1,3 +1,4 @@
+// $Id$
 //We only add the javascript to IE.
 if (document.all) {
 
@@ -37,5 +38,6 @@ if (document.all) {
   }
 
   //This is the Drupal method of adding a function to the BODY onload event.  (See misc/drupal.js)
+  // TODO: see http://drupal.org/node/50443
   addLoadEvent(IEHoverPseudo);
 }

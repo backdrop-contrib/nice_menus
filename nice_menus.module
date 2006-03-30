@@ -1,8 +1,9 @@
 <?php
+// $Id$
 /*
   By Jake Gordon (jakeg)
   Module to enable nice navigation menus
-  Modified by Simon Rawson 30-01-06.
+  Modifications and help by Simon Rawson.
 */
 
 // Implementation of hook_help()
@@ -44,6 +45,7 @@ function nice_menus_settings() {
 
 // Implementation of hook_block().
 function nice_menus_block($op = 'list', $delta = 0, $edit = array()) {
+  global $user;
 
   switch ($op) {
     case 'list':
@@ -86,7 +88,8 @@ function nice_menus_block($op = 'list', $delta = 0, $edit = array()) {
       if ($menu_tree = _nice_menu_tree(variable_get('nice_menus_menu_'.$delta, '1'))) {
         if ($menu_tree['content']) {
           $block['content'] = "<ul class='nice-menu nice-menu-".variable_get('nice_menus_type_'.$delta,'right')."' id='nice-menu-".$delta."'>".$menu_tree['content']."</ul>";
-          $block['subject'] = $menu_tree['subject']; // no title for the block
+          $block['subject'] = ($menu_tree['subject'] == t('Navigation') ? ($user->uid ? $user->name : t('Navigation')) : $menu_tree['subject']);
+
         }
       }
       else $block['content'] = false;
@@ -107,7 +110,7 @@ function _nice_menu_tree($pid = 1) {
   if ($menu['visible'][$pid]['children']) {
     foreach ($menu['visible'][$pid]['children'] as $mid) {
       if (count($menu['visible'][$mid]['children']) > 0) {
-        $output['content'].= "<li id = 'menu-$mid' class='menuparent'>".menu_item_link($mid);
+        $output['content'].= "<li id ='menu-$mid' class='menuparent'>".menu_item_link($mid);
         $output['content'].= "<ul>";
         $tmp = _nice_menu_tree($mid);
         $output['content'].= $tmp['content'];
