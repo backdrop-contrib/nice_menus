@@ -67,7 +67,7 @@ ul.nice-menu li.over ul{
 }
 
 ul.nice-menu ul li{
-  width: 150px;
+  width: 12.5em;
   display: block;
 }
 
@@ -104,20 +104,20 @@ ul.nice-menu li.over ul ul ul {
 /* This is the default width of vertical menus. You can override these in your own stylesheet. */
 ul.nice-menu-right, ul.nice-menu-left, 
 ul.nice-menu-right li, ul.nice-menu-left li{
-  width: 150px;
+  width: 12.5em;
 }
 
 /* stuff for VERTICAL menus where submenus pop RIGHT (default) */
 
 ul.nice-menu-right ul {
-  width: 150px;
-  left: 150px;
+  width: 12.5em;
+  left: 12.5em;
   top: -1px;
 }
 
 ul.nice-menu-right ul ul {
-  width: 150px;
-  left: 150px;
+  width: 12.5em;
+  left: 12.5em;
   top: -1px;
 }
 
@@ -136,14 +136,14 @@ ul.nice-menu-right li li.over{
 /* stuff for VERTICAL menus where submenus pop LEFT */
 
 ul.nice-menu-left li ul{
-  width: 150px;
-  left: -151px;
+  width: 12.5em;
+  left: -12.65em;
   top: -1px;
 }
 
 ul.nice-menu-left li ul li ul {
-  width: 150px;
-  left: -151px;
+  width: 12.5em;
+  left: -12.65em;
   top: -1px;
 }
 
@@ -183,7 +183,7 @@ ul.nice-menu-down ul {
 }
 
 ul.nice-menu-down li ul li ul {
-  left: 150px;
+  left: 12.5em;
   top: -1px;
 }
 
