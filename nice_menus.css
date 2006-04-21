@@ -208,3 +208,7 @@ ul.nice-menu-down li li.menuparent:hover,
 ul.nice-menu-down li li.over{
   background: #ccc url(arrow-right.png) right center no-repeat;
 }
+
+ul.nice-menu-down ul li {
+  clear: both;
+}
