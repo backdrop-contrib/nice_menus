@@ -5,11 +5,9 @@ NICE_MENUS MODULE - CSS DROPDOWNS
 
 By: Jake Gordon (jakeg) http://drupal.org/user/15674/contact and http://www.jakeg.co.uk/
 
-This module should make it easy to add dropdown Javascript/CSS menus.
+This module should make it easy to add dropdown menus, using CSS-only in capable browsers (Firefox, Opera, Safari etc) and with additional Javascript for lesser browsers (IE).
 
-Javascript is only loaded for Internet Explorer. With browsers such as Firefox, the nice-menus will work with CSS alone without any Javascript!
-
-Nice menus should work with all of the latest browsers (Opera, Firefox, IE, Safari etc) but please report any bugs, feature requests etc at: http://drupal.org/project/issues/nice_menus?categories=bug
+Nice menus should work with all of the latest browsers but please report any bugs, feature requests etc at: http://drupal.org/project/issues/nice_menus?categories=bug
 
 
 Installation

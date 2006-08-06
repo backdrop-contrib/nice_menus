@@ -23,7 +23,11 @@ function nice_menus_help($section) {
 // Implemention of hook_menu()
 function nice_menus_menu($may_cache) {
   if (!$may_cache) {
-    drupal_add_js(drupal_get_path('module', 'nice_menus').'/nice_menus.js');
+    // We only want to include the JS for IE, not browsers capable of doing everything in css
+    // drupal_add_js(drupal_get_path('module', 'nice_menus').'/nice_menus.js');
+    drupal_add_js('misc/drupal.js'); // won't add if already added, but need this *before* our js
+    drupal_set_html_head('<!--[if lte IE 6]><script type="text/javascript" src="'. check_url(base_path() . drupal_get_path('module', 'nice_menus').'/nice_menus.js') .'"></script><![endif]-->');
+
     theme_add_style(drupal_get_path('module', 'nice_menus').'/nice_menus.css');
   }
 }
@@ -102,15 +106,17 @@ function nice_menus_block($op = 'list', $delta = 0, $edit = array()) {
 // Private functions below
 
 function _nice_menu_tree($pid = 1) { 
-  $menu = menu_get_menu($pid); 
+  $menu = menu_get_menu(); 
   $output['content'] = ''; 
 
   $output['subject'] = $menu['items'][$pid]['title'];
 
   if ($menu['visible'][$pid]['children']) {
     foreach ($menu['visible'][$pid]['children'] as $mid) {
+      // Build class name based on menu path e.g. to give each menu item individual style
+      $path_class = 'menu-path-'. str_replace('/', '-', $menu['items'][$mid]['path']);
       if (count($menu['visible'][$mid]['children']) > 0) {
-        $output['content'].= "<li id ='menu-$mid' class='menuparent'>".menu_item_link($mid);
+        $output['content'].= "<li id='menu-$mid' class='menuparent $path_class'>".menu_item_link($mid);
         $output['content'].= "<ul>";
         $tmp = _nice_menu_tree($mid);
         $output['content'].= $tmp['content'];
@@ -118,7 +124,7 @@ function _nice_menu_tree($pid = 1) {
         $output['content'].= "</li>";
       } 
       else {
-        $output['content'].= "<li id='menu-$mid'>".menu_item_link($mid)."</li>";
+        $output['content'].= "<li id='menu-$mid' class='$path_class'>".menu_item_link($mid)."</li>";
       }
     }
   }

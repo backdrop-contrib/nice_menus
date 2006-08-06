@@ -1,10 +1,10 @@
 /* $Id$ */
 /*
-  To help understand the CSS, the HTML looks like this (where x is a number):
+  To help understand the CSS, the HTML looks like this (where x is a number; TYPE is down/left/right; PATH is the menu path such as node/343; MID is the menu id such as 33):
   <ul id='nice-menu-x' class='nice-menu nice-menu-TYPE'>
-    <li><a href='#'>This is a menu item</a></li>
-    <li class='menuparent'><a href='#'>A submenu</a>
-      <ul><li>...</li>
+    <li id='menu-MID' class='menu-path-PATH'><a href='#'>This is a menu item</a></li>
+    <li class='menuparent menu-path-PATH'><a href='#'>A submenu</a>
+      <ul...><li...>...</li>
       </ul>
     </li>
     ...
@@ -20,7 +20,7 @@
 /* below should fix menu being a few pixels away in some themes, and menus disappearing behind other stuff */
 .block-nice_menus {
   line-height: normal;
-  font-size: normal;
+  /*font-size: normal;*/
   /*position: relative;*/
   z-index: 10;
 }
