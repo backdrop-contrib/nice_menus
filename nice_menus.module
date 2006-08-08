@@ -10,7 +10,7 @@
 function nice_menus_help($section) {
   switch ($section) {
     case 'admin/settings/modules#description':
-      $output = t('Make drop down css/javascript menus for site navigation and admin menus');
+      $output = t('Make drop down css/javascript menus for site navigation and admin menus.');
       break;
     case 'admin/settings/nice_menus':
       $output = t('<p>This is a simple module that enables the site to have drop down css/javascript menus for site navigation and admin navigation.</p>');
