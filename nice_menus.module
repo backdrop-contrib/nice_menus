@@ -9,7 +9,7 @@
 // Implementation of hook_help()
 function nice_menus_help($section) {
   switch ($section) {
-    case 'admin/modules#description':
+    case 'admin/settings/modules#description':
       $output = t('Make drop down css/javascript menus for site navigation and admin menus');
       break;
     case 'admin/settings/nice_menus':
