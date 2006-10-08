@@ -15,36 +15,30 @@ Installation
 1. Copy nice_modules folder to modules directory
 2. At admin/modules enable the module
 3. Configure the module at admin/settings/nice_menus
-4. Go to the blocks page and enable one of the nice menus blocks, e.g. 'Nice Menu 1 (Nice Menu)'
+4. Go to the blocks page and enable at least one of the nice menus blocks, e.g. 'Nice Menu 1 (Nice Menu)'
 5. Configure the block, changing its 'type', which menu it draws from etc.
 5. See below section on 'Customization'
 
-**IMORTANT ** This module requires the menu.module to be enabled!
-
 Features
 --------
-* Unlimited menus. Through settings you can configure the number of 'nice menus'
+* Up to 10 menus - through settings you can configure the number of 'nice menus'
 * Horizontal menus or vertical menus popping right or left
-* Simple styling which can be overriden using your own stylesheet
+* Simple default styling which can be overriden using your own stylesheet
 
 Issues
 ------
 
 * Because this module tries not to be as Javascript light as possible, various wishlist features cannot be added, such as a menu disappearing as soon as your mouse falls off it by a pixel
 * The menus may not work perfectly with all themes. Try nice-menus out with the default bluemarine first to check it works there (it should) before filing a bug report or trying to write a patch for other themes.
-* The version for Drupal 4.7 has more features than 4.6 and its not planned to backport these features
 * Track bugs at http://drupal.org/project/issues/nice_menus?categories=bug
 * Try adding .block-nice_menus {position: relative;} or .block-nice_menus {position: absolute;} to a stylesheet which may fix some issues.
+* Some issus with nice menus and select boxes in IE
+* General issues with exotic themes and z-index stuff (menus going behind other content etc)
+* General issues with gaps between menu items in some exotic themes
 
 Customization
 -------------
 The module includes a css file which is loaded for all pages. Whilst you can edit this file directly, it is suggested that you instead use your normal style.css file to override values in the module's css file, as this way you won't experience problems when updating to the latest version of nice_menus in the future. Here are some common customization examples for your own stylesheet:
-
-Display all nice-menus blocks' titles (hidden by default to stop problems with e.g. 'down' menus):
-
-  .block-nice_menus h2 {
-    display: block;
-  }
 
 Display the block title only for a single nice-menu block (replace '1' with number of block):
 
