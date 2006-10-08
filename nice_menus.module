@@ -24,9 +24,11 @@ function nice_menus_help($section) {
 function nice_menus_menu($may_cache) {
   if (!$may_cache) {
     // We only want to include the JS for IE, not browsers capable of doing everything in css
-    drupal_add_js('misc/drupal.js'); // won't add if already added, but need this *before* our js
-    drupal_set_html_head('<!--[if lte IE 6]><script type="text/javascript" src="'. check_url(base_path() . drupal_get_path('module', 'nice_menus').'/nice_menus.js') .'"></script><![endif]-->');
+    // drupal_add_js('misc/drupal.js'); // won't add if already added, but need this *before* our js
+    // drupal_set_html_head('<!--[if lte IE 6]><script type="text/javascript" src="'. check_url(base_path() . drupal_get_path('module', 'nice_menus').'/nice_menus.js') .'"></script><![endif]-->');
+    drupal_add_js(drupal_get_path('module', 'nice_menus').'/nice_menus.js');
     drupal_add_css(drupal_get_path('module', 'nice_menus').'/nice_menus.css');
+    //drupal_add_css(drupal_get_path('module', 'nice_menus').'/jquery.css');
   }
   else {
     $items[] = array(

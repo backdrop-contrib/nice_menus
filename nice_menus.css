@@ -87,9 +87,6 @@ ul.nice-menu:after {
 }
 
 /* Show submenus when over their parents */
-ul.nice-menu li:hover ul,
-ul.nice-menu li.menuparent li:hover ul,
-ul.nice-menu li.menuparent li.menuparent li:hover ul,
 ul.nice-menu li.over ul,
 ul.nice-menu li.menuparent li.over ul,
 ul.nice-menu li.menuparent li.menuparent li.over ul { 
@@ -97,8 +94,6 @@ ul.nice-menu li.menuparent li.menuparent li.over ul {
 } 
 
 /* Hide sub-menus initially */
-ul.nice-menu li:hover ul ul,
-ul.nice-menu li:hover ul ul ul,
 ul.nice-menu li.over ul ul,
 ul.nice-menu li.over ul ul ul { 
   display: none; 
@@ -133,13 +128,6 @@ ul.nice-menu-right li li.menuparent{
   background: #eee url(arrow-right.png) right center no-repeat; 
 }
 
-ul.nice-menu-right li.menuparent:hover,
-ul.nice-menu-right li.over,
-ul.nice-menu-right li li.menuparent:hover,
-ul.nice-menu-right li li.over{
-  background: #ccc url(arrow-right.png) right center no-repeat;
-}
-
 /* stuff for VERTICAL menus where submenus pop LEFT */
 
 ul.nice-menu-left li ul{
@@ -157,13 +145,6 @@ ul.nice-menu-left li ul li ul {
 ul.nice-menu-left li.menuparent,
 ul.nice-menu-left li li.menuparent{ 
   background: #eee url(arrow-left.png) left center no-repeat; 
-}
-
-ul.nice-menu-left li.menuparent:hover,
-ul.nice-menu-left li.over,
-ul.nice-menu-left li li.menuparent:hover,
-ul.nice-menu-left li li.over{
-  background: #ccc url(arrow-left.png) left center no-repeat;
 }
 
 ul.nice-menu-left a, ul.nice-menu-left ul a {
@@ -202,20 +183,20 @@ ul.nice-menu-down li.menuparent{
   background: #eee url(arrow-down.png) right center no-repeat; 
 }
 
-ul.nice-menu-down li.menuparent:hover,
-ul.nice-menu-down li.over{
-  background: #ccc url(arrow-down.png) right center no-repeat;
-}
-
 ul.nice-menu-down li li.menuparent{ 
   background: #eee url(arrow-right.png) right center no-repeat; 
 }
 
-ul.nice-menu-down li li.menuparent:hover,
-ul.nice-menu-down li li.over{
-  background: #ccc url(arrow-right.png) right center no-repeat;
-}
-
 ul.nice-menu-down ul li {
   clear: both;
+}
+
+/* with addition of jQuery, we now also add an iframe re. pesky select boxes in IE */
+ul.nice-menu iframe {
+  position: absolute;
+  left: 0;
+  top: 0;
+  background: red;
+  height: 100px;
+  width: 100px;
 }
