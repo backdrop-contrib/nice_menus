@@ -26,8 +26,15 @@
 }
 
 /* most people won't want to see the menu's title */
-.block-nice_menus h2 {
+.block-nice_menus h2.title {
+  margin: 0;
+}
+.block-nice_menus h2.title .nice-menu-hide-title {
   display: none;
+}
+ .block-nice_menus h2.title .nice-menu-show-title {
+  display: block;
+  margin-bottom: 5px;
 }
 
 ul.nice-menu,

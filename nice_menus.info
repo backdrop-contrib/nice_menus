@@ -1,0 +1,3 @@
+name = Nice Menus
+description = CSS drop-down, drop-right and drop-left menus to be placed in blocks
+dependencies = menu

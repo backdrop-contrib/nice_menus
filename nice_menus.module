@@ -13,7 +13,7 @@ function nice_menus_help($section) {
       $output = t('Make drop down css/javascript menus for site navigation and admin menus.');
       break;
     case 'admin/settings/nice_menus':
-      $output = t('<p>This is a simple module that enables the site to have drop down css/javascript menus for site navigation and admin navigation.</p>');
+      $output = t('<p>This is a simple module that enables the site to have drop down css/javascript menus for site navigation and admin navigation.</p><p>Remember to activate and configure the menus in %link</p>', array('%link' => l('admin/block', 'admin/block')));
       break;
   }
   return $output;
@@ -33,7 +33,8 @@ function nice_menus_menu($may_cache) {
       'path' => 'admin/settings/nice_menus',
       'title' => t('nice menus'),
       'description' => t('Configure drop-down/left/right menu blocks.'),
-      'callback' => 'nice_menus_admin_settings',
+      'callback' => 'drupal_get_form',
+      'callback arguments' => 'nice_menus_admin_settings',
       'access' => user_access('administer site configuration'),
       'type' => MENU_NORMAL_ITEM
     );
@@ -43,17 +44,17 @@ function nice_menus_menu($may_cache) {
 }
 
 
-// Implementation of hook_settings()
+// Menu callback for module settings
 function nice_menus_admin_settings() {
   $form['nice_menus_number'] = array(
     '#type' => 'select', 
     '#title' => t('Number of Nice Menus'), 
-    '#description' => t('The total number of independend nice menus you want. You configure them as normal in admin/blocks'),
+    '#description' => t('The total number of independend nice menus (blocks) you want.'),
     '#default_value' => variable_get('nice_menus_number', '2'),
-    '#options' => drupal_map_assoc(array(0, 1, 2, 3, 4, 5, 6, 7, 8))
+    '#options' => drupal_map_assoc(array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10))
   );
 
-  return system_settings_form('nice_menus_admin_settings', $form);
+  return system_settings_form($form);
 }
 
 
@@ -102,7 +103,13 @@ function nice_menus_block($op = 'list', $delta = 0, $edit = array()) {
       if ($menu_tree = _nice_menu_tree(variable_get('nice_menus_menu_'.$delta, '1'))) {
         if ($menu_tree['content']) {
           $block['content'] = "<ul class='nice-menu nice-menu-".variable_get('nice_menus_type_'.$delta,'right')."' id='nice-menu-".$delta."'>".$menu_tree['content']."</ul>";
-          $block['subject'] = ($menu_tree['subject'] == t('Navigation') ? ($user->uid ? $user->name : t('Navigation')) : $menu_tree['subject']);
+          if (variable_get('nice_menus_type_'.$delta,'right') == 'down') {
+           $class = 'nice-menu-hide-title';
+         }
+         else {
+           $class = 'nice-menu-show-title';
+         }
+         $block['subject'] = '<span class="'.$class.'">'.check_plain($menu_tree['subject'] == t('Navigation') ? ($user->uid ? $user->name : t('Navigation')) : $menu_tree['subject']).'</span>';
 
         }
       }
