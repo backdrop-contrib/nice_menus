@@ -25,10 +25,6 @@
   z-index: 10;
 }
 
-/* most people won't want to see the menu's title */
-.block-nice_menus h2.title {
-  margin: 0;
-}
 .block-nice_menus h2.title .nice-menu-hide-title {
   display: none;
 }
@@ -42,7 +38,7 @@ ul.nice-menu ul{
   list-style: none;
   padding: 0;
   margin: 0;
-  border-top: 1px solid #ccc;
+  border-top: 1px solid #ccc; /* this looks weird in garland */
   z-index: 5;
 }
 
@@ -64,7 +60,7 @@ ul.nice-menu ul{
   top: 1.8em;
   left: -1px;
   border: 0;
-  border-top: 1px solid #ccc;
+  border-top: 1px solid #ccc; /* this looks weird in garland */
   margin-right: 0;
   display: none;
 }
@@ -191,7 +187,8 @@ ul.nice-menu-down ul li {
   clear: both;
 }
 
-/* with addition of jQuery, we now also add an iframe re. pesky select boxes in IE */
+/* with addition of jQuery, we now also add an iframe re. pesky select boxes in IE
+  this is Jake's original work */
 ul.nice-menu iframe {
   position: absolute;
   left: 0;
@@ -200,3 +197,22 @@ ul.nice-menu iframe {
   height: 100px;
   width: 100px;
 }
+
+/* [IE6] Invisible iframe to fix z-index bug when menu hovers over <select> fields
+Added from the issue - miseryshining */
+li.menuparent ul {
+	overflow: visible !important;
+	overflow: hidden;
+}
+
+ li.menuparent ul iframe {
+	display:none;
+	display/**/:block;
+	position:absolute;
+	top:0;
+	left:0;
+	z-index:-1;
+	filter:mask();
+	width:400px;
+	height:40
+ }

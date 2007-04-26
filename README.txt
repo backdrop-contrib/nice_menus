@@ -13,11 +13,11 @@ Nice menus should work with all of the latest browsers but please report any bug
 Installation
 ------------
 1. Copy nice_modules folder to modules directory
-2. At admin/modules enable the module
+2. At admin/build/modules enable the module
 3. Configure the module at admin/settings/nice_menus
-4. Go to the blocks page and enable at least one of the nice menus blocks, e.g. 'Nice Menu 1 (Nice Menu)'
-5. Configure the block, changing its 'type', which menu it draws from etc.
-5. See below section on 'Customization'
+4. Configure the block, changing its 'type', which menu it draws from etc.
+5. Go to the blocks page and enable at least one of the nice menus blocks, e.g. 'Nice Menu 1 (Nice Menu)'
+6. See below section on 'Customization'
 
 Features
 --------
@@ -28,8 +28,8 @@ Features
 Issues
 ------
 
-* Because this module tries not to be as Javascript light as possible, various wishlist features cannot be added, such as a menu disappearing as soon as your mouse falls off it by a pixel
-* The menus may not work perfectly with all themes. Try nice-menus out with the default bluemarine first to check it works there (it should) before filing a bug report or trying to write a patch for other themes.
+* Because this module tries to be as Javascript light as possible, various wishlist features cannot be added, such as a menu disappearing as soon as your mouse falls off it by a pixel
+* The menus may not work perfectly with all themes. Try nice-menus out with the default garland or bluemarine first to check it works there (it should) before filing a bug report or trying to write a patch for other themes.
 * Track bugs at http://drupal.org/project/issues/nice_menus?categories=bug
 * Try adding .block-nice_menus {position: relative;} or .block-nice_menus {position: absolute;} to a stylesheet which may fix some issues.
 * Some issus with nice menus and select boxes in IE
@@ -39,12 +39,6 @@ Issues
 Customization
 -------------
 The module includes a css file which is loaded for all pages. Whilst you can edit this file directly, it is suggested that you instead use your normal style.css file to override values in the module's css file, as this way you won't experience problems when updating to the latest version of nice_menus in the future. Here are some common customization examples for your own stylesheet:
-
-Display the block title only for a single nice-menu block (replace '1' with number of block):
-
-  #block-nice_menus-1 h2 {
-    display: block;
-  }
 
 Make hovered links white with a black background:
 
