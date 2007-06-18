@@ -2,4 +2,4 @@
 name = Nice Menus
 description = CSS/jQuery drop-down, drop-right and drop-left menus to be placed in blocks
 dependencies = menu
-version = "5.x-1.x-dev"
+
