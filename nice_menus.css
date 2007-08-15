@@ -79,9 +79,11 @@ ul.nice-menu:after {
 ul.nice-menu li:hover ul,
 ul.nice-menu li.menuparent li:hover ul,
 ul.nice-menu li.menuparent li.menuparent li:hover ul,
+ul.nice-menu li.menuparent li.menuparent li.menuparent li:hover ul,
 ul.nice-menu li.over ul,
 ul.nice-menu li.menuparent li.over ul,
 ul.nice-menu li.menuparent li.menuparent li.over ul,
+ul.nice-menu li.menuparent li.menuparent li.menuparent li.over ul
 /* Repeat all this stuff just for Garland headers */
 #header-region ul.nice-menu li:hover ul,
 #header-region ul.nice-menu li.menuparent li:hover ul,
@@ -95,13 +97,29 @@ ul.nice-menu li.menuparent li.menuparent li.over ul,
 /* Hide sub-menus initially */
 ul.nice-menu li:hover ul ul,
 ul.nice-menu li:hover ul ul ul,
+ul.nice-menu li:hover li:hover ul ul,
+ul.nice-menu li:hover li:hover ul ul ul,
+ul.nice-menu li:hover li:hover li:hover ul ul,
+ul.nice-menu li:hover li:hover li:hover ul ul ul,
 ul.nice-menu li.over ul ul,
 ul.nice-menu li.over ul ul ul,
+ul.nice-menu li.over li.over ul ul,
+ul.nice-menu li.over li.over ul ul ul,
+ul.nice-menu li.over li.over li.over ul ul,
+ul.nice-menu li.over li.over li.over ul ul ul
 /* Repeat all this stuff just for Garland headers */
 #header-region ul.nice-menu li:hover ul ul,
 #header-region ul.nice-menu li:hover ul ul ul,
+#header-region ul.nice-menu li:hover li:hover ul ul,
+#header-region ul.nice-menu li:hover li:hover ul ul ul,
+#header-region ul.nice-menu li:hover li:hover li:hover ul ul,
+#header-region ul.nice-menu li:hover li:hover li:hover ul ul ul,
 #header-region ul.nice-menu li.over ul ul,
-#header-region ul.nice-menu li.over ul ul ul {
+#header-region ul.nice-menu li.over ul ul ul,
+#header-region ul.nice-menu li.over li.over ul ul,
+#header-region ul.nice-menu li.over li.over ul ul ul,
+#header-region ul.nice-menu li.over li.over li.over ul ul,
+#header-region ul.nice-menu li.over li.over li.over ul ul ul {
   display: none;
 }
 
