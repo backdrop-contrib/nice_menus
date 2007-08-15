@@ -230,7 +230,7 @@ ul.nice-menu-down li.over,
   background: #ccc url(arrow-down.png) right center no-repeat;
 }
 
-ul.nice-menu-down li li.menuparent{
+ul.nice-menu-down li li.menuparent {
   background: #eee url(arrow-right.png) right center no-repeat;
 }
 
@@ -248,14 +248,14 @@ ul.nice-menu-down ul li {
 
 /* [IE6] Invisible iframe to fix z-index bug when menu hovers over <select> fields*/
 
-li.menuparent ul,
-#header-region li.menuparent ul { /* for Garland header */
+ul.nice-menu li.menuparent ul,
+#header-region ul.nice-menu li.menuparent ul { /* for Garland header */
 	overflow: visible !important;
 	/* overflow: hidden; */
 }
 
-li.menuparent ul iframe,
-#header-region li.menuparent ul iframe { /* for Garland header */
+ul.nice-menu li.menuparent ul iframe,
+#header-region ul.nice-menu li.menuparent ul iframe { /* for Garland header */
 	display:none;
 	display/**/:block;
 	position:absolute;
