@@ -60,8 +60,8 @@ function nice_menus_menu($may_cache) {
  */
 function nice_menus_admin_settings() {
   $form['nice_menus_number'] = array(
-    '#type' => 'select', 
-    '#title' => t('Number of Nice Menus'), 
+    '#type' => 'select',
+    '#title' => t('Number of Nice Menus'),
     '#description' => t('The total number of independent nice menus (blocks) you want.'),
     '#default_value' => variable_get('nice_menus_number', '2'),
     '#options' => drupal_map_assoc(array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10)),
@@ -87,20 +87,20 @@ function nice_menus_block($op = 'list', $delta = 0, $edit = array()) {
 
     case 'configure':
       $form['nice_menus_name_'. $delta] = array(
-        '#type' => 'textfield', 
-        '#title' => t('Menu Name'), 
+        '#type' => 'textfield',
+        '#title' => t('Menu Name'),
         '#default_value' => variable_get('nice_menus_name_'. $delta, 'Nice Menu '. $delta),
       );
       $form['nice_menus_menu_'. $delta] = array(
-        '#type' => 'select', 
-        '#title' => t('Source Menu Tree'), 
+        '#type' => 'select',
+        '#title' => t('Source Menu Tree'),
         '#description' => t('The menu tree from which to show a nice menu.'),
         '#default_value' => variable_get('nice_menus_menu_'. $delta, '1'),
         '#options' => menu_parent_options(0),
       );
       $form['nice_menus_type_'. $delta] = array(
-        '#type' => 'select', 
-        '#title' => t('Menu Style'), 
+        '#type' => 'select',
+        '#title' => t('Menu Style'),
         '#description' => t('right: menu items are listed on top of each other and expand to the right') .'<br />'. t('left: menu items are listed on top of each other and expand to the left') .'<br />'. t('down: menu items are listed side by side and expand down'),
         '#default_value' => variable_get('nice_menus_type_'. $delta, 'right'),
         '#options' => drupal_map_assoc(array('right', 'left', 'down')),
@@ -137,9 +137,9 @@ function nice_menus_block($op = 'list', $delta = 0, $edit = array()) {
 /*
  * Theme Nice Menus output
  */
-function theme_nice_menu_tree($pid = 1) { 
-  $menu = menu_get_menu(); 
-  $output['content'] = ''; 
+function theme_nice_menu_tree($pid = 1) {
+  $menu = menu_get_menu();
+  $output['content'] = '';
 
   $output['subject'] = $menu['items'][$pid]['title'];
 
@@ -149,13 +149,13 @@ function theme_nice_menu_tree($pid = 1) {
       $path_class = 'menu-path-'. str_replace('/', '-', $menu['items'][$mid]['path']);
       if (count($menu['visible'][$mid]['children']) > 0) {
         $output['content'] .= '<li id="menu-'. $mid .'" class="menuparent '. $path_class .'">'. menu_item_link($mid);
-        $output['content'] .= '<ul>';
-        //$output['content'] .= '<ul><!--[if lte IE 6]><iframe></iframe><![endif]-->';
+        //$output['content'] .= '<ul>';
+        $output['content'] .= '<ul><!--[if lt IE 7]><iframe></iframe><![endif]-->';
         $tmp = theme('nice_menu_tree', $mid);
         $output['content'] .= $tmp['content'];
         $output['content'] .= '</ul>';
         $output['content'] .= '</li>';
-      } 
+      }
       else {
         $output['content'] .= '<li id="menu-'. $mid .'" class="'. $path_class .'">'. menu_item_link($mid) .'</li>';
       }

@@ -30,7 +30,7 @@ ul.nice-menu ul{
   list-style: none;
   padding: 0;
   margin: 0;
-  border-top: 1px solid #ccc; /* this looks weird in garland */
+  border-top: 1px solid #ccc;
   z-index: 5;
 }
 
@@ -52,12 +52,12 @@ ul.nice-menu ul{
   top: 1.8em;
   left: -1px;
   border: 0;
-  border-top: 1px solid #ccc; /* this looks weird in garland */
+  border-top: 1px solid #ccc;
   margin-right: 0;
   display: none;
 }
 
-ul.nice-menu li.hover ul{
+ul.nice-menu li.over ul{
   display: block;
 }
 
@@ -67,32 +67,37 @@ ul.nice-menu ul li{
 }
 
 ul.nice-menu:after {
-  content: "."; 
+  content: ".";
   display: block;
-  height: 0; 
-  clear: both; 
+  height: 0;
+  clear: both;
   visibility: hidden;
 }
 
 /* Show submenus when over their parents */
-ul.nice-menu li.hover ul,
-ul.nice-menu li.menuparent li.hover ul,
-ul.nice-menu li.menuparent li.menuparent li.hover ul { 
-  display: block; 
-} 
+ul.nice-menu li:hover ul,
+ul.nice-menu li.menuparent li:hover ul,
+ul.nice-menu li.menuparent li.menuparent li:hover ul,
+ul.nice-menu li.over ul,
+ul.nice-menu li.menuparent li.over ul,
+ul.nice-menu li.menuparent li.menuparent li.over ul {
+  display: block;
+}
 
 /* Hide sub-menus initially */
-ul.nice-menu li.hover ul ul,
-ul.nice-menu li.hover ul ul ul { 
-  display: none; 
-} 
+ul.nice-menu li:hover ul ul,
+ul.nice-menu li:hover ul ul ul,
+ul.nice-menu li.over ul ul,
+ul.nice-menu li.over ul ul ul {
+  display: none;
+}
 
 /* Now stuff specific to the menu type (down, left or right menu pop) */
 
 /* All VERTICAL (left/right) menus */
 
 /* This is the default width of vertical menus. You can override these in your own stylesheet. */
-ul.nice-menu-right, ul.nice-menu-left, 
+ul.nice-menu-right, ul.nice-menu-left,
 ul.nice-menu-right li, ul.nice-menu-left li{
   width: 12.5em;
 }
@@ -112,8 +117,15 @@ ul.nice-menu-right ul ul {
 }
 
 ul.nice-menu-right li.menuparent,
-ul.nice-menu-right li li.menuparent{ 
-  background: #eee url(arrow-right.png) right center no-repeat; 
+ul.nice-menu-right li li.menuparent{
+  background: #eee url(arrow-right.png) right center no-repeat;
+}
+
+ul.nice-menu-right li.menuparent:hover,
+ul.nice-menu-right li.over,
+ul.nice-menu-right li li.menuparent:hover,
+ul.nice-menu-right li li.over{
+  background: #ccc url(arrow-right.png) right center no-repeat;
 }
 
 /* stuff for VERTICAL menus where submenus pop LEFT */
@@ -131,8 +143,15 @@ ul.nice-menu-left li ul li ul {
 }
 
 ul.nice-menu-left li.menuparent,
-ul.nice-menu-left li li.menuparent{ 
-  background: #eee url(arrow-left.png) left center no-repeat; 
+ul.nice-menu-left li li.menuparent{
+  background: #eee url(arrow-left.png) left center no-repeat;
+}
+
+ul.nice-menu-left li.menuparent:hover,
+ul.nice-menu-left li.over,
+ul.nice-menu-left li li.menuparent:hover,
+ul.nice-menu-left li li.over{
+  background: #ccc url(arrow-left.png) left center no-repeat;
 }
 
 ul.nice-menu-left a, ul.nice-menu-left ul a {
@@ -167,26 +186,36 @@ ul.nice-menu-down .menuparent a{
   padding-right: 15px;
 }
 
-ul.nice-menu-down li.menuparent{ 
-  background: #eee url(arrow-down.png) right center no-repeat; 
+ul.nice-menu-down li.menuparent{
+  background: #eee url(arrow-down.png) right center no-repeat;
 }
 
-ul.nice-menu-down li li.menuparent{ 
-  background: #eee url(arrow-right.png) right center no-repeat; 
+ul.nice-menu-down li.menuparent:hover,
+ul.nice-menu-down li.over{
+  background: #ccc url(arrow-down.png) right center no-repeat;
+}
+
+ul.nice-menu-down li li.menuparent{
+  background: #eee url(arrow-right.png) right center no-repeat;
+}
+
+ul.nice-menu-down li li.menuparent:hover,
+ul.nice-menu-down li li.over{
+  background: #ccc url(arrow-right.png) right center no-repeat;
 }
 
 ul.nice-menu-down ul li {
   clear: both;
 }
 
-/* [IE6] Invisible iframe to fix z-index bug when menu hovers over <select> fields
-Added from the issue - miseryshining */
+/* [IE6] Invisible iframe to fix z-index bug when menu hovers over <select> fields*/
+
 li.menuparent ul {
 	overflow: visible !important;
 	overflow: hidden;
 }
 
- li.menuparent ul iframe {
+li.menuparent ul iframe {
 	display:none;
 	display/**/:block;
 	position:absolute;
@@ -195,5 +224,5 @@ li.menuparent ul {
 	z-index:-1;
 	filter:mask();
 	width:400px;
-	height:40
- }
+	height:400px;
+}
