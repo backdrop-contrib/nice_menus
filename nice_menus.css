@@ -25,14 +25,6 @@
   z-index: 10;
 }
 
-.block-nice_menus h2.title .nice-menu-hide-title {
-  display: none;
-}
- .block-nice_menus h2.title .nice-menu-show-title {
-  display: block;
-  margin-bottom: 5px;
-}
-
 ul.nice-menu,
 ul.nice-menu ul{
   list-style: none;
@@ -65,7 +57,7 @@ ul.nice-menu ul{
   display: none;
 }
 
-ul.nice-menu li.over ul{
+ul.nice-menu li.hover ul{
   display: block;
 }
 
@@ -83,15 +75,15 @@ ul.nice-menu:after {
 }
 
 /* Show submenus when over their parents */
-ul.nice-menu li.over ul,
-ul.nice-menu li.menuparent li.over ul,
-ul.nice-menu li.menuparent li.menuparent li.over ul { 
+ul.nice-menu li.hover ul,
+ul.nice-menu li.menuparent li.hover ul,
+ul.nice-menu li.menuparent li.menuparent li.hover ul { 
   display: block; 
 } 
 
 /* Hide sub-menus initially */
-ul.nice-menu li.over ul ul,
-ul.nice-menu li.over ul ul ul { 
+ul.nice-menu li.hover ul ul,
+ul.nice-menu li.hover ul ul ul { 
   display: none; 
 } 
 
@@ -185,17 +177,6 @@ ul.nice-menu-down li li.menuparent{
 
 ul.nice-menu-down ul li {
   clear: both;
-}
-
-/* with addition of jQuery, we now also add an iframe re. pesky select boxes in IE
-  this is Jake's original work */
-ul.nice-menu iframe {
-  position: absolute;
-  left: 0;
-  top: 0;
-  background: red;
-  height: 100px;
-  width: 100px;
 }
 
 /* [IE6] Invisible iframe to fix z-index bug when menu hovers over <select> fields
