@@ -27,7 +27,7 @@ Features
 --------
 * Up to 10 menus - through settings you can configure the number of 'nice menus'
 * Horizontal menus or vertical menus popping right or left
-* Simple default styling which can be overriden using your own stylesheet
+* Simple default styling which can be overridden using your own stylesheet
 
 Issues
 ------
@@ -42,7 +42,9 @@ Issues
 
 Customization
 -------------
-The module includes a css file which is loaded for all pages. Whilst you can edit this file directly, it is suggested that you instead use your normal style.css file to override values in the module's css file, as this way you won't experience problems when updating to the latest version of nice_menus in the future. Here are some common customization examples for your own stylesheet:
+The module includes a default CSS layout file (nice_menus_default.css) which is loaded for all pages.  If you don't like the default layout, it is suggested that you create a separate customized CSS file, and replace the default CSS file at Administer -> Themes -> Configure -> Global settings -> "Path to custom nice menus CSS file". This ensures smooth future upgrades as no editing of the module files is necessary.
+
+A good starting point for your custom file is to make a copy of the default file, then edit it to taste. Here are some common customization examples for your own stylesheet:
 
 Make hovered links white with a black background:
 
@@ -100,5 +102,13 @@ In Firefox, as above but where the menu doesn't move as you scroll down the page
     left: 0;
   }
 
-
 ... that should be enough to get you started! If you have more style ideas, please post them in the Drupal forums or email them to Jake - http://drupal.org/user/15674/contact
+
+
+Advanced theming
+----------------
+If you're creating or modifying your own theme, you can integrate nice menus more deeply by making use of these functions:
+theme_nice_menu() -- themes any menu tree as a nice menu.
+theme_nice_menu_primary_links() -- themes your primary links as a nice menu.
+
+If you really know what you're doing, you can probably even hack the menu tree in creative ways, as those functions allow you to pass in a custom menu tree.

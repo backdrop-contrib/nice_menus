@@ -40,7 +40,7 @@ function nice_menus_form_alter($form_id, &$form) {
       // Add global theme setting for a custom CSS file.
       $form['nice_menus_custom_css'] = array(
         '#type' => 'textfield',
-        '#title' => t('Path to custom nice menu CSS file'),
+        '#title' => t('Path to custom nice menus CSS file'),
         '#description' => t('To override the default nice menus CSS layout, enter the path to your custom CSS file (should be a relative path from the root of your Drupal install.'),
         '#default_value' => variable_get('nice_menus_custom_css', ''),
         '#weight' => 0,  // Field appears below submit buttons w/o this -- yucky.
