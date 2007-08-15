@@ -115,41 +115,57 @@ function nice_menus_block($op = 'list', $delta = 0, $edit = array()) {
     break;
 
     case 'view':
-      if ($menu_tree = theme('nice_menu_tree', (variable_get('nice_menus_menu_'.$delta, '1')))) {
-        if ($menu_tree['content']) {
-          $block['content'] = '<ul class="nice-menu nice-menu-'. variable_get('nice_menus_type_'. $delta, 'right') .'" id="nice-menu-'. $delta .'">'. $menu_tree['content'] .'</ul>';
-          if (variable_get('nice_menus_type_'. $delta, 'right') == 'down') {
-           $class = 'nice-menu-hide-title';
-         }
-         else {
-           $class = 'nice-menu-show-title';
-         }
-         $block['subject'] = '<span class="'. $class .'">'. check_plain($menu_tree['subject'] == t('Navigation') ? ($user->uid ? $user->name : t('Navigation')) : $menu_tree['subject']) .'</span>';
+      // Build the nice menu for the block.
+      $pid = variable_get('nice_menus_menu_'.$delta, '1');
+      $direction = variable_get('nice_menus_type_'. $delta, 'right');
+      if ($output = theme('nice_menu', $delta, $pid, $direction)) {
+        $block['content'] = $output['content'];
+        if (variable_get('nice_menus_type_'. $delta, 'right') == 'down') {
+          $class = 'nice-menu-hide-title';
         }
+        else {
+          $class = 'nice-menu-show-title';
+        }
+        // If we're building the navigation block, use the same block title logic as menu module.
+        if ($output['subject'] == t('Navigation') && $user->uid) {
+          $subject = $user->name;
+        }
+        else {
+          $subject = $output['subject'];
+        }
+        $block['subject'] = '<span class="'. $class .'">'. check_plain($subject) .'</span>';
       }
-      else $block['content'] = false;
+      else {
+        $block['content'] = false;
+      }
 
       return $block;
     break;
   }
 }
 
-/*
- * Theme Nice Menus output
+/**
+ * Builds the inner portion of a nice menu.
+ *
+ * @param $pid
+ *   The parent menu ID from which to build the items.
+ * @param $menu
+ *   Optional. A custom menu array to use for theming -- it should have the same structure as that returned by menu_get_menu().
+ * @return
+ *   An HTML string of properly nested nice menu lists.
  */
-function theme_nice_menu_tree($pid = 1) {
-  $menu = menu_get_menu();
+function theme_nice_menu_tree($pid = 1, $menu = NULL) {
+  $menu = isset($menu) ? $menu : menu_get_menu();
   $output['content'] = '';
 
   $output['subject'] = $menu['items'][$pid]['title'];
 
   if ($menu['visible'][$pid]['children']) {
     foreach ($menu['visible'][$pid]['children'] as $mid) {
-      // Build class name based on menu path e.g. to give each menu item individual style
+      // Build class name based on menu path e.g. to give each menu item individual style.
       $path_class = 'menu-path-'. str_replace('/', '-', $menu['items'][$mid]['path']);
       if (count($menu['visible'][$mid]['children']) > 0) {
         $output['content'] .= '<li id="menu-'. $mid .'" class="menuparent '. $path_class .'">'. menu_item_link($mid);
-        //$output['content'] .= '<ul>';
         $output['content'] .= '<ul><!--[if lt IE 7]><iframe></iframe><![endif]-->';
         $tmp = theme('nice_menu_tree', $mid);
         $output['content'] .= $tmp['content'];
@@ -162,4 +178,49 @@ function theme_nice_menu_tree($pid = 1) {
     }
   }
   return $output;
+}
+
+/**
+ * General theming function to allow any menu tree to be themed as a nice menu.
+ *
+ * @param $id
+ *   The nice menu ID.
+ * @param $pid
+ *   The parent menu ID from which to build the nice menu
+ * @param $direction
+ *   Optional. The direction the menu expands. Default is 'right'.
+ * @param $menu
+ *   Optional. A custom menu array to use for theming -- it should have the same structure
+ *   as that returned by menu_get_menu(). Default is the standard menu tree.
+ * @return
+ *   An HTML string of nice menu links.
+ */
+function theme_nice_menu($id, $pid, $direction = 'right', $menu = NULL) {
+  $output = array();
+
+  if ($menu_tree = theme('nice_menu_tree', $pid, $menu)) {
+    if ($menu_tree['content']) {
+      $output['content'] = '<ul class="nice-menu nice-menu-'. $direction .'" id="nice-menu-'. $id .'">'. $menu_tree['content'] .'</ul>';
+      $output['subject'] = $menu_tree['subject'];
+    }
+  }
+
+  return $output;
+}
+
+/**
+ * Theme primary links as nice menus
+ *
+ * @param $direction
+ *   Optional. The direction the menu expands. Default is 'down'.
+ * @param $menu
+ *   Optional. A custom menu array to use for theming -- it should have the same structure
+ *   as that returned by menu_get_menu(). Default is the standard menu tree.
+ * @return
+ *   An HTML string of nice menu primary links.
+ */
+function theme_nice_menu_primary_links($direction = 'down', $menu = NULL) {
+  $pid = variable_get('menu_primary_menu', 0);
+  $output = theme('nice_menu', 'primary', $pid, $direction, $menu);
+  return $output['content'];
 }
