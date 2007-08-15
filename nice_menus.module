@@ -21,14 +21,48 @@ function nice_menus_help($section) {
   return $output;
 }
 
+/*
+ * Implementation of hook_form_alter().
+ */
+function nice_menus_form_alter($form_id, &$form) {
+  switch ($form_id) {
+    case 'system_theme_settings':
+
+      // This is a global setting, so only insert the field on the global settings page.
+      if (arg(4)) {
+        return;
+      }
+
+      // Have to add a custom submit handler since this form doesn't use the standard system
+      // submit handler.
+      $form['#submit'] += array('nice_menus_system_theme_settings_submit' => array());
+
+      // Add global theme setting for a custom CSS file.
+      $form['nice_menus_custom_css'] = array(
+        '#type' => 'textfield',
+        '#title' => t('Path to custom nice menu CSS file'),
+        '#description' => t('To override the default nice menus CSS layout, enter the path to your custom CSS file (should be a relative path from the root of your Drupal install.'),
+        '#default_value' => variable_get('nice_menus_custom_css', ''),
+        '#weight' => 0,  // Field appears below submit buttons w/o this -- yucky.
+      );
+      break;
+  }
+}
+
+/**
+ * Records the nice menu custom CSS file per theme.
+ */
+function nice_menus_system_theme_settings_submit($form_id, $form_values) {
+  variable_set('nice_menus_custom_css', $form_values['nice_menus_custom_css']);
+}
 
 /**
  * Implemention of hook_menu().
  */
 function nice_menus_menu($may_cache) {
   if (!$may_cache) {
-    // won't add if already added, but need this *before* our js
-    //drupal_add_js('misc/drupal.js', 'core');
+    // Won't add if already added, but need this *before* our js
+    // drupal_add_js('misc/drupal.js', 'core');
     // We only want to include the JS for IE, not browsers capable of doing everything in css
     // We have to put all the js in drupal_set_html_head so they get called in the right order.
     drupal_set_html_head('<!--[if lt IE 7]>
@@ -37,7 +71,17 @@ function nice_menus_menu($may_cache) {
     <script type="text/javascript" src="'. check_url(base_path() . drupal_get_path('module', 'nice_menus').'/nice_menus.js') .'"></script>
     <![endif]-->');
     //drupal_add_js(drupal_get_path('module', 'nice_menus') .'/nice_menus.js');
+
+    // Add main CSS functionality.
     drupal_add_css(drupal_get_path('module', 'nice_menus') .'/nice_menus.css');
+    // Add custom CSS layout if specified.
+    if ($custom = variable_get('nice_menus_custom_css', '')) {
+      drupal_add_css($custom);
+    }
+    // Fall back to default layout.
+    else {
+      drupal_add_css(drupal_get_path('module', 'nice_menus') .'/nice_menus_default.css');
+    }
   }
   else {
     $items[] = array(
