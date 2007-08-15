@@ -27,10 +27,16 @@ function nice_menus_help($section) {
  */
 function nice_menus_menu($may_cache) {
   if (!$may_cache) {
-    drupal_add_js('misc/drupal.js', 'core'); // won't add if already added, but need this *before* our js
+    // won't add if already added, but need this *before* our js
+    //drupal_add_js('misc/drupal.js', 'core');
     // We only want to include the JS for IE, not browsers capable of doing everything in css
-    // drupal_set_html_head('<!--[if lte IE 6]><script type="text/javascript" src="'. check_url(base_path() . drupal_get_path('module', 'nice_menus').'/nice_menus.js') .'"></script><![endif]-->');
-    drupal_add_js(drupal_get_path('module', 'nice_menus') .'/nice_menus.js');
+    // We have to put all the js in drupal_set_html_head so they get called in the right order.
+    drupal_set_html_head('<!--[if lt IE 7]>
+    <script type="text/javascript" src="'. check_url(base_path() .'misc/jquery.js') .'"></script>
+    <script type="text/javascript" src="'. check_url(base_path() .'misc/drupal.js') .'"></script>
+    <script type="text/javascript" src="'. check_url(base_path() . drupal_get_path('module', 'nice_menus').'/nice_menus.js') .'"></script>
+    <![endif]-->');
+    //drupal_add_js(drupal_get_path('module', 'nice_menus') .'/nice_menus.js');
     drupal_add_css(drupal_get_path('module', 'nice_menus') .'/nice_menus.css');
   }
   else {

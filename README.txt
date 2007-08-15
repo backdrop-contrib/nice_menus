@@ -19,6 +19,10 @@ Installation
 5. Go to the blocks page and enable at least one of the nice menus blocks, e.g. 'Nice Menu 1 (Nice Menu)'
 6. See below section on 'Customization'
 
+Upgrade
+-------
+Please read the UPGRADE.txt file for upgrade information.
+
 Features
 --------
 * Up to 10 menus - through settings you can configure the number of 'nice menus'
