@@ -58,11 +58,11 @@ ul.nice-menu ul,
   display: none;
 }
 
-ul.nice-menu li.over ul{
+ul.nice-menu li.over ul {
   display: block;
 }
 
-ul.nice-menu ul li{
+ul.nice-menu ul li {
   width: 12.5em;
   display: block;
 }
@@ -83,7 +83,7 @@ ul.nice-menu li.menuparent li.menuparent li.menuparent li:hover ul,
 ul.nice-menu li.over ul,
 ul.nice-menu li.menuparent li.over ul,
 ul.nice-menu li.menuparent li.menuparent li.over ul,
-ul.nice-menu li.menuparent li.menuparent li.menuparent li.over ul
+ul.nice-menu li.menuparent li.menuparent li.menuparent li.over ul,
 /* Repeat all this stuff just for Garland headers */
 #header-region ul.nice-menu li:hover ul,
 #header-region ul.nice-menu li.menuparent li:hover ul,
@@ -106,7 +106,7 @@ ul.nice-menu li.over ul ul ul,
 ul.nice-menu li.over li.over ul ul,
 ul.nice-menu li.over li.over ul ul ul,
 ul.nice-menu li.over li.over li.over ul ul,
-ul.nice-menu li.over li.over li.over ul ul ul
+ul.nice-menu li.over li.over li.over ul ul ul,
 /* Repeat all this stuff just for Garland headers */
 #header-region ul.nice-menu li:hover ul ul,
 #header-region ul.nice-menu li:hover ul ul ul,
@@ -148,14 +148,14 @@ ul.nice-menu-right ul ul {
 }
 
 ul.nice-menu-right li.menuparent,
-ul.nice-menu-right li li.menuparent{
+ul.nice-menu-right li li.menuparent {
   background: #eee url(arrow-right.png) right center no-repeat;
 }
 
 ul.nice-menu-right li.menuparent:hover,
 ul.nice-menu-right li.over,
 ul.nice-menu-right li li.menuparent:hover,
-ul.nice-menu-right li li.over{
+ul.nice-menu-right li li.over {
   background: #ccc url(arrow-right.png) right center no-repeat;
 }
 
@@ -174,14 +174,14 @@ ul.nice-menu-left li ul li ul {
 }
 
 ul.nice-menu-left li.menuparent,
-ul.nice-menu-left li li.menuparent{
+ul.nice-menu-left li li.menuparent {
   background: #eee url(arrow-left.png) left center no-repeat;
 }
 
 ul.nice-menu-left li.menuparent:hover,
 ul.nice-menu-left li.over,
 ul.nice-menu-left li li.menuparent:hover,
-ul.nice-menu-left li li.over{
+ul.nice-menu-left li li.over {
   background: #ccc url(arrow-left.png) left center no-repeat;
 }
 
@@ -214,11 +214,11 @@ ul.nice-menu-down li ul li ul,
   top: -1px;
 }
 
-ul.nice-menu-down .menuparent a{
+ul.nice-menu-down .menuparent a {
   padding-right: 15px;
 }
 
-ul.nice-menu-down li.menuparent{
+ul.nice-menu-down li.menuparent {
   background: #eee url(arrow-down.png) right center no-repeat;
 }
 
@@ -281,10 +281,10 @@ ul.nice-menu li {
   background: #ddd;
 }
 
-#header-region ul.nice-menu-down li.menuparent{
+#header-region ul.nice-menu-down li.menuparent {
   background: #ddd url(arrow-down.png) right center no-repeat;
 }
 
-#header-region ul.nice-menu-down li li.menuparent{
+#header-region ul.nice-menu-down li li.menuparent {
   background: #ddd url(arrow-right.png) right center no-repeat;
 }
