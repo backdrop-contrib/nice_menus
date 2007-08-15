@@ -251,7 +251,7 @@ ul.nice-menu-down ul li {
 li.menuparent ul,
 #header-region li.menuparent ul { /* for Garland header */
 	overflow: visible !important;
-	overflow: hidden;
+	/* overflow: hidden; */
 }
 
 li.menuparent ul iframe,
