@@ -43,7 +43,7 @@ ul.nice-menu a {
 
 ul.nice-menu ul,
 #header-region ul.nice-menu ul { /* for Garland header */
-  top: 1.8em;
+  top: 1.7em;
   left: -1px;
   border: 0;
   border-top: 1px solid #ccc;
