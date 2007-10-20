@@ -10,14 +10,13 @@
 /* below should fix menu being a few pixels away in some themes, and menus disappearing behind other stuff */
 .block-nice_menus {
   line-height: normal;
-  /*font-size: normal;*/
-  /*position: relative;*/
   z-index: 10;
 }
 
 ul.nice-menu,
 ul.nice-menu ul{
   z-index: 5;
+  position: relative;
 }
 
 ul.nice-menu li {
