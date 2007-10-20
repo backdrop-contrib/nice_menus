@@ -65,7 +65,7 @@ function nice_menus_menu($may_cache) {
     // drupal_add_js('misc/drupal.js', 'core');
     // We only want to include the JS for IE, not browsers capable of doing everything in css
     // We have to put all the js in drupal_set_html_head so they get called in the right order.
-    drupal_set_html_head('<!--[if lt IE 7]>
+    drupal_set_html_head('<!--[if IE]>
     <script type="text/javascript" src="'. check_url(base_path() .'misc/jquery.js') .'"></script>
     <script type="text/javascript" src="'. check_url(base_path() .'misc/drupal.js') .'"></script>
     <script type="text/javascript" src="'. check_url(base_path() . drupal_get_path('module', 'nice_menus').'/nice_menus.js') .'"></script>
