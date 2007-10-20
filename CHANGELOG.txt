@@ -1,0 +1,13 @@
+// $Id
+
+July 2007:
+- Add ability to create custom menu trees
+- Add themable primary links function
+
+June 2007:
+- Now supports up to 3 levels of children menus.
+
+April 2007:
+- Upgraded to Drupal 5
+- Class name changes to using dash(-) rather than underscore(_)
+- Add themeable function
