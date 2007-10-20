@@ -205,9 +205,14 @@ function theme_nice_menu_tree($pid = 1, $menu = NULL) {
   $output['subject'] = $menu['items'][$pid]['title'];
 
   if ($menu['visible'][$pid]['children']) {
-    foreach ($menu['visible'][$pid]['children'] as $mid) {
-      // Build class name based on menu path e.g. to give each menu item individual style.
-      $path_class = 'menu-path-'. str_replace('/', '-', $menu['items'][$mid]['path']);
+    // Build class name based on menu path 
+    // e.g. to give each menu item individual style.
+    foreach ($menu['visible'][$pid]['children'] as $mid) {  
+      // Strip funny symbols
+      $clean_path = str_replace(array('http://', '<', '>', '&', '=', '?', ':'), '', $menu['items'][$mid]['path']);
+      // Convert slashes to dashes
+      $clean_path = str_replace('/', '-', $clean_path);
+      $path_class = 'menu-path-'. $clean_path;
       if (count($menu['visible'][$mid]['children']) > 0) {
         $output['content'] .= '<li id="menu-'. $mid .'" class="menuparent '. $path_class .'">'. menu_item_link($mid);
         $output['content'] .= '<ul><!--[if lt IE 7]><iframe></iframe><![endif]-->';
