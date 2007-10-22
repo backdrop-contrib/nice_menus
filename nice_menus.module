@@ -215,7 +215,7 @@ function theme_nice_menu_tree($pid = 1, $menu = NULL) {
       $path_class = 'menu-path-'. $clean_path;
       if (count($menu['visible'][$mid]['children']) > 0) {
         $output['content'] .= '<li id="menu-'. $mid .'" class="menuparent '. $path_class .'">'. menu_item_link($mid);
-        $output['content'] .= '<ul><!--[if lt IE 7]><iframe></iframe><![endif]-->';
+        $output['content'] .= '<ul><!--[if lt IE 7]><iframe src="javascript:false;"></iframe><![endif]-->';
         $tmp = theme('nice_menu_tree', $mid);
         $output['content'] .= $tmp['content'];
         $output['content'] .= '</ul>';
