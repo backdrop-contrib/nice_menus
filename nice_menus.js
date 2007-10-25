@@ -11,7 +11,8 @@ if (document.all) {
       );
     }
 
-    // This is the jquery method of adding a function to the BODY onload event.  (See jquery.com)
+    // This is the jquery method of adding a function
+    // to the BODY onload event.  (See jquery.com)
     $(document).ready(function(){ IEHoverPseudo() });
 }
 

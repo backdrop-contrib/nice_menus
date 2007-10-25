@@ -1,11 +1,16 @@
 /* $Id$ */
 /*
-  This is the default layout template for nice menus, and will provide a starting point
-  for the look of your menus. To customize, it's recommended to create a custom CSS file
-  using this file as a template, then configure the module to use your custom CSS file
-  (this is done in the global settings tab of the theme administration).
+  This is the default layout template for nice menus, and will provide
+  a starting point for the look of your menus. To customize, it's
+  recommended to create a custom CSS file using this file as a template,
+  then configure the module to use your custom CSS file
+  (this is done in the global settings tab of the theme administration.)
 
-  To help understand the CSS, the HTML looks like this (where x is a number; TYPE is down/left/right; PATH is the menu path such as node/343; MID is the menu id such as 33):
+  To help understand the CSS, the HTML looks like this, where
+    x is a number;
+    TYPE is down/left/right;
+    PATH is the menu path such as node/343;
+    MID is the menu id such as 33):
   <ul id='nice-menu-x' class='nice-menu nice-menu-TYPE'>
     <li id='menu-MID' class='menu-path-PATH'><a href='#'>This is a menu item</a></li>
     <li class='menuparent menu-path-PATH'><a href='#'>A submenu</a>
@@ -15,12 +20,13 @@
     ...
   </ul>
 
-  If you have more than one nice-menu and want to target a particular one, use its id (e.g. ul#nice-menu-2)
+  If you have more than one nice-menu and want to target a particular one,
+  use its id (e.g. ul#nice-menu-2).
 
-  See README.txt for some CSS customization examples!
+  See README.txt for some CSS customization examples.
+ */
 
-  First we're going to define CSS for all menus, then we'll define based on the type of menu
-*/
+/* First we're going to define CSS for all menus, then we'll define based on the type of menu. */
 
 ul.nice-menu,
 ul.nice-menu ul{
@@ -35,6 +41,18 @@ ul.nice-menu li {
   border-top: 0;
   float: left;
   background-color: #eee;
+  /* Additional overrides to deal with Garland theme. */
+  margin: 0;
+  padding-left: 0;
+  background-image: none;
+}
+
+/* Overrides for Garland header. */
+#header-region ul.nice-menu li {
+  margin: 0;
+  padding: 0;
+  line-height: normal;
+  background: #ddd;
 }
 
 ul.nice-menu a {
@@ -42,7 +60,7 @@ ul.nice-menu a {
 }
 
 ul.nice-menu ul,
-#header-region ul.nice-menu ul { /* for Garland header */
+#header-region ul.nice-menu ul { /* For Garland header. */
   top: 1.7em;
   left: -1px;
   border: 0;
@@ -54,18 +72,21 @@ ul.nice-menu ul li{
   width: 12.5em;
 }
 
-/* Now stuff specific to the menu type (down, left or right menu pop) */
 
-/* All VERTICAL (left/right) menus */
 
-/* This is the default width of vertical menus. */
+/* Now stuff specific to the menu type (down, left or right menu pop.) */
+
+/******************************
+VERTICAL (left/right) menus
+******************************/
+
+/* This is the default width of all vertical menus. */
 ul.nice-menu-right, ul.nice-menu-left,
 ul.nice-menu-right li, ul.nice-menu-left li{
   width: 12.5em;
 }
 
-/* stuff for VERTICAL menus where submenus pop RIGHT (default) */
-
+/* VERTICAL menus where submenus pop RIGHT (default). */
 ul.nice-menu-right ul {
   width: 12.5em;
   left: 12.5em;
@@ -90,8 +111,7 @@ ul.nice-menu-right li li.over{
   background: #ccc url(arrow-right.png) right center no-repeat;
 }
 
-/* stuff for VERTICAL menus where submenus pop LEFT */
-
+/* VERTICAL menus where submenus pop LEFT. */
 ul.nice-menu-left li ul{
   width: 12.5em;
   left: -12.65em;
@@ -120,7 +140,9 @@ ul.nice-menu-left a, ul.nice-menu-left ul a {
   padding-left: 14px;
 }
 
-/* stuff for HORIZONTAL menus where submenus pop DOWN */
+/******************************
+HORIZONTAL (down) menus
+******************************/
 
 ul.nice-menu-down {
   float: left;
@@ -144,7 +166,7 @@ ul.nice-menu-down ul li {
 }
 
 ul.nice-menu-down li ul li ul,
-#header-region ul.nice-menu-down li ul li ul { /* for Garland header */
+#header-region ul.nice-menu-down li ul li ul { /* For Garland header. */
   left: 12.5em;
   top: -1px;
 }
@@ -159,7 +181,7 @@ ul.nice-menu-down li.menuparent {
 
 ul.nice-menu-down li.menuparent:hover,
 ul.nice-menu-down li.over,
-/* Repeat for Garland header */
+/* Repeat for Garland header. */
 #header-region ul.nice-menu-down li.menuparent:hover,
 #header-region ul.nice-menu-down li.over {
   background: #ccc url(arrow-down.png) right center no-repeat;
@@ -171,26 +193,13 @@ ul.nice-menu-down li li.menuparent {
 
 ul.nice-menu-down li li.menuparent:hover,
 ul.nice-menu-down li li.over,
-/* Repeat for Garland header */
+/* Repeat for Garland header. */
 #header-region ul.nice-menu-down li li.menuparent:hover,
 #header-region ul.nice-menu-down li li.over {
   background: #ccc url(arrow-right.png) right center no-repeat;
 }
 
-/* Additional overrides to deal with Garland theme */
-ul.nice-menu li {
-  margin: 0;
-  padding-left: 0;
-  background-image: none;
-}
-
-#header-region ul.nice-menu li {
-  margin: 0;
-  padding: 0;
-  line-height: normal;
-  background: #ddd;
-}
-
+/* Additional overrides to deal with Garland header. */
 #header-region ul.nice-menu-down li.menuparent{
   background: #ddd url(arrow-down.png) right center no-repeat;
 }

@@ -2,11 +2,11 @@
 // $Id$
 /*
   By Jake Gordon (jakeg)
-  Module to enable nice navigation menus
-  Modifications and help by Simon Rawson.
-*/
+  Module to enable CSS dropdoen and flyout menus.
+  Modifications and help by Simon Rawson, Addison Berry and Chad Phillips.
+ */
 
-/*
+/**
  * Implementation of hook_help().
  */
 function nice_menus_help($section) {
@@ -21,20 +21,21 @@ function nice_menus_help($section) {
   return $output;
 }
 
-/*
+/**
  * Implementation of hook_form_alter().
  */
 function nice_menus_form_alter($form_id, &$form) {
   switch ($form_id) {
     case 'system_theme_settings':
 
-      // This is a global setting, so only insert the field on the global settings page.
+      // This is a global setting, so only insert the field 
+      // on the global settings page.
       if (arg(4)) {
         return;
       }
 
-      // Have to add a custom submit handler since this form doesn't use the standard system
-      // submit handler.
+      // Have to add a custom submit handler since this form doesn't use 
+      // the standard system submit handler.
       $form['#submit'] += array('nice_menus_system_theme_settings_submit' => array());
 
       // Add global theme setting for a custom CSS file.
@@ -43,7 +44,8 @@ function nice_menus_form_alter($form_id, &$form) {
         '#title' => t('Path to custom nice menus CSS file'),
         '#description' => t('To override the default nice menus CSS layout, enter the path to your custom CSS file (should be a relative path from the root of your Drupal install.'),
         '#default_value' => variable_get('nice_menus_custom_css', ''),
-        '#weight' => 0,  // Field appears below submit buttons w/o this -- yucky.
+        // Field appears below submit buttons without this -- yucky.
+        '#weight' => 0,
       );
       break;
   }
@@ -61,16 +63,14 @@ function nice_menus_system_theme_settings_submit($form_id, $form_values) {
  */
 function nice_menus_menu($may_cache) {
   if (!$may_cache) {
-    // Won't add if already added, but need this *before* our js
-    // drupal_add_js('misc/drupal.js', 'core');
-    // We only want to include the JS for IE, not browsers capable of doing everything in css
-    // We have to put all the js in drupal_set_html_head so they get called in the right order.
+    // We only want to include the JS for IE and not browsers 
+    // capable of doing everything in css.  We have to put all the JS
+    // in drupal_set_html_head so they get called in the right order.
     drupal_set_html_head('<!--[if IE]>
     <script type="text/javascript" src="'. check_url(base_path() .'misc/jquery.js') .'"></script>
     <script type="text/javascript" src="'. check_url(base_path() .'misc/drupal.js') .'"></script>
-    <script type="text/javascript" src="'. check_url(base_path() . drupal_get_path('module', 'nice_menus').'/nice_menus.js') .'"></script>
+    <script type="text/javascript" src="'. check_url(base_path() . drupal_get_path('module', 'nice_menus') .'/nice_menus.js') .'"></script>
     <![endif]-->');
-    //drupal_add_js(drupal_get_path('module', 'nice_menus') .'/nice_menus.js');
 
     // Add main CSS functionality.
     drupal_add_css(drupal_get_path('module', 'nice_menus') .'/nice_menus.css');
@@ -99,7 +99,7 @@ function nice_menus_menu($may_cache) {
 }
 
 
-/*
+/**
  * Settings form as implemented by hook_menu
  */
 function nice_menus_admin_settings() {
@@ -115,7 +115,7 @@ function nice_menus_admin_settings() {
 }
 
 
-/*
+/**
  * Implementation of hook_block().
  */
 function nice_menus_block($op = 'list', $delta = 0, $edit = array()) {
@@ -160,7 +160,7 @@ function nice_menus_block($op = 'list', $delta = 0, $edit = array()) {
 
     case 'view':
       // Build the nice menu for the block.
-      $pid = variable_get('nice_menus_menu_'.$delta, '1');
+      $pid = variable_get('nice_menus_menu_'. $delta, '1');
       $direction = variable_get('nice_menus_type_'. $delta, 'right');
       if ($output = theme('nice_menu', $delta, $pid, $direction)) {
         $block['content'] = $output['content'];
@@ -170,7 +170,8 @@ function nice_menus_block($op = 'list', $delta = 0, $edit = array()) {
         else {
           $class = 'nice-menu-show-title';
         }
-        // If we're building the navigation block, use the same block title logic as menu module.
+        // If we're building the navigation block
+        // use the same block title logic as menu module.
         if ($output['subject'] == t('Navigation') && $user->uid) {
           $subject = $user->name;
         }
@@ -194,7 +195,8 @@ function nice_menus_block($op = 'list', $delta = 0, $edit = array()) {
  * @param $pid
  *   The parent menu ID from which to build the items.
  * @param $menu
- *   Optional. A custom menu array to use for theming -- it should have the same structure as that returned by menu_get_menu().
+ *   Optional. A custom menu array to use for theming --
+ *   it should have the same structure as that returned by menu_get_menu().
  * @return
  *   An HTML string of properly nested nice menu lists.
  */
@@ -230,7 +232,8 @@ function theme_nice_menu_tree($pid = 1, $menu = NULL) {
 }
 
 /**
- * General theming function to allow any menu tree to be themed as a nice menu.
+ * General theming function to allow any menu tree to be themed 
+ * as a nice menu.
  *
  * @param $id
  *   The nice menu ID.
@@ -239,7 +242,8 @@ function theme_nice_menu_tree($pid = 1, $menu = NULL) {
  * @param $direction
  *   Optional. The direction the menu expands. Default is 'right'.
  * @param $menu
- *   Optional. A custom menu array to use for theming -- it should have the same structure
+ *   Optional. A custom menu array to use for theming --
+ *   it should have the same structure
  *   as that returned by menu_get_menu(). Default is the standard menu tree.
  * @return
  *   An HTML string of nice menu links.
@@ -263,7 +267,8 @@ function theme_nice_menu($id, $pid, $direction = 'right', $menu = NULL) {
  * @param $direction
  *   Optional. The direction the menu expands. Default is 'down'.
  * @param $menu
- *   Optional. A custom menu array to use for theming -- it should have the same structure
+ *   Optional. A custom menu array to use for theming --
+ *   it should have the same structure
  *   as that returned by menu_get_menu(). Default is the standard menu tree.
  * @return
  *   An HTML string of nice menu primary links.
