@@ -19,7 +19,7 @@ Installation
 3. Configure the module settings at Administer -> Site configuration -> Nice Menus (admin/settings/nice_menus).
 4. Configure the Nice Menus block(s) at Administer -> Site building -> Blocks (admin/build/block), setting the source menu and menu style, etc.
 5. Return to the blocks page and enable the nice menus block(s), e.g. 'Nice Menu 1 (Nice Menu)' by putting it in a region.
-6. See below sections on Customization and Advanced Theming.
+6. See below sections on Customization and Advanced Theming as well as the handbook page (http://drupal.org/node/185543) for more tips.
 
 Upgrade
 -------
