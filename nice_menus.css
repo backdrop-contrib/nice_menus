@@ -14,7 +14,7 @@
 }
 
 ul.nice-menu,
-ul.nice-menu ul{
+ul.nice-menu ul {
   z-index: 5;
   position: relative;
 }
@@ -28,7 +28,8 @@ ul.nice-menu a {
 }
 
 ul.nice-menu ul,
-#header-region ul.nice-menu ul { /* For Garland header. */
+/* For Garland header. */
+#header-region ul.nice-menu ul {
   position: absolute;
   display: none;
 }
@@ -97,16 +98,21 @@ ul.nice-menu li.over li.over li.over ul ul ul,
   display: none;
 }
 
-/* IE6 invisible iframe to fix z-index bug when menu hovers over <select> fields. */
+/***************
+ IE 6 Fixes
+***************/
 
+/* Iframe to fix z-index bug when menu hovers over <select> fields. */
 ul.nice-menu li.menuparent ul,
-#header-region ul.nice-menu li.menuparent ul { /* For Garland header. */
+/* For Garland header. */
+#header-region ul.nice-menu li.menuparent ul {
 	overflow: visible !important;
 	/* overflow: hidden; */
 }
 
 ul.nice-menu li.menuparent ul iframe,
-#header-region ul.nice-menu li.menuparent ul iframe { /* For Garland header. */
+/* For Garland header. */
+#header-region ul.nice-menu li.menuparent ul iframe {
 	display:none;
 	display/**/:block;
 	position:absolute;

@@ -1,11 +1,11 @@
 // $Id$
 
-NICE_MENUS MODULE - CSS DROPDOWNS
+NICE MENUS MODULE - CSS DROPDOWNS
 ---------------------------------
 
-Orginally created by: Jake Gordon (jakeg) http://drupal.org/user/15674/contact and http://www.jakeg.co.uk/
+Currently maintained by: Addison Berry (add1sun) http://drupal.org/user/65088/contact
 
-Drupal 5 upgrade and new features by: Addison Berry (adds1un) and Chad Phillips (hunmonk) along with multiple patches from the community!
+Orginally created by: Jake Gordon (jakeg) http://drupal.org/user/15674/contact and http://www.jakeg.co.uk/
 
 This module should make it easy to add dropdown menus, using CSS-only in capable browsers (Firefox, Opera, Safari, etc) and with additional Javascript for lesser browsers (IE).
 
@@ -78,8 +78,8 @@ Get rid of the borders and background colour for all top-level menu items:
   }
 
   ul.nice-menu-right li.menuparent,
-  ul.nice-menu-right li li.menuparent{ 
-    background: url('/modules/nice_menus/arrow-right.png') right center no-repeat; 
+  ul.nice-menu-right li li.menuparent { 
+    background: url('arrow-right.png') right center no-repeat; 
   }
 
   li.menuparent li, li.menuparent ul {

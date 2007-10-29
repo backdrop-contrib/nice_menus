@@ -257,7 +257,6 @@ function theme_nice_menu($id, $pid, $direction = 'right', $menu = NULL) {
       $output['subject'] = $menu_tree['subject'];
     }
   }
-
   return $output;
 }
 

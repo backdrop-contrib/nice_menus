@@ -1,6 +1,6 @@
 // $Id$
 
-NICE_MENUS UPGRADE
+NICE MENUS UPGRADE
 ------------------
 4.7 -> 5.x
 The CSS class has changed to change the underscore (_) to a dash (-)

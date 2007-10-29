@@ -23,13 +23,16 @@
   If you have more than one nice-menu and want to target a particular one,
   use its id (e.g. ul#nice-menu-2).
 
-  See README.txt for some CSS customization examples.
- */
+  See README.txt and the handbook page (http://drupal.org/node/185543)
+  for some CSS customization examples.
+*/
 
-/* First we're going to define CSS for all menus, then we'll define based on the type of menu. */
+/******************************
+ Global CSS for ALL menu types
+******************************/
 
 ul.nice-menu,
-ul.nice-menu ul{
+ul.nice-menu ul {
   list-style: none;
   padding: 0;
   margin: 0;
@@ -50,39 +53,42 @@ ul.nice-menu li {
 /* Overrides for Garland header. */
 #header-region ul.nice-menu li {
   margin: 0;
-  padding: 0;
-  line-height: normal;
-  background: #ddd;
+  /* Padding rules are needed to deal with Garland's header line-height. */
+  padding-top: 0.1em;
+  padding-bottom: 0.1em;
+  background: #eee;
 }
 
 ul.nice-menu a {
-  padding: 0.3em 15px 0.3em 5px;
+  padding: 0.3em 5px 0.3em 5px;
 }
 
 ul.nice-menu ul,
-#header-region ul.nice-menu ul { /* For Garland header. */
-  top: 1.7em;
+/* Repeat for Garland header. */
+#header-region ul.nice-menu ul {
+  top: 1.8em;
   left: -1px;
   border: 0;
   border-top: 1px solid #ccc;
   margin-right: 0;
 }
 
-ul.nice-menu ul li{
+/* Override for Garland header. */
+#header-region ul.nice-menu ul {
+  top: 1.7em;
+}
+
+ul.nice-menu ul li {
   width: 12.5em;
 }
 
-
-
-/* Now stuff specific to the menu type (down, left or right menu pop.) */
-
 /******************************
-VERTICAL (left/right) menus
+ VERTICAL (left/right) menus
 ******************************/
 
 /* This is the default width of all vertical menus. */
 ul.nice-menu-right, ul.nice-menu-left,
-ul.nice-menu-right li, ul.nice-menu-left li{
+ul.nice-menu-right li, ul.nice-menu-left li {
   width: 12.5em;
 }
 
@@ -100,19 +106,19 @@ ul.nice-menu-right ul ul {
 }
 
 ul.nice-menu-right li.menuparent,
-ul.nice-menu-right li li.menuparent{
+ul.nice-menu-right li li.menuparent {
   background: #eee url(arrow-right.png) right center no-repeat;
 }
 
 ul.nice-menu-right li.menuparent:hover,
 ul.nice-menu-right li.over,
 ul.nice-menu-right li li.menuparent:hover,
-ul.nice-menu-right li li.over{
+ul.nice-menu-right li li.over {
   background: #ccc url(arrow-right.png) right center no-repeat;
 }
 
 /* VERTICAL menus where submenus pop LEFT. */
-ul.nice-menu-left li ul{
+ul.nice-menu-left li ul {
   width: 12.5em;
   left: -12.65em;
   top: -1px;
@@ -125,14 +131,14 @@ ul.nice-menu-left li ul li ul {
 }
 
 ul.nice-menu-left li.menuparent,
-ul.nice-menu-left li li.menuparent{
+ul.nice-menu-left li li.menuparent {
   background: #eee url(arrow-left.png) left center no-repeat;
 }
 
 ul.nice-menu-left li.menuparent:hover,
 ul.nice-menu-left li.over,
 ul.nice-menu-left li li.menuparent:hover,
-ul.nice-menu-left li li.over{
+ul.nice-menu-left li li.over {
   background: #ccc url(arrow-left.png) left center no-repeat;
 }
 
@@ -141,7 +147,7 @@ ul.nice-menu-left a, ul.nice-menu-left ul a {
 }
 
 /******************************
-HORIZONTAL (down) menus
+ HORIZONTAL (down) menus
 ******************************/
 
 ul.nice-menu-down {
@@ -166,7 +172,8 @@ ul.nice-menu-down ul li {
 }
 
 ul.nice-menu-down li ul li ul,
-#header-region ul.nice-menu-down li ul li ul { /* For Garland header. */
+/* Repeat for Garland header. */
+#header-region ul.nice-menu-down li ul li ul {
   left: 12.5em;
   top: -1px;
 }
@@ -175,7 +182,9 @@ ul.nice-menu-down .menuparent a {
   padding-right: 15px;
 }
 
-ul.nice-menu-down li.menuparent {
+ul.nice-menu-down li.menuparent,
+/* Repeat for Garland header. */
+#header-region ul.nice-menu-down li.menuparent {
   background: #eee url(arrow-down.png) right center no-repeat;
 }
 
@@ -187,7 +196,9 @@ ul.nice-menu-down li.over,
   background: #ccc url(arrow-down.png) right center no-repeat;
 }
 
-ul.nice-menu-down li li.menuparent {
+ul.nice-menu-down li li.menuparent,
+/* Repeat for Garland header. */
+#header-region ul.nice-menu-down li li.menuparent {
   background: #eee url(arrow-right.png) right center no-repeat;
 }
 
@@ -197,13 +208,4 @@ ul.nice-menu-down li li.over,
 #header-region ul.nice-menu-down li li.menuparent:hover,
 #header-region ul.nice-menu-down li li.over {
   background: #ccc url(arrow-right.png) right center no-repeat;
-}
-
-/* Additional overrides to deal with Garland header. */
-#header-region ul.nice-menu-down li.menuparent{
-  background: #ddd url(arrow-down.png) right center no-repeat;
-}
-
-#header-region ul.nice-menu-down li li.menuparent{
-  background: #ddd url(arrow-right.png) right center no-repeat;
 }
