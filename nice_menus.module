@@ -140,7 +140,7 @@ function nice_menus_block($op = 'list', $delta = 0, $edit = array()) {
         '#title' => t('Source Menu Tree'),
         '#description' => t('The menu tree from which to show a nice menu.'),
         '#default_value' => variable_get('nice_menus_menu_'. $delta, '1'),
-        '#options' => menu_parent_options(0),
+        '#options' => menu_parent_options(0, 0),
       );
       $form['nice_menus_type_'. $delta] = array(
         '#type' => 'select',
