@@ -1,4 +1,5 @@
 ; $Id$
 name = Nice Menus
 description = CSS/jQuery drop-down, drop-right and drop-left menus to be placed in blocks
-dependencies = menu
+dependencies[] = menu
+core = 6.x
