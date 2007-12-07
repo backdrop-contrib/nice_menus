@@ -4,9 +4,9 @@
 if (document.all) {
   function IEHoverPseudo() {
       $("ul.nice-menu li.menuparent").hover(function(){
-          $(this).addClass("over").find("> ul").slideDown("fast").addShim();
+          $(this).addClass("over").find("> ul").show().addShim();
         },function(){
-          $(this).removeClass("over").find("> ul").removeShim().slideUp("fast");
+          $(this).removeClass("over").find("> ul").removeShim().hide();
         }
       );
     }
