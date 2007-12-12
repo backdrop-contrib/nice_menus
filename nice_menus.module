@@ -137,9 +137,9 @@ function nice_menus_block($op = 'list', $delta = 0, $edit = array()) {
 
     case 'view':
       // Build the nice menu for the block.
-      list($menu_name, $plid) = explode(':', variable_get('nice_menus_menu_'. $delta, 'navigation:0'));
+      list($menu_name, $mlid) = explode(':', variable_get('nice_menus_menu_'. $delta, 'navigation:0'));
       $direction = variable_get('nice_menus_type_'. $delta, 'right');
-      if ($output = theme('nice_menu', $delta, $menu_name, $direction)) {
+      if ($output = theme('nice_menu', $delta, $menu_name, $mlid, $direction)) {
         $block['content'] = $output['content'];
         if (variable_get('nice_menus_type_'. $delta, 'right') == 'down') {
           $class = 'nice-menu-hide-title';
@@ -160,7 +160,7 @@ function nice_menus_block($op = 'list', $delta = 0, $edit = array()) {
       else {
         $block['content'] = false;
       }
-      //$block['content'] = print_r($menu_name);
+      //$block['content'] = print_r($mlid);
       return $block;
     break;
   }
@@ -190,16 +190,19 @@ function nice_menus_theme() {
  * @return
  *   An HTML string of properly nested nice menu lists.
  */
-function theme_nice_menu_tree($menu_name = 'navigation', $menu = NULL) {
-  $menu = isset($menu) ? $menu : menu_tree_all_data($menu_name);
+function theme_nice_menu_tree($menu_name, $mlid, $menu = NULL) {
+  $item = menu_link_load($mlid);
+  $menu = isset($menu) ? $menu : menu_tree_all_data($menu_name, $item);
+  //$thingy = menu_tree_output($menu);
   $output['content'] = '';
-
-  $output['subject'] = $menu_name;
+  
+  $output['subject'] = '';
 
   if ($menu) {
     // Build class name based on menu path 
     // e.g. to give each menu item individual style.
     foreach ($menu as $menu_item) {
+      // Check to see if it is a visible menu item.
       if ($menu_item['link']['hidden'] >= 0) {
         $mlid = $menu_item['link']['mlid'];
         // Strip funny symbols
@@ -207,24 +210,25 @@ function theme_nice_menu_tree($menu_name = 'navigation', $menu = NULL) {
         // Convert slashes to dashes
         $clean_path = str_replace('/', '-', $clean_path);
         $path_class = 'menu-path-'. $clean_path;
+        // If it has children build a nice little tree under it.
         if (!empty($menu_item['link']['has_children'])) {
-          $output['content'] .= '<li id="menu-'. $mlid .'" class="menuparent '. $path_class .'"><a href="'. $menu_item['link']['href'] .'">'. $menu_item['link']['title'] .'</a>';
+          $output['content'] .= '<li id="menu-'. $mlid .'" class="menuparent '. $path_class .'">'. l($menu_item['link']['title'], $menu_item['link']['href']);
           $output['content'] .= '<ul><!--[if lt IE 7]><iframe src="javascript:false;"></iframe><![endif]-->';
-          // NEED TO GET THE CHILDREN...
-          $tmp = theme('nice_menu_tree', $menu_item['link']['title']);
-          $output['content'] .= $tmp['content'];
+          // Keep passing parent mlids into the function 'til we get them all.
+          //$tmp = theme('nice_menu_tree', $menu_name, $mlid);
+          //$output['content'] .= $tmp['content'];      
           $output['content'] .= '</ul>';
           $output['content'] .= '</li>';
           
         }
         else {
-          $output['content'] .= '<li id="menu-'. $mlid .'" class="'. $path_class .'"><a href="'. $menu_item['link']['href'] .'">'. $menu_item['link']['title'] .'</a></li>';
+          $output['content'] .= '<li id="menu-'. $mlid .'" class="'. $path_class .'">'. l($menu_item['link']['title'], $menu_item['link']['href']) .'</li>';
         }
       }
       
     }
   }
-  
+  //$output['content'] .= print_r($thingy);
   return $output;
 }
 
@@ -245,7 +249,7 @@ function theme_nice_menu_tree($menu_name = 'navigation', $menu = NULL) {
  * @return
  *   An HTML string of nice menu links.
  */
-function theme_nice_menu($id, $menu_name, $direction = 'right', $menu = NULL) {
+function theme_nice_menu($id, $menu_name, $mlid, $direction = 'right', $menu = NULL) {
   // We only want to include the JS for IE and not browsers 
   // capable of doing everything in css.  We have to put all the JS
   // in drupal_set_html_head so they get called in the right order.
@@ -268,7 +272,7 @@ function theme_nice_menu($id, $menu_name, $direction = 'right', $menu = NULL) {
   
   $output = array();
 
-  if ($menu_tree = theme('nice_menu_tree', $menu_name, $menu)) {
+  if ($menu_tree = theme('nice_menu_tree', $menu_name, $mlid, $menu)) {
     if ($menu_tree['content']) {
       $output['content'] = '<ul class="nice-menu nice-menu-'. $direction .'" id="nice-menu-'. $id .'">'. $menu_tree['content'] .'</ul>';
       $output['subject'] = $menu_tree['subject'];
@@ -291,6 +295,6 @@ function theme_nice_menu($id, $menu_name, $direction = 'right', $menu = NULL) {
  */
 function theme_nice_menu_primary_links($direction = 'down', $menu = NULL) {
   $pid = variable_get('menu_primary_menu', 0);
-  $output = theme('nice_menu', 'primary', $pid, $direction, $menu);
+  $output = theme('nice_menu', $pid, 'primary', $mlid, $direction, $menu);
   return $output['content'];
 }
