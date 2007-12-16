@@ -100,7 +100,7 @@ function nice_menus_block($op = 'list', $delta = 0, $edit = array()) {
 
   switch ($op) {
     case 'list':
-      for ($i=1; $i <= variable_get('nice_menus_number', '2'); $i++) {
+      for ($i = 1; $i <= variable_get('nice_menus_number', '2'); $i++) {
         $blocks[$i]['info'] = variable_get('nice_menus_name_'. $i, 'Nice Menu '. $i) .' (Nice Menu)';
       }
       return $blocks;
@@ -191,44 +191,52 @@ function nice_menus_theme() {
  *   An HTML string of properly nested nice menu lists.
  */
 function theme_nice_menu_tree($menu_name, $mlid, $menu = NULL) {
-  $item = menu_link_load($mlid);
-  $menu = isset($menu) ? $menu : menu_tree_all_data($menu_name, $item);
+  $menu = isset($menu) ? $menu : menu_tree_all_data($menu_name);
   //$thingy = menu_tree_output($menu);
   $output['content'] = '';
   
   $output['subject'] = '';
 
   if ($menu) {
-    // Build class name based on menu path 
-    // e.g. to give each menu item individual style.
-    foreach ($menu as $menu_item) {
+    $output['content'] .= _nice_menus_build($menu, $mlid);
+  }
+  //$output['content'] .= print_r($menu_item['below']);
+  return $output;
+}
+
+function _nice_menus_build($menu, $id = NULL) {
+  $output = '';
+  
+  foreach ($menu as $menu_item) {
+    $mlid = $menu_item['link']['mlid'];
+    // Only get items for the menu we need.
+    if ($id == $mlid || $id == NULL) {
       // Check to see if it is a visible menu item.
       if ($menu_item['link']['hidden'] >= 0) {
-        $mlid = $menu_item['link']['mlid'];
-        // Strip funny symbols
+        // Build class name based on menu path 
+        // e.g. to give each menu item individual style.
+        // Strip funny symbols.
         $clean_path = str_replace(array('http://', '<', '>', '&', '=', '?', ':'), '', $menu_item['link']['href']);
-        // Convert slashes to dashes
+        // Convert slashes to dashes.
         $clean_path = str_replace('/', '-', $clean_path);
         $path_class = 'menu-path-'. $clean_path;
         // If it has children build a nice little tree under it.
         if (!empty($menu_item['link']['has_children'])) {
-          $output['content'] .= '<li id="menu-'. $mlid .'" class="menuparent '. $path_class .'">'. l($menu_item['link']['title'], $menu_item['link']['href']);
-          $output['content'] .= '<ul><!--[if lt IE 7]><iframe src="javascript:false;"></iframe><![endif]-->';
-          // Keep passing parent mlids into the function 'til we get them all.
-          //$tmp = theme('nice_menu_tree', $menu_name, $mlid);
-          //$output['content'] .= $tmp['content'];      
-          $output['content'] .= '</ul>';
-          $output['content'] .= '</li>';
-          
+          $output .= '<li id="menu-'. $mlid .'" class="menuparent '. $path_class .'">'. l($menu_item['link']['title'], $menu_item['link']['href']);
+          $output .= '<ul><!--[if lt IE 7]><iframe src="javascript:false;"></iframe><![endif]-->';
+          // Keep passing children into the function 'til we get them all.
+          $children = $menu_item['below'];
+          $tmp = _nice_menus_build($children);
+          $output .= $tmp;            
+          $output .= '</ul>';
+          $output .= '</li>';
         }
         else {
-          $output['content'] .= '<li id="menu-'. $mlid .'" class="'. $path_class .'">'. l($menu_item['link']['title'], $menu_item['link']['href']) .'</li>';
+          $output .= '<li id="menu-'. $mlid .'" class="'. $path_class .'">'. l($menu_item['link']['title'], $menu_item['link']['href']) .'</li>';
         }
-      }
-      
+      }      
     }
   }
-  //$output['content'] .= print_r($thingy);
   return $output;
 }
 
@@ -244,8 +252,8 @@ function theme_nice_menu_tree($menu_name, $mlid, $menu = NULL) {
  *   Optional. The direction the menu expands. Default is 'right'.
  * @param $menu
  *   Optional. A custom menu array to use for theming --
- *   it should have the same structure
- *   as that returned by menu_get_menus(). Default is the standard menu tree.
+ *   it should have the same structure as that returned
+ *  by menu_tree_all_data(). Default is the standard menu tree.
  * @return
  *   An HTML string of nice menu links.
  */
@@ -288,8 +296,8 @@ function theme_nice_menu($id, $menu_name, $mlid, $direction = 'right', $menu = N
  *   Optional. The direction the menu expands. Default is 'down'.
  * @param $menu
  *   Optional. A custom menu array to use for theming --
- *   it should have the same structure
- *   as that returned by menu_get_menus(). Default is the standard menu tree.
+ *   it should have the same structure as that returned
+ *  by menu_tree_all_data(). Default is the standard menu tree.
  * @return
  *   An HTML string of nice menu primary links.
  */
