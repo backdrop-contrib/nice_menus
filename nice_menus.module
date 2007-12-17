@@ -174,6 +174,9 @@ function nice_menus_theme() {
     'nice_menu_tree' => array(
       'arguments' => array('pid' => 1, 'menu' => NULL),
     ),
+    'nice_menu_build' => array(
+      'arguments' => array('menu' => NULL, 'id' => NULL),
+    ),
     'nice_menu' => array('id' => NULL, 'pid' => NULL, 'direction' => 'right', 'menu' => NULL),
     'nice_menu_primary_links' => array('direction' => 'down', 'menu' => NULL),
   );
@@ -191,50 +194,49 @@ function nice_menus_theme() {
  *   An HTML string of properly nested nice menu lists.
  */
 function theme_nice_menu_tree($menu_name, $mlid, $menu = NULL) {
-  $menu = isset($menu) ? $menu : menu_tree_all_data($menu_name);
-  //$thingy = menu_tree_output($menu);
-  $output['content'] = '';
+  // Load the menu array for the one we need.
+  $item = menu_link_load($mlid);
+  $menu = isset($menu) ? $menu : menu_tree_all_data($menu_name, $item);
   
-  $output['subject'] = '';
+  $output['content'] = '';  
+  $output['subject'] = $item['title'];
 
   if ($menu) {
-    $output['content'] .= _nice_menus_build($menu, $mlid);
+    $output['content'] .= theme('nice_menu_build', $menu, $mlid);
   }
-  //$output['content'] .= print_r($menu_item['below']);
+  //$output['content'] .= print_r($item);
   return $output;
 }
 
-function _nice_menus_build($menu, $id = NULL) {
-  $output = '';
+function theme_nice_menu_build($menu, $id = NULL) {
+  $output = '';  
   
   foreach ($menu as $menu_item) {
+    //$output .= print_r($menu_item);
     $mlid = $menu_item['link']['mlid'];
-    // Only get items for the menu we need.
-    if ($id == $mlid || $id == NULL) {
-      // Check to see if it is a visible menu item.
-      if ($menu_item['link']['hidden'] >= 0) {
-        // Build class name based on menu path 
-        // e.g. to give each menu item individual style.
-        // Strip funny symbols.
-        $clean_path = str_replace(array('http://', '<', '>', '&', '=', '?', ':'), '', $menu_item['link']['href']);
-        // Convert slashes to dashes.
-        $clean_path = str_replace('/', '-', $clean_path);
-        $path_class = 'menu-path-'. $clean_path;
-        // If it has children build a nice little tree under it.
-        if (!empty($menu_item['link']['has_children'])) {
-          $output .= '<li id="menu-'. $mlid .'" class="menuparent '. $path_class .'">'. l($menu_item['link']['title'], $menu_item['link']['href']);
-          $output .= '<ul><!--[if lt IE 7]><iframe src="javascript:false;"></iframe><![endif]-->';
-          // Keep passing children into the function 'til we get them all.
-          $children = $menu_item['below'];
-          $tmp = _nice_menus_build($children);
-          $output .= $tmp;            
-          $output .= '</ul>';
-          $output .= '</li>';
-        }
-        else {
-          $output .= '<li id="menu-'. $mlid .'" class="'. $path_class .'">'. l($menu_item['link']['title'], $menu_item['link']['href']) .'</li>';
-        }
-      }      
+    // Check to see if it is a visible menu item.
+    if ($menu_item['link']['hidden'] >= 0) {
+      // Build class name based on menu path 
+      // e.g. to give each menu item individual style.
+      // Strip funny symbols.
+      $clean_path = str_replace(array('http://', '<', '>', '&', '=', '?', ':'), '', $menu_item['link']['href']);
+      // Convert slashes to dashes.
+      $clean_path = str_replace('/', '-', $clean_path);
+      $path_class = 'menu-path-'. $clean_path;
+      // If it has children build a nice little tree under it.
+      if (!empty($menu_item['below'])) {
+        // Keep passing children into the function 'til we get them all.
+        $children = theme('nice_menu_build', $menu_item['below']);
+        // Build the child UL.
+        $output .= '<li id="menu-'. $mlid .'" class="menuparent '. $path_class .'">'. l($menu_item['link']['title'], $menu_item['link']['href']);
+        $output .= '<ul><!--[if lt IE 7]><iframe src="javascript:false;"></iframe><![endif]-->';
+        $output .= $children;                     
+        $output .= "</ul>\n";
+        $output .= "</li>\n";
+      }
+      else {
+        $output .= '<li id="menu-'. $mlid .'" class="'. $path_class .'">'. l($menu_item['link']['title'], $menu_item['link']['href']) .'</li>'."\n";
+      }
     }
   }
   return $output;
@@ -282,7 +284,7 @@ function theme_nice_menu($id, $menu_name, $mlid, $direction = 'right', $menu = N
 
   if ($menu_tree = theme('nice_menu_tree', $menu_name, $mlid, $menu)) {
     if ($menu_tree['content']) {
-      $output['content'] = '<ul class="nice-menu nice-menu-'. $direction .'" id="nice-menu-'. $id .'">'. $menu_tree['content'] .'</ul>';
+      $output['content'] = '<ul class="nice-menu nice-menu-'. $direction .'" id="nice-menu-'. $id .'">'. $menu_tree['content'] .'</ul>'."\n";
       $output['subject'] = $menu_tree['subject'];
     }
   }
@@ -302,7 +304,6 @@ function theme_nice_menu($id, $menu_name, $mlid, $direction = 'right', $menu = N
  *   An HTML string of nice menu primary links.
  */
 function theme_nice_menu_primary_links($direction = 'down', $menu = NULL) {
-  $pid = variable_get('menu_primary_menu', 0);
-  $output = theme('nice_menu', $pid, 'primary', $mlid, $direction, $menu);
+  $output = theme('nice_menu', 0, 'primary-links', 0, $direction, $menu);
   return $output['content'];
 }
