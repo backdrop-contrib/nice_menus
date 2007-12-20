@@ -113,13 +113,13 @@ ul.nice-menu li.menuparent ul,
 ul.nice-menu li.menuparent ul iframe,
 /* For Garland header. */
 #header-region ul.nice-menu li.menuparent ul iframe {
-	display:none;
-	display/**/:block;
-	position:absolute;
-	top:0;
-	left:0;
-	z-index:-1;
-	filter:mask();
-	width:400px;
-	height:400px;
+	display: none;
+	display/**/: block;
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: -1;
+	filter: mask();
+	width: 20px;
+	height: 20px;
 }
