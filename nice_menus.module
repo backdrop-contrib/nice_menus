@@ -185,19 +185,30 @@ function nice_menus_theme() {
 /**
  * Builds the inner portion of a nice menu.
  *
- * @param $pid
- *   The parent menu ID from which to build the items.
+ * @param $menu_name
+ *   The top parent menu name from which to get the full menu.
+ * @param $mlid
+ *   The menu ID from which to build the displayed menu.
  * @param $menu
- *   Optional. A custom menu array to use for theming --
- *   it should have the same structure as that returned by menu_get_menus().
+ *   Optional. A custom menu array to use for theming -- it should have
+ *  the same structure as that returned by menu_tree_all_data().
  * @return
  *   An HTML string of properly nested nice menu lists.
  */
 function theme_nice_menu_tree($menu_name, $mlid, $menu = NULL) {
   // Load the menu array for the one we need.
   $item = menu_link_load($mlid);
-  $menu = isset($menu) ? $menu : menu_tree_all_data($menu_name, $item);
+  $menu = isset($menu) ? $menu : menu_tree_all_data($menu_name);
   
+  // Narrow down the complete menu to the sub-tree.
+  for ($p = 1; $p < 10; $p++) {
+    if ($sub_mlid = $item["p$p"]) {
+      $subitem = menu_link_load($sub_mlid);
+      // Menu sets these ghetto-ass keys in _menu_tree_check_access();
+      $menu = $menu[(50000 + $subitem['weight']) .' '. $subitem['title'] .' '. $subitem['mlid']]['below'];
+    }
+  }
+   
   $output['content'] = '';  
   $output['subject'] = $item['title'];
 
@@ -208,9 +219,9 @@ function theme_nice_menu_tree($menu_name, $mlid, $menu = NULL) {
   return $output;
 }
 
-function theme_nice_menu_build($menu, $id = NULL) {
+function theme_nice_menu_build($menu, $mlid = NULL) {
   $output = '';  
-  
+
   foreach ($menu as $menu_item) {
     //$output .= print_r($menu_item);
     $mlid = $menu_item['link']['mlid'];
@@ -224,7 +235,7 @@ function theme_nice_menu_build($menu, $id = NULL) {
       $clean_path = str_replace('/', '-', $clean_path);
       $path_class = 'menu-path-'. $clean_path;
       // If it has children build a nice little tree under it.
-      if (!empty($menu_item['below'])) {
+      if ((!empty($menu_item['link']['has_children'])) && (!empty($menu_item['below']))) {
         // Keep passing children into the function 'til we get them all.
         $children = theme('nice_menu_build', $menu_item['below']);
         // Build the child UL.
@@ -248,8 +259,10 @@ function theme_nice_menu_build($menu, $id = NULL) {
  *
  * @param $id
  *   The nice menu ID.
- * @param $pid
- *   The parent menu ID from which to build the nice menu
+ * @param $menu_name
+ *   The top parent menu name from which to build the full menu.
+ * @param $mlid
+ *   The menu ID from which to build the displayed menu.
  * @param $direction
  *   Optional. The direction the menu expands. Default is 'right'.
  * @param $menu
