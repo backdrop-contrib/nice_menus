@@ -183,50 +183,71 @@ function nice_menus_theme() {
 }
 
 /**
- * Builds the inner portion of a nice menu.
+ * Builds the final nice menu.
  *
  * @param $menu_name
- *   The top parent menu name from which to get the full menu.
+ *   The top-level menu name that contains the menu to use (e.g. navigation 
+ *   or primary-links) for Drupal menus. For custom $menus this is just the 
+ *   name for menu display.
  * @param $mlid
- *   The menu ID from which to build the displayed menu.
+ *   The menu ID from which to start building the items, i.e. the parent
+ *   of the displayed menu.
  * @param $menu
  *   Optional. A custom menu array to use for theming -- it should have
- *  the same structure as that returned by menu_tree_all_data().
+ *   the same structure as that returned by menu_tree_all_data().
  * @return
  *   An HTML string of properly nested nice menu lists.
  */
-function theme_nice_menu_tree($menu_name, $mlid, $menu = NULL) {
-  // Load the menu array for the one we need.
-  $item = menu_link_load($mlid);
+function theme_nice_menu_tree($menu_name, $mlid = NULL, $menu = NULL) {
+  // Load the full menu array.
   $menu = isset($menu) ? $menu : menu_tree_all_data($menu_name);
   
-  // Narrow down the complete menu to the sub-tree.
-  for ($p = 1; $p < 10; $p++) {
-    if ($sub_mlid = $item["p$p"]) {
-      $subitem = menu_link_load($sub_mlid);
-      // Menu sets these ghetto-ass keys in _menu_tree_check_access();
-      $menu = $menu[(50000 + $subitem['weight']) .' '. $subitem['title'] .' '. $subitem['mlid']]['below'];
+  // For custom $menus and menus built all the way from the top-level we
+  // don't need to "create" the specific sub-menu and we need to get the title
+  // from the $menu_name since there is no "parent item" array.
+   
+  // Create the specific menu if we have a mlid.
+  if (!empty($mlid)) {
+    // Load the parent menu item.
+    $item = menu_link_load($mlid);
+    $title = $item['title'];
+    // Narrow down the full menu to the specific sub-tree we need.
+    for ($p = 1; $p < 10; $p++) {
+      if ($sub_mlid = $item["p$p"]) {
+        $subitem = menu_link_load($sub_mlid);
+        // Menu sets these ghetto-ass keys in _menu_tree_check_access().
+        $menu = $menu[(50000 + $subitem['weight']) .' '. $subitem['title'] .' '. $subitem['mlid']]['below'];
+      }
     }
   }
-   
-  $output['content'] = '';  
-  $output['subject'] = $item['title'];
+  // Otherwise just set a title and move on.
+  else {
+    $title = $menu_name;
+  }
+  
+  $output['content'] = '';
+  $output['subject'] = $title;
 
   if ($menu) {
-    $output['content'] .= theme('nice_menu_build', $menu, $mlid);
+    $output['content'] .= theme('nice_menu_build', $menu);
   }
-  //$output['content'] .= print_r($item);
+
   return $output;
 }
 
-function theme_nice_menu_build($menu, $mlid = NULL) {
+/**
+ * Helper function that builds the nested lists of a nice menu.
+ *
+ * @param $menu
+ *   Menu array from which to build the nested lists. 
+ */
+function theme_nice_menu_build($menu) {
   $output = '';  
 
   foreach ($menu as $menu_item) {
-    //$output .= print_r($menu_item);
     $mlid = $menu_item['link']['mlid'];
     // Check to see if it is a visible menu item.
-    if ($menu_item['link']['hidden'] >= 0) {
+    if ($menu_item['link']['hidden'] == 0) {
       // Build class name based on menu path 
       // e.g. to give each menu item individual style.
       // Strip funny symbols.
@@ -275,7 +296,7 @@ function theme_nice_menu_build($menu, $mlid = NULL) {
 function theme_nice_menu($id, $menu_name, $mlid, $direction = 'right', $menu = NULL) {
   // We only want to include the JS for IE and not browsers 
   // capable of doing everything in css.  We have to put all the JS
-  // in drupal_set_html_head so they get called in the right order.
+  // in drupal_set_html_head so they get called in the right order. ;-(
   drupal_set_html_head('<!--[if IE]>
   <script type="text/javascript" src="'. check_url(base_path() .'misc/jquery.js') .'"></script>
   <script type="text/javascript" src="'. check_url(base_path() .'misc/drupal.js') .'"></script>
@@ -312,7 +333,7 @@ function theme_nice_menu($id, $menu_name, $mlid, $direction = 'right', $menu = N
  * @param $menu
  *   Optional. A custom menu array to use for theming --
  *   it should have the same structure as that returned
- *  by menu_tree_all_data(). Default is the standard menu tree.
+ *   by menu_tree_all_data(). Default is the standard menu tree.
  * @return
  *   An HTML string of nice menu primary links.
  */
