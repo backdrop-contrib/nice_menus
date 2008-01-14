@@ -37,7 +37,7 @@ function nice_menus_form_alter(&$form, $form_state, $form_id) {
 
       // Have to add a custom submit handler since this form doesn't use 
       // the standard system submit handler.
-      $form['#submit'] += array('nice_menus_system_theme_settings_submit' => array());
+      $form['#submit'][] = 'nice_menus_system_theme_settings_submit';
 
       // Add global theme setting for a custom CSS file.
       $form['nice_menus_custom_css'] = array(
