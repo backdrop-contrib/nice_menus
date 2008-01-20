@@ -1,6 +1,12 @@
 // $Id$
 
 === DRUPAL 6 ===
+6.x-1.0-rc2 (January 2008)
+- BUG #210284: Moved CSS and JS inclusion to hook_init rather than the theme function due to block caching.
+
+6.x-1.0-rc1 (January 2008)
+- BUG # 206910: Fixed wrong submit handler for the custom CSS setting.
+
 6.x-1.0-beta (January 2008)
 - BUG #205662: Fixed disabled menu items still showing.
 - TASK: Cleaned up documentation and removed debug code.

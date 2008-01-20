@@ -183,6 +183,35 @@ function nice_menus_theme() {
 }
 
 /**
+ * Implementation of hook_init().
+ *
+ * We are adding the JavaScript and CSS here rather than theme_nice_menu
+ * because when block caching is enabled none of it would get fired
+ * and the menus are unstyled.
+ **/
+function nice_menus_init() {
+  // We only want to include the JS for IE and not browsers 
+  // capable of doing everything in css.  We have to put all the JS
+  // in drupal_set_html_head so they get called in the right order. ;-(
+  drupal_set_html_head('<!--[if IE]>
+  <script type="text/javascript" src="'. check_url(base_path() .'misc/jquery.js') .'"></script>
+  <script type="text/javascript" src="'. check_url(base_path() .'misc/drupal.js') .'"></script>
+  <script type="text/javascript" src="'. check_url(base_path() . drupal_get_path('module', 'nice_menus') .'/nice_menus.js') .'"></script>
+  <![endif]-->');
+  
+  // Add main CSS functionality.
+  drupal_add_css(drupal_get_path('module', 'nice_menus') .'/nice_menus.css');
+  // Add custom CSS layout if specified.
+  if ($custom = variable_get('nice_menus_custom_css', '')) {
+    drupal_add_css($custom);
+  }
+  // Fall back to default layout.
+  else {
+    drupal_add_css(drupal_get_path('module', 'nice_menus') .'/nice_menus_default.css');
+  }
+}
+
+/**
  * Builds the final nice menu.
  *
  * @param $menu_name
@@ -294,26 +323,6 @@ function theme_nice_menu_build($menu) {
  *   An HTML string of nice menu links.
  */
 function theme_nice_menu($id, $menu_name, $mlid, $direction = 'right', $menu = NULL) {
-  // We only want to include the JS for IE and not browsers 
-  // capable of doing everything in css.  We have to put all the JS
-  // in drupal_set_html_head so they get called in the right order. ;-(
-  drupal_set_html_head('<!--[if IE]>
-  <script type="text/javascript" src="'. check_url(base_path() .'misc/jquery.js') .'"></script>
-  <script type="text/javascript" src="'. check_url(base_path() .'misc/drupal.js') .'"></script>
-  <script type="text/javascript" src="'. check_url(base_path() . drupal_get_path('module', 'nice_menus') .'/nice_menus.js') .'"></script>
-  <![endif]-->');
-
-  // Add main CSS functionality.
-  drupal_add_css(drupal_get_path('module', 'nice_menus') .'/nice_menus.css');
-  // Add custom CSS layout if specified.
-  if ($custom = variable_get('nice_menus_custom_css', '')) {
-    drupal_add_css($custom);
-  }
-  // Fall back to default layout.
-  else {
-    drupal_add_css(drupal_get_path('module', 'nice_menus') .'/nice_menus_default.css');
-  }
-  
   $output = array();
 
   if ($menu_tree = theme('nice_menu_tree', $menu_name, $mlid, $menu)) {
