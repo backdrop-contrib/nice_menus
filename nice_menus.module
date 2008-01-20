@@ -172,13 +172,19 @@ function nice_menus_block($op = 'list', $delta = 0, $edit = array()) {
 function nice_menus_theme() {
   return array(
     'nice_menu_tree' => array(
-      'arguments' => array($menu_name => NULL, $mlid => NULL, $menu => NULL),
+      'arguments' => array('menu_name' => NULL, 'mlid' => NULL, 'menu' => NULL),
     ),
     'nice_menu_build' => array(
       'arguments' => array('menu' => NULL),
     ),
     'nice_menu' => array(
-      'arguments' => array($id => NULL, $menu_name => NULL, $mlid => NULL, $direction => 'right', $menu => NULL),
+      'arguments' => array('id' => NULL, 'menu_name' => NULL, 'mlid' => NULL, 'direction' => 'right', 'menu' => NULL),
+    ),
+    'nice_menu_primary_links' => array(
+      'arguments' => array('direction' => 'down', 'menu' => NULL),
+    ),
+    'nice_menu' => array(
+      'arguments' => array('id' => NULL, 'pid' => NULL, 'direction' => 'right', 'menu' => NULL),
     ),
     'nice_menu_primary_links' => array(
       'arguments' => array('direction' => 'down', 'menu' => NULL),
