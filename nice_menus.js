@@ -22,7 +22,7 @@ $.fn.addShim = function() {
 	    var ifShim = document.createElement('iframe');
 	    ifShim.src = "javascript:false";
 			ifShim.style.width=$(this).width()+1+"px";
-      ifShim.style.height=$(this).find("> li").size()*23+4+"px";
+      ifShim.style.height=$(this).find("> li").size()*23+20+"px";
 			ifShim.style.filter="progid:DXImageTransform.Microsoft.Alpha(style=0,opacity=0)";
 		  ifShim.style.zIndex="0";
     $(this).prepend(ifShim);
