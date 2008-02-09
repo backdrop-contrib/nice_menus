@@ -1,6 +1,9 @@
 // $Id$
 
 === DRUPAL 6 ===
+6.x-1.0 (February 2008)
+- Official release for Drupal 6.
+
 6.x-1.0-rc2 (January 2008)
 - BUG #210284: Moved CSS and JS inclusion to hook_init rather than the theme function due to block caching.
 
@@ -15,6 +18,9 @@
 - Upgraded to Drupal 6.
 
 === DRUPAL 5 ===
+5.x-1.2 (February 2008)
+- BUG #215477: Remove extra creation of iFrame and make it JS only as well as adding the JS src fix for SSL.
+
 5.x-1.1 (December 2007)
 - BUG #196323: Removed slideDown/Up in IE JS to improve performance.
 - BUG #200990: Changed iFrame dimensions to get rid of blank box in certain setups.
