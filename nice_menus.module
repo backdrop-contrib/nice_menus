@@ -300,7 +300,7 @@ function theme_nice_menu_build($menu) {
         $children = theme('nice_menu_build', $menu_item['below']);
         // Build the child UL.
         $output .= '<li id="menu-'. $mlid .'" class="menuparent '. $path_class .'">'. l($menu_item['link']['title'], $menu_item['link']['href']);
-        $output .= '<ul><!--[if lt IE 7]><iframe src="javascript:false;"></iframe><![endif]-->';
+        $output .= '<ul>';
         $output .= $children;                     
         $output .= "</ul>\n";
         $output .= "</li>\n";

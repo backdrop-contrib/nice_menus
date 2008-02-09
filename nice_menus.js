@@ -20,6 +20,7 @@ $.fn.addShim = function() {
   return this.each(function(){
 	  if(document.all && $("select").size() > 0) {
 	    var ifShim = document.createElement('iframe');
+	    ifShim.src = "javascript:false";
 			ifShim.style.width=$(this).width()+1+"px";
       ifShim.style.height=$(this).find("> li").size()*23+4+"px";
 			ifShim.style.filter="progid:DXImageTransform.Microsoft.Alpha(style=0,opacity=0)";
