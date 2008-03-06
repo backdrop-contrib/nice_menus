@@ -310,14 +310,14 @@ function theme_nice_menu_build($menu) {
         // Keep passing children into the function 'til we get them all.
         $children = theme('nice_menu_build', $menu_item['below']);
         // Build the child UL.
-        $output .= '<li id="menu-'. $mlid .'" class="menuparent '. $path_class .'">'. l($menu_item['link']['title'], $menu_item['link']['href']);
+        $output .= '<li id="menu-'. $mlid .'" class="menuparent '. $path_class .'">'. theme('menu_item_link', $menu_item['link']);
         $output .= '<ul>';
         $output .= $children;                     
         $output .= "</ul>\n";
         $output .= "</li>\n";
       }
       else {
-        $output .= '<li id="menu-'. $mlid .'" class="'. $path_class .'">'. l($menu_item['link']['title'], $menu_item['link']['href']) .'</li>'."\n";
+        $output .= '<li id="menu-'. $mlid .'" class="'. $path_class .'">'. theme('menu_item_link', $menu_item['link']) .'</li>'."\n";
       }
     }
   }
