@@ -13,10 +13,10 @@ function nice_menus_help($path, $arg) {
   $output = '';
   switch ($path) {
     case 'admin/settings/modules#description':
-      $output .= t('Make drop down css/javascript menus for site navigation and admin menus.');
+      $output .= t('Make drop down/flyout CSS menus for site and admin menus.');
       break;
     case 'admin/settings/nice_menus':
-      $output .= t('<p>This is a simple module that enables the site to have drop down css/javascript menus for site navigation and admin navigation.</p><p>Remember to activate and configure the menus in !link</p>', array('!link' => l('admin/build/block', 'admin/build/block')));
+      $output .= t('<p>This is a simple module that enables the site to have drop down/flyout CSS menus for site and admin navigation.</p><p>Remember to activate and configure the menu blocks in !link</p>', array('!link' => l('admin/build/block', 'admin/build/block')));
       break;
   }
   return $output;
@@ -81,16 +81,27 @@ function nice_menus_menu() {
  */
 function nice_menus_admin_settings() {
   $form['nice_menus_number'] = array(
-    '#type' => 'select',
-    '#title' => t('Number of Nice Menus'),
-    '#description' => t('The total number of independent nice menus (blocks) you want.'),
+    '#type' => 'textfield',
+    '#description' => t('The total number of independent Nice menus blocks you want. Enter a number between 0 and 99. If you set this to 0, you will have no blocks created but you can still use the Nice menus theme functions directly in your theme.'),
     '#default_value' => variable_get('nice_menus_number', '2'),
-    '#options' => drupal_map_assoc(array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10)),
+    '#size' => 2,
   );
-
+  // Custom validation to make sure the user is entering numbers.
+  $form['#validate'][] = 'nice_menus_settings_validate';
+  
   return system_settings_form($form);
 }
 
+/**
+ * Custom validation for the settings form.
+ **/
+function nice_menus_settings_validate($form, &$form_state) {
+  $number = $form_state['values']['nice_menus_number'];
+  // Check to make sure it is a number and that is a maximum of 2 digits.
+  if (!is_numeric($number) || strlen($number) > 2) {
+      form_set_error('nice_menus_number', t('You must enter a number from 0 to 99.'));
+  }
+}
 
 /**
  * Implementation of hook_block().
