@@ -9,6 +9,15 @@ if (document.all) {
           $(this).removeClass("over").find("> ul").removeShim().hide();
         }
       );
+      // Add a hover class to all li for CSS styling. Silly naming is done
+      // so we don't break CSS compatibility for .over class already in use
+      // and due to the fact that IE6 doesn't understand multiple selectors.
+      $("ul.nice-menu li").hover(function(){
+          $(this).addClass("ie-over");
+        },function(){
+          $(this).removeClass("ie-over");
+        }
+      );
     }
 
     // This is the jquery method of adding a function
