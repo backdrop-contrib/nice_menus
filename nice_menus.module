@@ -160,7 +160,7 @@ function nice_menus_block($op = 'list', $delta = 0, $edit = array()) {
         }
         // If we're building the navigation block
         // use the same block title logic as menu module.
-        if ($output['subject'] == t('Navigation') && $user->uid) {
+        if ($output['subject'] == t('navigation') && $user->uid) {
           $subject = $user->name;
         }
         else {
