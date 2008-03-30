@@ -309,11 +309,15 @@ function theme_nice_menu_build($menu) {
       if ((!empty($menu_item['link']['has_children'])) && (!empty($menu_item['below']))) {
         // Keep passing children into the function 'til we get them all.
         $children = theme('nice_menu_build', $menu_item['below']);
-        // Build the child UL.
-        $output .= '<li id="menu-'. $mlid .'" class="menuparent '. $path_class .'">'. theme('menu_item_link', $menu_item['link']);
-        $output .= '<ul>';
-        $output .= $children;                     
-        $output .= "</ul>\n";
+        // Set the class to parent only of children are displayed.
+        $parent_class = $children ? 'menuparent ' : '';
+        $output .= '<li id="menu-'. $mlid .'" class="'. $parent_class . $path_class .'">'. theme('menu_item_link', $menu_item['link']);       
+        // Build the child UL only if children are displayed for the user.
+        if ($children) {
+          $output .= '<ul>';
+          $output .= $children;                     
+          $output .= "</ul>\n";
+        }
         $output .= "</li>\n";
       }
       else {
