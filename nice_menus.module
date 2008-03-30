@@ -368,6 +368,7 @@ function theme_nice_menu($id, $menu_name, $mlid, $direction = 'right', $menu = N
  *   An HTML string of nice menu primary links.
  */
 function theme_nice_menu_primary_links($direction = 'down', $menu = NULL) {
-  $output = theme('nice_menu', 0, 'primary-links', 0, $direction, $menu);
+  $menu_name = variable_get('menu_primary_links_source', 'primary-links');
+  $output = theme('nice_menu', 0, $menu_name, 0, $direction, $menu);
   return $output['content'];
 }
