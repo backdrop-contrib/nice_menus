@@ -1,9 +1,11 @@
 <?php
 // $Id$
-/*
-  Module to enable CSS dropdown and flyout menus.
-  Maintainer: Addison Berry (add1sun)
-  Originally written by Jake Gordon (jakeg)
+/**
+ * @file
+ *  Module to enable CSS dropdown and flyout menus.
+ *  
+ * Maintainer: Addison Berry (add1sun)
+ * Originally written by Jake Gordon (jakeg)
  */
 
 /**
@@ -29,13 +31,13 @@ function nice_menus_form_alter(&$form, $form_state, $form_id) {
   switch ($form_id) {
     case 'system_theme_settings':
 
-      // This is a global setting, so only insert the field 
+      // This is a global setting, so only insert the field
       // on the global settings page.
       if (arg(4)) {
         return;
       }
 
-      // Have to add a custom submit handler since this form doesn't use 
+      // Have to add a custom submit handler since this form doesn't use
       // the standard system submit handler.
       $form['#submit'][] = 'nice_menus_system_theme_settings_submit';
 
@@ -88,13 +90,13 @@ function nice_menus_admin_settings() {
   );
   // Custom validation to make sure the user is entering numbers.
   $form['#validate'][] = 'nice_menus_settings_validate';
-  
+
   return system_settings_form($form);
 }
 
 /**
  * Custom validation for the settings form.
- **/
+ */
 function nice_menus_settings_validate($form, &$form_state) {
   $number = $form_state['values']['nice_menus_number'];
   // Check to make sure it is a number and that is a maximum of 2 digits.
@@ -171,7 +173,6 @@ function nice_menus_block($op = 'list', $delta = 0, $edit = array()) {
       else {
         $block['content'] = false;
       }
-      //$block['content'] = print_r($mlid);
       return $block;
     break;
   }
@@ -179,7 +180,7 @@ function nice_menus_block($op = 'list', $delta = 0, $edit = array()) {
 
 /**
  * Implmentation of hook_theme().
- **/
+ */
 function nice_menus_theme() {
   return array(
     'nice_menu_tree' => array(
@@ -209,9 +210,9 @@ function nice_menus_theme() {
  * We are adding the JavaScript and CSS here rather than theme_nice_menu
  * because when block caching is enabled none of it would get fired
  * and the menus are unstyled.
- **/
+ */
 function nice_menus_init() {
-  // We only want to include the JS for IE and not browsers 
+  // We only want to include the JS for IE and not browsers
   // capable of doing everything in css.  We have to put all the JS
   // in drupal_set_html_head so they get called in the right order. ;-(
   drupal_set_html_head('<!--[if IE]>
@@ -219,7 +220,7 @@ function nice_menus_init() {
   <script type="text/javascript" src="'. check_url(base_path() .'misc/drupal.js') .'"></script>
   <script type="text/javascript" src="'. check_url(base_path() . drupal_get_path('module', 'nice_menus') .'/nice_menus.js') .'"></script>
   <![endif]-->');
-  
+
   // Add main CSS functionality.
   drupal_add_css(drupal_get_path('module', 'nice_menus') .'/nice_menus.css');
   // Add custom CSS layout if specified.
@@ -236,8 +237,8 @@ function nice_menus_init() {
  * Builds the final nice menu.
  *
  * @param $menu_name
- *   The top-level menu name that contains the menu to use (e.g. navigation 
- *   or primary-links) for Drupal menus. For custom $menus this is just the 
+ *   The top-level menu name that contains the menu to use (e.g. navigation
+ *   or primary-links) for Drupal menus. For custom $menus this is just the
  *   name for menu display.
  * @param $mlid
  *   The menu ID from which to start building the items, i.e. the parent
@@ -251,11 +252,11 @@ function nice_menus_init() {
 function theme_nice_menu_tree($menu_name, $mlid = NULL, $menu = NULL) {
   // Load the full menu array.
   $menu = isset($menu) ? $menu : menu_tree_all_data($menu_name);
-  
+
   // For custom $menus and menus built all the way from the top-level we
   // don't need to "create" the specific sub-menu and we need to get the title
   // from the $menu_name since there is no "parent item" array.
-   
+
   // Create the specific menu if we have a mlid.
   if (!empty($mlid)) {
     // Load the parent menu item.
@@ -274,7 +275,7 @@ function theme_nice_menu_tree($menu_name, $mlid = NULL, $menu = NULL) {
   else {
     $title = $menu_name;
   }
-  
+
   $output['content'] = '';
   $output['subject'] = $title;
 
@@ -289,16 +290,16 @@ function theme_nice_menu_tree($menu_name, $mlid = NULL, $menu = NULL) {
  * Helper function that builds the nested lists of a nice menu.
  *
  * @param $menu
- *   Menu array from which to build the nested lists. 
+ *   Menu array from which to build the nested lists.
  */
 function theme_nice_menu_build($menu) {
-  $output = '';  
+  $output = '';
 
   foreach ($menu as $menu_item) {
     $mlid = $menu_item['link']['mlid'];
     // Check to see if it is a visible menu item.
     if ($menu_item['link']['hidden'] == 0) {
-      // Build class name based on menu path 
+      // Build class name based on menu path
       // e.g. to give each menu item individual style.
       // Strip funny symbols.
       $clean_path = str_replace(array('http://', '<', '>', '&', '=', '?', ':'), '', $menu_item['link']['href']);
@@ -311,11 +312,11 @@ function theme_nice_menu_build($menu) {
         $children = theme('nice_menu_build', $menu_item['below']);
         // Set the class to parent only of children are displayed.
         $parent_class = $children ? 'menuparent ' : '';
-        $output .= '<li id="menu-'. $mlid .'" class="'. $parent_class . $path_class .'">'. theme('menu_item_link', $menu_item['link']);       
+        $output .= '<li id="menu-'. $mlid .'" class="'. $parent_class . $path_class .'">'. theme('menu_item_link', $menu_item['link']);
         // Build the child UL only if children are displayed for the user.
         if ($children) {
           $output .= '<ul>';
-          $output .= $children;                     
+          $output .= $children;
           $output .= "</ul>\n";
         }
         $output .= "</li>\n";
@@ -329,7 +330,7 @@ function theme_nice_menu_build($menu) {
 }
 
 /**
- * General theming function to allow any menu tree to be themed 
+ * General theming function to allow any menu tree to be themed
  * as a nice menu.
  *
  * @param $id
