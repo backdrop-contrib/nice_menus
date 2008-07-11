@@ -1,6 +1,10 @@
 // $Id$
 
 === DRUPAL 6 ===
+6.x-1.2/6.x-2.0
+- BUG #235562: JS is now called using drupal_add_js and you can enable/disable IE support. This will turn on JS for all browsers but Nice menus only actually runs its JS hacks for IE.
+- TRANSLATION added. Swedish translation by seals.
+  
 6.x-1.1 (March 2008)
 - BUG #225439: Fixed a minor bug re: the link theme function.
 - BUG #228323: Using user name on the navigation block.
