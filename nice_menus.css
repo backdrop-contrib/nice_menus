@@ -31,11 +31,11 @@ ul.nice-menu ul,
 /* For Garland header. */
 #header-region ul.nice-menu ul {
   position: absolute;
-  display: none;
+  visibility: hidden;
 }
 
 ul.nice-menu li.over ul {
-  display: block;
+  visibility: visible;
 }
 
 ul.nice-menu ul li {
@@ -66,7 +66,7 @@ ul.nice-menu li.menuparent li.menuparent li.menuparent li.over ul,
 #header-region ul.nice-menu li.over ul,
 #header-region ul.nice-menu li.menuparent li.over ul,
 #header-region ul.nice-menu li.menuparent li.menuparent li.over ul {
-  display: block;
+  visibility: visible;
 }
 
 /* Hide sub-menus initially. */
@@ -95,7 +95,7 @@ ul.nice-menu li.over li.over li.over ul ul ul,
 #header-region ul.nice-menu li.over li.over ul ul ul,
 #header-region ul.nice-menu li.over li.over li.over ul ul,
 #header-region ul.nice-menu li.over li.over li.over ul ul ul {
-  display: none;
+  visibility: hidden;
 }
 
 /***************
