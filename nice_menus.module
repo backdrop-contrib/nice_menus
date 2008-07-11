@@ -88,6 +88,13 @@ function nice_menus_admin_settings() {
     '#default_value' => variable_get('nice_menus_number', '2'),
     '#size' => 2,
   );
+  $form['nice_menus_ie'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Enable IE support'),
+    '#description' => t('This will add necessary JavaScript for Nice Menus to work properly in Internet Explorer.'),
+    '#default_value' => variable_get('nice_menus_ie', 1),
+  );
+  
   // Custom validation to make sure the user is entering numbers.
   $form['#validate'][] = 'nice_menus_settings_validate';
 
@@ -212,14 +219,10 @@ function nice_menus_theme() {
  * and the menus are unstyled.
  */
 function nice_menus_init() {
-  // We only want to include the JS for IE and not browsers
-  // capable of doing everything in css.  We have to put all the JS
-  // in drupal_set_html_head so they get called in the right order. ;-(
-  drupal_set_html_head('<!--[if IE]>
-  <script type="text/javascript" src="'. check_url(base_path() .'misc/jquery.js') .'"></script>
-  <script type="text/javascript" src="'. check_url(base_path() .'misc/drupal.js') .'"></script>
-  <script type="text/javascript" src="'. check_url(base_path() . drupal_get_path('module', 'nice_menus') .'/nice_menus.js') .'"></script>
-  <![endif]-->');
+  // Add JavaScript, if enabled.
+  if (variable_get('nice_menus_ie', 1) == 1) {
+    drupal_add_js(drupal_get_path('module', 'nice_menus') .'/nice_menus.js');
+  }
 
   // Add main CSS functionality.
   drupal_add_css(drupal_get_path('module', 'nice_menus') .'/nice_menus.css');

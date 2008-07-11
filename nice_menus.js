@@ -1,6 +1,9 @@
 // $Id$
 
-// We only do the javascript in IE thanks to drupal_set_html_head in .module.
+// We are going to use conditional compilation to target only IE for
+// this shim and pseudo hover wackiness.
+/*@cc_on
+
 if (document.all) {
   function IEHoverPseudo() {
       $("ul.nice-menu li.menuparent").hover(function(){
@@ -45,3 +48,4 @@ $.fn.removeShim = function() {
 	  if (document.all) $("iframe", this).remove();
 	});
 };
+@*/
