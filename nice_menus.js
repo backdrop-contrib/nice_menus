@@ -1,10 +1,8 @@
 // $Id$
 
-// We are going to use conditional compilation to target only IE for
-// this shim and pseudo hover wackiness.
-/*@cc_on
-
-if (document.all) {
+// We need to do some browser sniffing to weed out IE 6 only
+// because only IE6 needs this hover hack.
+if (document.all && !window.opera && !window.XMLHttpRequest && $.browser.msie) {
   function IEHoverPseudo() {
       $("ul.nice-menu li.menuparent").hover(function(){
           $(this).addClass("over").find("> ul").show().addShim();
@@ -48,4 +46,3 @@ $.fn.removeShim = function() {
 	  if (document.all) $("iframe", this).remove();
 	});
 };
-@*/
