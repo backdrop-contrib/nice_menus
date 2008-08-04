@@ -2,7 +2,7 @@
 
 // We need to do some browser sniffing to weed out IE 6 only
 // because only IE6 needs this hover hack.
-if (document.all && !window.opera && !window.XMLHttpRequest && $.browser.msie) {
+if (document.all && !window.opera && (navigator.appVersion.search("MSIE 6.0") != -1) && $.browser.msie) {
   function IEHoverPseudo() {
       $("ul.nice-menu li.menuparent").hover(function(){
           $(this).addClass("over").find("> ul").show().addShim();
