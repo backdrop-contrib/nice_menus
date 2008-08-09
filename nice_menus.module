@@ -134,10 +134,17 @@ function nice_menus_block($op = 'list', $delta = 0, $edit = array()) {
       );
       $form['nice_menus_menu_'. $delta] = array(
         '#type' => 'select',
-        '#title' => t('Source Menu Tree'),
-        '#description' => t('The menu tree from which to show a nice menu.'),
+        '#title' => t('Menu Parent'),
+        '#description' => t('The menu parent from which to show a nice menu.'),
         '#default_value' => variable_get('nice_menus_menu_'. $delta, 'navigation:0'),
         '#options' => menu_parent_options(menu_get_menus(), 0),
+      );
+      $form['nice_menus_depth_'. $delta] = array(
+       '#type' => 'select', 
+       '#title' => t('Menu Depth'), 
+       '#description' => t('The depth of the menu, i.e. the number of child levels starting with the parent selected above. Leave set to -1 to display all children and use 0 to display no children.'),
+       '#default_value' => variable_get('nice_menus_depth_'. $delta, -1),
+       '#options' => drupal_map_assoc(range(-1,5))
       );
       $form['nice_menus_type_'. $delta] = array(
         '#type' => 'select',
@@ -152,6 +159,7 @@ function nice_menus_block($op = 'list', $delta = 0, $edit = array()) {
     case 'save':
       variable_set('nice_menus_name_'. $delta, $edit['nice_menus_name_'. $delta]);
       variable_set('nice_menus_menu_'. $delta, $edit['nice_menus_menu_'. $delta]);
+      variable_set('nice_menus_depth_'. $delta, $edit['nice_menus_depth_'. $delta]);
       variable_set('nice_menus_type_'. $delta, $edit['nice_menus_type_'. $delta]);
     break;
 
@@ -159,7 +167,8 @@ function nice_menus_block($op = 'list', $delta = 0, $edit = array()) {
       // Build the nice menu for the block.
       list($menu_name, $mlid) = explode(':', variable_get('nice_menus_menu_'. $delta, 'navigation:0'));
       $direction = variable_get('nice_menus_type_'. $delta, 'right');
-      if ($output = theme('nice_menu', $delta, $menu_name, $mlid, $direction)) {
+      $depth = variable_get('nice_menus_depth_'.$delta, '-1');
+      if ($output = theme('nice_menu', $delta, $menu_name, $mlid, $direction, $depth)) {
         $block['content'] = $output['content'];
         if (variable_get('nice_menus_type_'. $delta, 'right') == 'down') {
           $class = 'nice-menu-hide-title';
@@ -252,7 +261,7 @@ function nice_menus_init() {
  * @return
  *   An HTML string of properly nested nice menu lists.
  */
-function theme_nice_menu_tree($menu_name, $mlid = NULL, $menu = NULL) {
+function theme_nice_menu_tree($menu_name, $mlid = NULL, $depth = -1, $menu = NULL) {
   // Load the full menu array.
   $menu = isset($menu) ? $menu : menu_tree_all_data($menu_name);
 
@@ -265,6 +274,9 @@ function theme_nice_menu_tree($menu_name, $mlid = NULL, $menu = NULL) {
     // Load the parent menu item.
     $item = menu_link_load($mlid);
     $title = $item['title'];
+    // The depth for our parent item.
+    $parent_depth = $item['depth'];
+    
     // Narrow down the full menu to the specific sub-tree we need.
     for ($p = 1; $p < 10; $p++) {
       if ($sub_mlid = $item["p$p"]) {
@@ -283,7 +295,9 @@ function theme_nice_menu_tree($menu_name, $mlid = NULL, $menu = NULL) {
   $output['subject'] = $title;
 
   if ($menu) {
-    $output['content'] .= theme('nice_menu_build', $menu);
+    // Set the total menu depth counting from this parent if we need it.
+    $depth =  ($depth > 0) ? ($parent_depth + $depth) : $depth;
+    $output['content'] .= theme('nice_menu_build', $menu, $depth);
   }
 
   return $output;
@@ -295,10 +309,10 @@ function theme_nice_menu_tree($menu_name, $mlid = NULL, $menu = NULL) {
  * @param $menu
  *   Menu array from which to build the nested lists.
  */
-function theme_nice_menu_build($menu) {
+function theme_nice_menu_build($menu, $depth = -1) {
   $output = '';
-
-  foreach ($menu as $menu_item) {
+  //$output .= dpm($menu);
+  foreach ($menu as $menu_item) {  
     $mlid = $menu_item['link']['mlid'];
     // Check to see if it is a visible menu item.
     if ($menu_item['link']['hidden'] == 0) {
@@ -310,17 +324,20 @@ function theme_nice_menu_build($menu) {
       $clean_path = str_replace('/', '-', $clean_path);
       $path_class = 'menu-path-'. $clean_path;
       // If it has children build a nice little tree under it.
-      if ((!empty($menu_item['link']['has_children'])) && (!empty($menu_item['below']))) {
+      if ((!empty($menu_item['link']['has_children'])) && (!empty($menu_item['below'])) && $depth != 0) {
         // Keep passing children into the function 'til we get them all.
-        $children = theme('nice_menu_build', $menu_item['below']);
+        $children = theme('nice_menu_build', $menu_item['below'], $depth);
         // Set the class to parent only of children are displayed.
         $parent_class = $children ? 'menuparent ' : '';
         $output .= '<li id="menu-'. $mlid .'" class="'. $parent_class . $path_class .'">'. theme('menu_item_link', $menu_item['link']);
-        // Build the child UL only if children are displayed for the user.
-        if ($children) {
-          $output .= '<ul>';
-          $output .= $children;
-          $output .= "</ul>\n";
+        // Check our depth parameters.  
+        if ($menu_item['link']['depth'] <= $depth || $depth == -1) {
+          // Build the child UL only if children are displayed for the user.
+          if ($children) {
+            $output .= '<ul>';
+            $output .= $children;
+            $output .= "</ul>\n";
+          }
         }
         $output .= "</li>\n";
       }
@@ -351,10 +368,10 @@ function theme_nice_menu_build($menu) {
  * @return
  *   An HTML string of nice menu links.
  */
-function theme_nice_menu($id, $menu_name, $mlid, $direction = 'right', $menu = NULL) {
+function theme_nice_menu($id, $menu_name, $mlid, $direction = 'right', $depth = -1, $menu = NULL) {
   $output = array();
 
-  if ($menu_tree = theme('nice_menu_tree', $menu_name, $mlid, $menu)) {
+  if ($menu_tree = theme('nice_menu_tree', $menu_name, $mlid, $depth, $menu)) {
     if ($menu_tree['content']) {
       $output['content'] = '<ul class="nice-menu nice-menu-'. $direction .'" id="nice-menu-'. $id .'">'. $menu_tree['content'] .'</ul>'."\n";
       $output['subject'] = $menu_tree['subject'];
@@ -375,8 +392,8 @@ function theme_nice_menu($id, $menu_name, $mlid, $direction = 'right', $menu = N
  * @return
  *   An HTML string of nice menu primary links.
  */
-function theme_nice_menu_primary_links($direction = 'down', $menu = NULL) {
+function theme_nice_menu_primary_links($direction = 'down', $depth = -1, $menu = NULL) {
   $menu_name = variable_get('menu_primary_links_source', 'primary-links');
-  $output = theme('nice_menu', 0, $menu_name, 0, $direction, $menu);
+  $output = theme('nice_menu', 0, $menu_name, 0, $direction, $depth, $menu);
   return $output['content'];
 }
