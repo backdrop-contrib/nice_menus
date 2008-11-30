@@ -3,7 +3,7 @@
 /**
  * @file
  *  Module to enable CSS dropdown and flyout menus.
- *  
+ *
  * Maintainer: Addison Berry (add1sun)
  * Originally written by Jake Gordon (jakeg)
  */
@@ -94,7 +94,7 @@ function nice_menus_admin_settings() {
     '#description' => t('This will add necessary JavaScript for Nice Menus to work properly in Internet Explorer.'),
     '#default_value' => variable_get('nice_menus_ie', 1),
   );
-  
+
   // Custom validation to make sure the user is entering numbers.
   $form['#validate'][] = 'nice_menus_settings_validate';
 
@@ -142,11 +142,11 @@ function nice_menus_block($op = 'list', $delta = 0, $edit = array()) {
         '#options' => menu_parent_options(menu_get_menus(), 0),
       );
       $form['nice_menus_depth_'. $delta] = array(
-       '#type' => 'select', 
-       '#title' => t('Menu Depth'), 
+       '#type' => 'select',
+       '#title' => t('Menu Depth'),
        '#description' => t('The depth of the menu, i.e. the number of child levels starting with the parent selected above. Leave set to -1 to display all children and use 0 to display no children.'),
        '#default_value' => variable_get('nice_menus_depth_'. $delta, -1),
-       '#options' => drupal_map_assoc(range(-1,5))
+       '#options' => drupal_map_assoc(range(-1, 5))
       );
       $form['nice_menus_type_'. $delta] = array(
         '#type' => 'select',
@@ -169,7 +169,7 @@ function nice_menus_block($op = 'list', $delta = 0, $edit = array()) {
       // Build the nice menu for the block.
       list($menu_name, $mlid) = explode(':', variable_get('nice_menus_menu_'. $delta, 'navigation:0'));
       $direction = variable_get('nice_menus_type_'. $delta, 'right');
-      $depth = variable_get('nice_menus_depth_'.$delta, '-1');
+      $depth = variable_get('nice_menus_depth_'. $delta, '-1');
       if ($output = theme('nice_menu', $delta, $menu_name, $mlid, $direction, $depth)) {
         $block['content'] = $output['content'];
         if (variable_get('nice_menus_type_'. $delta, 'right') == 'down') {
@@ -278,7 +278,7 @@ function theme_nice_menu_tree($menu_name, $mlid = NULL, $depth = -1, $menu = NUL
     $title = check_plain($item['title']);
     // The depth for our parent item.
     $parent_depth = $item['depth'];
-    
+
     // Narrow down the full menu to the specific sub-tree we need.
     for ($p = 1; $p < 10; $p++) {
       if ($sub_mlid = $item["p$p"]) {
@@ -316,7 +316,7 @@ function theme_nice_menu_tree($menu_name, $mlid = NULL, $depth = -1, $menu = NUL
 function theme_nice_menu_build($menu, $depth = -1) {
   $output = '';
   //$output .= dpm($menu);
-  foreach ($menu as $menu_item) {  
+  foreach ($menu as $menu_item) {
     $mlid = $menu_item['link']['mlid'];
     // Check to see if it is a visible menu item.
     if ($menu_item['link']['hidden'] == 0) {
@@ -334,7 +334,7 @@ function theme_nice_menu_build($menu, $depth = -1) {
         // Set the class to parent only of children are displayed.
         $parent_class = $children ? 'menuparent ' : '';
         $output .= '<li id="menu-'. $mlid .'" class="'. $parent_class . $path_class .'">'. theme('menu_item_link', $menu_item['link']);
-        // Check our depth parameters.  
+        // Check our depth parameters.
         if ($menu_item['link']['depth'] <= $depth || $depth == -1) {
           // Build the child UL only if children are displayed for the user.
           if ($children) {
