@@ -1,5 +1,5 @@
 // $Id$
 
 === DRUPAL 6.x-2.x ===
-6.x-2.0 (Initial release of Version 2)
+6.x-2.x
 - FEATURE #135771: Choose starting and ending menu depth
