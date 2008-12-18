@@ -249,6 +249,25 @@ function nice_menus_init() {
 }
 
 /**
+ * Builds the active trail from the page's menu data.
+ *
+ * @param $page_menu
+ *   The menu data for a page.
+ */
+function nice_menus_build_page_trail($page_menu) {
+  $trail = array();
+ foreach ($page_menu as $item) {
+    if ($item['link']['in_active_trail']) {
+      $trail[] = $item['link']['mlid'];
+    }
+    if ($item['below']) {
+      $trail = array_merge($trail, nice_menus_build_page_trail($item['below']));
+    }
+  }
+  return $trail;
+}
+
+/**
  * Builds the final Nice menu.
  *
  * @param $menu_name
@@ -267,6 +286,12 @@ function nice_menus_init() {
 function theme_nice_menu_tree($menu_name, $mlid = NULL, $depth = -1, $menu = NULL) {
   // Load the full menu array.
   $menu = isset($menu) ? $menu : menu_tree_all_data($menu_name);
+
+  if (isset($menu)) {
+    $page_menu = menu_tree_page_data($menu_name);
+    $trail = nice_menus_build_page_trail($page_menu);
+    unset($page_menu);
+  }
 
   // For custom $menus and menus built all the way from the top-level we
   // don't need to "create" the specific sub-menu and we need to get the title
@@ -302,7 +327,7 @@ function theme_nice_menu_tree($menu_name, $mlid = NULL, $depth = -1, $menu = NUL
   if ($menu) {
     // Set the total menu depth counting from this parent if we need it.
     $depth =  ($depth > 0) ? ($parent_depth + $depth) : $depth;
-    $output['content'] .= theme('nice_menu_build', $menu, $depth);
+    $output['content'] .= theme('nice_menu_build', $menu, $depth, $trail);
   }
 
   return $output;
@@ -314,7 +339,7 @@ function theme_nice_menu_tree($menu_name, $mlid = NULL, $depth = -1, $menu = NUL
  * @param $menu
  *   Menu array from which to build the nested lists.
  */
-function theme_nice_menu_build($menu, $depth = -1) {
+function theme_nice_menu_build($menu, $depth = -1, $trail = NULL) {
   $output = '';
   foreach ($menu as $menu_item) {
     $mlid = $menu_item['link']['mlid'];
@@ -326,14 +351,17 @@ function theme_nice_menu_build($menu, $depth = -1) {
       $clean_path = str_replace(array('http://', '<', '>', '&', '=', '?', ':'), '', $menu_item['link']['href']);
       // Convert slashes to dashes.
       $clean_path = str_replace('/', '-', $clean_path);
-      $path_class = 'menu-path-'. $clean_path;
+      $class = 'menu-path-'. $clean_path;
+      if ($trail && in_array($mlid, $trail)) {
+        $class .= ' active-trail';
+      }
       // If it has children build a nice little tree under it.
       if ((!empty($menu_item['link']['has_children'])) && (!empty($menu_item['below'])) && $depth != 0) {
         // Keep passing children into the function 'til we get them all.
-        $children = theme('nice_menu_build', $menu_item['below'], $depth);
+        $children = theme('nice_menu_build', $menu_item['below'], $depth, $trail);
         // Set the class to parent only of children are displayed.
         $parent_class = $children ? 'menuparent ' : '';
-        $output .= '<li id="menu-'. $mlid .'" class="'. $parent_class . $path_class .'">'. theme('menu_item_link', $menu_item['link']);
+        $output .= '<li id="menu-'. $mlid .'" class="'. $parent_class . $class .'">'. theme('menu_item_link', $menu_item['link']);
         // Check our depth parameters.
         if ($menu_item['link']['depth'] <= $depth || $depth == -1) {
           // Build the child UL only if children are displayed for the user.
@@ -346,7 +374,7 @@ function theme_nice_menu_build($menu, $depth = -1) {
         $output .= "</li>\n";
       }
       else {
-        $output .= '<li id="menu-'. $mlid .'" class="'. $path_class .'">'. theme('menu_item_link', $menu_item['link']) .'</li>'."\n";
+        $output .= '<li id="menu-'. $mlid .'" class="'. $class .'">'. theme('menu_item_link', $menu_item['link']) .'</li>'."\n";
       }
     }
   }
