@@ -206,7 +206,7 @@ function nice_menus_theme() {
       'arguments' => array('menu_name' => NULL, 'mlid' => NULL, 'depth' => -1, 'menu' => NULL),
     ),
     'nice_menu_build' => array(
-      'arguments' => array('menu' => NULL,  'depth' => -1),
+      'arguments' => array('menu' => NULL,  'depth' => -1, 'trail' => NULL),
     ),
     'nice_menu' => array(
       'arguments' => array('id' => NULL, 'menu_name' => NULL, 'mlid' => NULL, 'direction' => 'right', 'depth' => -1, 'menu' => NULL),
@@ -250,6 +250,8 @@ function nice_menus_init() {
  *
  * @param $page_menu
  *   The menu data for a page.
+ * @return
+ *   An array of parent menu item ids.
  */
 function nice_menus_build_page_trail($page_menu) {
   $trail = array();
@@ -341,6 +343,8 @@ function theme_nice_menu_tree($menu_name, $mlid = NULL, $depth = -1, $menu = NUL
  * @param $depth
  *   The number of children levels to display. Use -1 to display all children
  *   and use 0 to display no children.
+ * @param $trail
+ *   An array of parent menu items.
  */
 function theme_nice_menu_build($menu, $depth = -1, $trail = NULL) {
   $output = '';
