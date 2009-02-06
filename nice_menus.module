@@ -212,12 +212,9 @@ function nice_menus_theme() {
       'arguments' => array('id' => NULL, 'menu_name' => NULL, 'mlid' => NULL, 'direction' => 'right', 'depth' => -1, 'menu' => NULL),
     ),
     'nice_menu_primary_links' => array(
-      'arguments' => array('direction' => 'down', 'menu' => NULL),
+      'arguments' => array('direction' => 'down', 'depth' => -1, 'menu' => NULL),
     ),
-    'nice_menu' => array(
-      'arguments' => array('id' => NULL, 'pid' => NULL, 'direction' => 'right', 'menu' => NULL),
-    ),
-    'nice_menu_primary_links' => array(
+    'nice_menus_secondary_links' => array(
       'arguments' => array('direction' => 'down', 'depth' => -1, 'menu' => NULL),
     ),
   );
@@ -277,6 +274,9 @@ function nice_menus_build_page_trail($page_menu) {
  * @param $mlid
  *   The menu ID from which to start building the items, i.e. the parent
  *   of the displayed menu.
+ * @param $depth
+ *   The number of children levels to display. Use -1 to display all children
+ *   and use 0 to display no children.
  * @param $menu
  *   Optional. A custom menu array to use for theming -- it should have
  *   the same structure as that returned by menu_tree_all_data().
@@ -338,6 +338,9 @@ function theme_nice_menu_tree($menu_name, $mlid = NULL, $depth = -1, $menu = NUL
  *
  * @param $menu
  *   Menu array from which to build the nested lists.
+ * @param $depth
+ *   The number of children levels to display. Use -1 to display all children
+ *   and use 0 to display no children.
  */
 function theme_nice_menu_build($menu, $depth = -1, $trail = NULL) {
   $output = '';
@@ -392,6 +395,9 @@ function theme_nice_menu_build($menu, $depth = -1, $trail = NULL) {
  *   The menu ID from which to build the displayed menu.
  * @param $direction
  *   Optional. The direction the menu expands. Default is 'right'.
+ * @param $depth
+ *   The number of children levels to display. Use -1 to display all children
+ *   and use 0 to display no children.
  * @param $menu
  *   Optional. A custom menu array to use for theming --
  *   it should have the same structure as that returned
@@ -416,6 +422,9 @@ function theme_nice_menu($id, $menu_name, $mlid, $direction = 'right', $depth = 
  *
  * @param $direction
  *   Optional. The direction the menu expands. Default is 'down'.
+ * @param $depth
+ *   The number of children levels to display. Use -1 to display all children
+ *   and use 0 to display no children.
  * @param $menu
  *   Optional. A custom menu array to use for theming --
  *   it should have the same structure as that returned
@@ -425,6 +434,27 @@ function theme_nice_menu($id, $menu_name, $mlid, $direction = 'right', $depth = 
  */
 function theme_nice_menu_primary_links($direction = 'down', $depth = -1, $menu = NULL) {
   $menu_name = variable_get('menu_primary_links_source', 'primary-links');
+  $output = theme('nice_menu', 0, $menu_name, 0, $direction, $depth, $menu);
+  return $output['content'];
+}
+
+/**
+ * Theme secondary links as nice menus.
+ *
+ * @param $direction
+ *   Optional. The direction the menu expands. Default is 'down'.
+ * @param $depth
+ *   The number of children levels to display. Use -1 to display all children
+ *   and use 0 to display no children.
+ * @param $menu
+ *   Optional. A custom menu array to use for theming --
+ *   it should have the same structure as that returned
+ *   by menu_tree_all_data(). Default is the standard menu tree.
+ * @return
+ *   An HTML string of nice menu secondary links.
+ */
+function theme_nice_menus_secondary_links($direction = 'down', $depth = -1, $menu = NULL) {
+  $menu_name = variable_get('menu_secondary_links_source', 'secondary-links');
   $output = theme('nice_menu', 0, $menu_name, 0, $direction, $depth, $menu);
   return $output['content'];
 }
