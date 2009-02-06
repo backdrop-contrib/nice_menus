@@ -171,7 +171,7 @@ function nice_menus_block($op = 'list', $delta = 0, $edit = array()) {
       list($menu_name, $mlid) = explode(':', variable_get('nice_menus_menu_'. $delta, 'navigation:0'));
       $direction = variable_get('nice_menus_type_'. $delta, 'right');
       $depth = variable_get('nice_menus_depth_'. $delta, '-1');
-      if ($output = theme('nice_menu', $delta, $menu_name, $mlid, $direction, $depth)) {
+      if ($output = theme('nice_menus', $delta, $menu_name, $mlid, $direction, $depth)) {
         $block['content'] = $output['content'];
         if (variable_get('nice_menus_type_'. $delta, 'right') == 'down') {
           $class = 'nice-menu-hide-title';
@@ -202,6 +202,22 @@ function nice_menus_block($op = 'list', $delta = 0, $edit = array()) {
  */
 function nice_menus_theme() {
   return array(
+    'nice_menus_tree' => array(
+      'arguments' => array('menu_name' => NULL, 'mlid' => NULL, 'depth' => -1, 'menu' => NULL),
+    ),
+    'nice_menus_build' => array(
+      'arguments' => array('menu' => NULL,  'depth' => -1, 'trail' => NULL),
+    ),
+    'nice_menus' => array(
+      'arguments' => array('id' => NULL, 'menu_name' => NULL, 'mlid' => NULL, 'direction' => 'right', 'depth' => -1, 'menu' => NULL),
+    ),
+    'nice_menus_primary_links' => array(
+      'arguments' => array('direction' => 'down', 'depth' => -1, 'menu' => NULL),
+    ),
+    'nice_menus_secondary_links' => array(
+      'arguments' => array('direction' => 'down', 'depth' => -1, 'menu' => NULL),
+    ),
+    // Deprecated theme functions that will be removed in 7.x.
     'nice_menu_tree' => array(
       'arguments' => array('menu_name' => NULL, 'mlid' => NULL, 'depth' => -1, 'menu' => NULL),
     ),
@@ -212,9 +228,6 @@ function nice_menus_theme() {
       'arguments' => array('id' => NULL, 'menu_name' => NULL, 'mlid' => NULL, 'direction' => 'right', 'depth' => -1, 'menu' => NULL),
     ),
     'nice_menu_primary_links' => array(
-      'arguments' => array('direction' => 'down', 'depth' => -1, 'menu' => NULL),
-    ),
-    'nice_menus_secondary_links' => array(
       'arguments' => array('direction' => 'down', 'depth' => -1, 'menu' => NULL),
     ),
   );
@@ -285,7 +298,7 @@ function nice_menus_build_page_trail($page_menu) {
  * @return
  *   An HTML string of properly nested Nice menu lists.
  */
-function theme_nice_menu_tree($menu_name, $mlid = NULL, $depth = -1, $menu = NULL) {
+function theme_nice_menus_tree($menu_name, $mlid = NULL, $depth = -1, $menu = NULL) {
   // Load the full menu array.
   $menu = isset($menu) ? $menu : menu_tree_all_data($menu_name);
 
@@ -329,7 +342,7 @@ function theme_nice_menu_tree($menu_name, $mlid = NULL, $depth = -1, $menu = NUL
   if ($menu) {
     // Set the total menu depth counting from this parent if we need it.
     $depth =  ($depth > 0) ? ($parent_depth + $depth) : $depth;
-    $output['content'] .= theme('nice_menu_build', $menu, $depth, $trail);
+    $output['content'] .= theme('nice_menus_build', $menu, $depth, $trail);
   }
 
   return $output;
@@ -346,7 +359,7 @@ function theme_nice_menu_tree($menu_name, $mlid = NULL, $depth = -1, $menu = NUL
  * @param $trail
  *   An array of parent menu items.
  */
-function theme_nice_menu_build($menu, $depth = -1, $trail = NULL) {
+function theme_nice_menus_build($menu, $depth = -1, $trail = NULL) {
   $output = '';
   foreach ($menu as $menu_item) {
     $mlid = $menu_item['link']['mlid'];
@@ -365,7 +378,7 @@ function theme_nice_menu_build($menu, $depth = -1, $trail = NULL) {
       // If it has children build a nice little tree under it.
       if ((!empty($menu_item['link']['has_children'])) && (!empty($menu_item['below'])) && $depth != 0) {
         // Keep passing children into the function 'til we get them all.
-        $children = theme('nice_menu_build', $menu_item['below'], $depth, $trail);
+        $children = theme('nice_menus_build', $menu_item['below'], $depth, $trail);
         // Set the class to parent only of children are displayed.
         $parent_class = $children ? 'menuparent ' : '';
         $output .= '<li id="menu-'. $mlid .'" class="'. $parent_class . $class .'">'. theme('menu_item_link', $menu_item['link']);
@@ -409,10 +422,10 @@ function theme_nice_menu_build($menu, $depth = -1, $trail = NULL) {
  * @return
  *   An HTML string of Nice menu links.
  */
-function theme_nice_menu($id, $menu_name, $mlid, $direction = 'right', $depth = -1, $menu = NULL) {
+function theme_nice_menus($id, $menu_name, $mlid, $direction = 'right', $depth = -1, $menu = NULL) {
   $output = array();
 
-  if ($menu_tree = theme('nice_menu_tree', $menu_name, $mlid, $depth, $menu)) {
+  if ($menu_tree = theme('nice_menus_tree', $menu_name, $mlid, $depth, $menu)) {
     if ($menu_tree['content']) {
       $output['content'] = '<ul class="nice-menu nice-menu-'. $direction .'" id="nice-menu-'. $id .'">'. $menu_tree['content'] .'</ul>'."\n";
       $output['subject'] = $menu_tree['subject'];
@@ -436,9 +449,9 @@ function theme_nice_menu($id, $menu_name, $mlid, $direction = 'right', $depth = 
  * @return
  *   An HTML string of Nice menu primary links.
  */
-function theme_nice_menu_primary_links($direction = 'down', $depth = -1, $menu = NULL) {
+function theme_nice_menus_primary_links($direction = 'down', $depth = -1, $menu = NULL) {
   $menu_name = variable_get('menu_primary_links_source', 'primary-links');
-  $output = theme('nice_menu', 0, $menu_name, 0, $direction, $depth, $menu);
+  $output = theme('nice_menus', 0, $menu_name, 0, $direction, $depth, $menu);
   return $output['content'];
 }
 
@@ -459,6 +472,37 @@ function theme_nice_menu_primary_links($direction = 'down', $depth = -1, $menu =
  */
 function theme_nice_menus_secondary_links($direction = 'down', $depth = -1, $menu = NULL) {
   $menu_name = variable_get('menu_secondary_links_source', 'secondary-links');
-  $output = theme('nice_menu', 0, $menu_name, 0, $direction, $depth, $menu);
+  $output = theme('nice_menus', 0, $menu_name, 0, $direction, $depth, $menu);
   return $output['content'];
+}
+
+/*********** Legacy Theme Functions that will be removed in 7.x ************/
+
+/**
+ * DEPRECATED theme function. Please switch to theme_nice_menus_tree().
+ */
+function theme_nice_menu_tree($menu_name, $mlid = NULL, $depth = -1, $menu = NULL) {
+  return theme('nice_menus_tree', $menu_name, $mlid = NULL, $depth = -1, $menu = NULL);
+}
+
+/**
+ * DEPRECATED theme function. Please switch to theme_nice_menus_build().
+ */
+function theme_nice_menu_build($menu, $depth = -1, $trail = NULL) {
+  return theme('nice_menus_build', $menu, $depth = -1, $trail = NULL);
+}
+
+/**
+ * DEPRECATED theme function. Please switch to theme_nice_menus().
+ */
+function theme_nice_menu($id, $menu_name, $mlid, $direction = 'right', $depth = -1, $menu = NULL) {
+  return theme('nice_menus', $id, $menu_name, $mlid, $direction = 'right', $depth = -1, $menu = NULL);
+}
+
+/**
+ * DEPRECATED theme function. Please switch to
+ * theme_nice_menus_primary_links().
+ */
+function theme_nice_menu_primary_links($direction = 'down', $depth = -1, $menu = NULL) {
+  return theme('nice_menus_primary_links', $direction = 'down', $depth = -1, $menu = NULL);
 }

@@ -5,3 +5,5 @@
 - FEATURE #135771: Choose starting and ending menu depth
 - FEATURE #219804: Set active menu trail CSS selectors
 - FEATURE #340105: Added theme function for secondary links menu
+- TASK #340103: Renamed theme functions to module name and created legacy
+  wrappers which will be removed in Drupal 7.
