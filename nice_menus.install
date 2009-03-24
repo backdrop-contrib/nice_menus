@@ -15,3 +15,14 @@ function nice_menus_update_6000() {
   $ret[] = update_sql("UPDATE {blocks} SET cache = -1 WHERE module = 'nice_menus'");
   return $ret;
 }
+
+/**
+ * Implementation of hook_update_N().
+ */
+function nice_menus_update_6001() {
+  // Switch the JS toggle variable name.
+  $old_setting = variable_get('nice_menus_ie', 1);
+  variable_set('nice_menus_js', $old_setting);
+  variable_del('nice_menus_ie');
+  return array();
+}

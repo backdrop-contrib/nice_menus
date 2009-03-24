@@ -89,12 +89,34 @@ function nice_menus_admin_settings() {
     '#default_value' => variable_get('nice_menus_number', '2'),
     '#size' => 2,
   );
-  $form['nice_menus_ie'] = array(
+  $form['nice_menus_js'] = array(
     '#type' => 'checkbox',
-    '#title' => t('Enable IE support'),
-    '#description' => t('This will add necessary JavaScript for Nice menus to work properly in Internet Explorer.'),
-    '#default_value' => variable_get('nice_menus_ie', 1),
+    '#title' => t('Use JavaScript'),
+    '#description' => t('This will add Superfish Jquery to Nice menus. This is required for Nice menus to work properly in Internet Explorer.'),
+    '#default_value' => variable_get('nice_menus_js', 1),
   );
+  $form['nice_menus_sf_options'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Advanced: Superfish options'),
+    '#description' => t('You can change the default Superfish options by filling out the desired values here. These only take effect if the Use JavaScript box above is checked.'),
+    '#collapsible' => TRUE,
+    '#collapsed' => TRUE,
+  );
+  $form['nice_menus_sf_options']['nice_menus_sf_delay'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Mouse delay'),
+    '#description' => t('The delay in milliseconds that the mouse can remain outside a submenu without it closing.'),
+    '#default_value' => variable_get('nice_menus_sf_delay', 800),
+    '#size' => 5,
+  );
+  $form['nice_menus_sf_options']['nice_menus_sf_speed'] = array(
+    '#type' => 'select',
+    '#title' => t('Animation speed'),
+    '#multiple' => FALSE,
+    '#description' => t('Speed of the menu open/close animation.'),
+    '#options' => array(t('slow'), t('normal'), t('fast')),
+    '#default_value' => variable_get('nice_menus_sf_speed', 1),
+     );
 
   // Custom validation to make sure the user is entering numbers.
   $form['#validate'][] = 'nice_menus_settings_validate';
@@ -241,8 +263,19 @@ function nice_menus_theme() {
  * and the menus are unstyled.
  */
 function nice_menus_init() {
-  // Add JavaScript, if enabled.
-  if (variable_get('nice_menus_ie', 1) == 1) {
+  // Add Superfish JavaScript, if enabled.
+  if (variable_get('nice_menus_js', 1) == 1) {
+    // The script, from http://users.tpg.com.au/j_birch/plugins/superfish.
+    drupal_add_js(drupal_get_path('module', 'nice_menus') .'/superfish/js/superfish.js');
+    // Add the Superfish options variables.
+    drupal_add_js(array(
+      'nice_menus_options' => array(
+        'delay' => variable_get('nice_menus_sf_delay', 800),
+        'speed' => variable_get('nice_menus_sf_speed', 1),
+        )),'setting');
+    // Add the bgIframe plugin.
+    drupal_add_js(drupal_get_path('module', 'nice_menus') .'/superfish/js/jquery.bgiframe.min.js');
+    // The Nice menus implementation.
     drupal_add_js(drupal_get_path('module', 'nice_menus') .'/nice_menus.js');
   }
 

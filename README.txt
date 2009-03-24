@@ -3,11 +3,11 @@
 NICE MENUS MODULE
 -----------------
 
-Currently maintained by: Addison Berry (add1sun) http://drupal.org/user/65088/contact
+Currently maintained by: Addison Berry (add1sun)
 
 Orginally created by: Jake Gordon (jakeg) http://drupal.org/user/15674/contact and http://www.jakeg.co.uk/
 
-This module makes it easy to add dropdown and flyout menus, using CSS-only in capable browsers (Firefox, Opera, Safari, etc) with additional Javascript for Internet Explorer 6.
+This module makes it easy to add dropdown and flyout menus, using the Superfish jQuery plugin (http://users.tpg.com.au/j_birch/plugins/superfish), and falling back to CSS-only functionality when JS is disabled.
 
 Please report any bugs, feature requests, etc. at: http://drupal.org/project/issues/nice_menus.
 
@@ -20,10 +20,6 @@ Installation
 4. Configure the Nice Menus block(s) at Administer -> Site building -> Blocks (admin/build/block), setting the source menu and menu style, etc.
 5. Return to the blocks page and enable the Nice menus block(s), e.g. 'Nice Menu 1 (Nice Menu)' by putting it in a region.
 6. See below sections on Customization and Advanced Theming as well as the handbook page (http://drupal.org/node/185543) for more tips.
-
-Upgrade
--------
-Please read the UPGRADE.txt file for upgrade information if upgrading from Drupal 4.7 to Drupal 5. There are no special upgrade notes for Drupal 5 to Drupal 6.
 
 Issues
 ------
