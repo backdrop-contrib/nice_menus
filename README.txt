@@ -21,6 +21,10 @@ Installation
 5. Return to the blocks page and enable the Nice menus block(s), e.g. 'Nice Menu 1 (Nice Menu)' by putting it in a region.
 6. See below sections on Customization and Advanced Theming as well as the handbook page (http://drupal.org/node/185543) for more tips.
 
+Upgrading
+---------
+For upgrades between versions, read the UPGRADE.txt file included with the module.
+
 Issues
 ------
 You can track known issues at http://drupal.org/project/issues/nice_menus.
