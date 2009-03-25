@@ -2,6 +2,7 @@
 
 === DRUPAL 6.x-2.x ===
 6.x-2.x
+- FEATURE #300628: Add support for i18n module menu translations.
 - FEATURE #322962: Add configurable JS with Superfish
 - FEATURE #135771: Choose starting and ending menu depth
 - FEATURE #219804: Set active menu trail CSS selectors
