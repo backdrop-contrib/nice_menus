@@ -406,7 +406,7 @@ function theme_nice_menus_build($menu, $depth = -1, $trail = NULL) {
       // Build class name based on menu path
       // e.g. to give each menu item individual style.
       // Strip funny symbols.
-      $clean_path = str_replace(array('http://', '<', '>', '&', '=', '?', ':'), '', $menu_item['link']['href']);
+      $clean_path = str_replace(array('http://', 'www', '<', '>', '&', '=', '?', ':'), '', $menu_item['link']['href']);
       // Convert slashes to dashes.
       $clean_path = str_replace('/', '-', $clean_path);
       $class = 'menu-path-'. $clean_path;
