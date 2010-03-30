@@ -16,8 +16,7 @@ $(document).ready(function() {
     delay: Drupal.settings.nice_menus_options.delay,
     // Animation speed.
     speed: Drupal.settings.nice_menus_options.speed
-  });
   // Add in Brandon Aaron’s bgIframe plugin for IE select issues.
   // http://plugins.jquery.com/node/46/release
-  $('ul.nice-menu').superfish().find('ul').bgIframe({opacity:false}); 
+  }).find('ul').bgIframe({opacity:false});
 });
