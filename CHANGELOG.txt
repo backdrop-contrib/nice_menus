@@ -1,12 +1,15 @@
 // $Id$
 
 === DRUPAL 6.x-2.x ===
-6.x-2.x
+6.x-2.1-Alpha2
+- FEATURE #301247: Add first, last, even, odd classes to menu items.
+
+6.x-2.1-Alpha1
 - FEATURE #300628: Add support for i18n module menu translations.
-- FEATURE #322962: Add configurable JS with Superfish
-- FEATURE #135771: Choose starting and ending menu depth
-- FEATURE #219804: Set active menu trail CSS selectors
-- FEATURE #340105: Added theme function for secondary links menu
+- FEATURE #322962: Add configurable JS with Superfish.
+- FEATURE #135771: Choose starting and ending menu depth.
+- FEATURE #219804: Set active menu trail CSS selectors.
+- FEATURE #340105: Added theme function for secondary links menu.
 - TASK #340103: Renamed theme functions to module name and created legacy
   wrappers which will be removed in Drupal 7.
 - FEATURE #181446: Added RTL language support.
