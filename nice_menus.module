@@ -399,8 +399,22 @@ function theme_nice_menus_tree($menu_name, $mlid = NULL, $depth = -1, $menu = NU
  */
 function theme_nice_menus_build($menu, $depth = -1, $trail = NULL) {
   $output = '';
+  // Prepare to count the links so we can mark first, last, odd and even.
+  $index = 0;
+  $count = 0;
+  foreach ($menu as $menu_count) {
+    if ($menu_count['link']['hidden'] == 0) {
+      $count++;
+    }
+  }
+  // Get to building the menu.
   foreach ($menu as $menu_item) {
     $mlid = $menu_item['link']['mlid'];
+    // Check our count and build first, last, odd/even classes.
+    $index++;
+    $first_class = $index == 1 ? ' first ' : '';
+    $oddeven_class = $index % 2 == 0 ? ' even ' : ' odd ';
+    $last_class = $index == $count ? ' last ' : '';
     // Check to see if it is a visible menu item.
     if ($menu_item['link']['hidden'] == 0) {
       // Build class name based on menu path
@@ -419,7 +433,7 @@ function theme_nice_menus_build($menu, $depth = -1, $trail = NULL) {
         $children = theme('nice_menus_build', $menu_item['below'], $depth, $trail);
         // Set the class to parent only of children are displayed.
         $parent_class = $children ? 'menuparent ' : '';
-        $output .= '<li id="menu-'. $mlid .'" class="'. $parent_class . $class .'">'. theme('menu_item_link', $menu_item['link']);
+        $output .= '<li id="menu-'. $mlid .'" class="'. $parent_class . $class . $first_class . $oddeven_class . $last_class .'">'. theme('menu_item_link', $menu_item['link']);
         // Check our depth parameters.
         if ($menu_item['link']['depth'] <= $depth || $depth == -1) {
           // Build the child UL only if children are displayed for the user.
@@ -432,7 +446,7 @@ function theme_nice_menus_build($menu, $depth = -1, $trail = NULL) {
         $output .= "</li>\n";
       }
       else {
-        $output .= '<li id="menu-'. $mlid .'" class="'. $class .'">'. theme('menu_item_link', $menu_item['link']) .'</li>'."\n";
+        $output .= '<li id="menu-'. $mlid .'" class="'. $class . $first_class . $oddeven_class . $last_class .'">'. theme('menu_item_link', $menu_item['link']) .'</li>'."\n";
       }
     }
   }
