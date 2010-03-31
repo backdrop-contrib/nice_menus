@@ -6,25 +6,8 @@
   then configure the module to use your custom CSS file
   (this is done in the global settings tab of the theme administration.)
 
-  To help understand the CSS, the HTML looks like this, where
-    x is a number;
-    TYPE is down/left/right;
-    PATH is the menu path such as node/343;
-    MID is the menu id such as 33):
-  <ul id='nice-menu-x' class='nice-menu nice-menu-TYPE'>
-    <li id='menu-MID' class='menu-path-PATH'><a href='#'>This is a menu item</a></li>
-    <li class='menuparent menu-path-PATH'><a href='#'>A submenu</a>
-      <ul...><li...>...</li>
-      </ul>
-    </li>
-    ...
-  </ul>
-
-  If you have more than one nice-menu and want to target a particular one,
-  use its id (e.g. ul#nice-menu-2).
-
   See README.txt and the handbook page (http://drupal.org/node/185543)
-  for some CSS customization examples.
+  for more information on using the CSS.
 */
 
 /******************************

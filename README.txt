@@ -33,6 +33,23 @@ Customization
 -------------
 The module includes a default CSS layout file (nice_menus_default.css) which is loaded for all pages.  If you don't like the default layout, it is suggested that you create a separate customized CSS file, and replace the default CSS file at Administer -> Themes -> Configure -> Global settings -> "Path to custom nice menus CSS file". This ensures smooth future upgrades as no editing of the module files is necessary. NOTE: you should not edit the regular nice_menus.css file since this contains the "logic" that makes Nice menus work.
 
+To help understand the CSS, the HTML looks like this, where
+  x is a number;
+  TYPE is down/left/right;
+  PATH is the menu path such as node/343;
+  MID is the menu id such as 33:
+<ul id='nice-menu-x' class='nice-menu nice-menu-TYPE'>
+  <li id='menu-MID' class='menu-path-PATH'><a href='#'>This is a menu item</a></li>
+  <li class='menuparent menu-path-PATH'><a href='#'>A submenu</a>
+    <ul...><li...>...</li>
+    </ul>
+  </li>
+  ...
+</ul>
+
+If you have more than one nice-menu and want to target a particular one,
+use its id (e.g. ul#nice-menu-2).
+
 A good starting point for your custom file is to make a copy of the default file, then edit it to taste. Here are some common customization examples for your own stylesheet:
 
 Make hovered links white with a black background:
