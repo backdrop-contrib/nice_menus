@@ -5,6 +5,7 @@
 - FEATURE #301247: Add first, last, even, odd classes to menu items.
 - BUG #621544: Get global setting to play nice with admin menu.
 - BUG #507642: Moved CSS comment with HTML to the README so that it doesn't break CSS aggregation.
+- FEATURE #457692: Add hoverIntent plugin.
 
 6.x-2.1-Alpha1
 - FEATURE #300628: Add support for i18n module menu translations.

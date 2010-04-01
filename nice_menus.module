@@ -275,6 +275,8 @@ function nice_menus_init() {
         )),'setting');
     // Add the bgIframe plugin.
     drupal_add_js(drupal_get_path('module', 'nice_menus') .'/superfish/js/jquery.bgiframe.min.js');
+    // Add the HoverIntent plugin.
+    drupal_add_js(drupal_get_path('module', 'nice_menus') .'/superfish/js/jquery.hoverIntent.minified.js');
     // The Nice menus implementation.
     drupal_add_js(drupal_get_path('module', 'nice_menus') .'/nice_menus.js');
   }
