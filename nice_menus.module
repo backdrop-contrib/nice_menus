@@ -529,34 +529,3 @@ function theme_nice_menus_secondary_links($direction = 'down', $depth = -1, $men
   $output = theme('nice_menus', 0, $menu_name, 0, $direction, $depth, $menu);
   return $output['content'];
 }
-
-/*********** Legacy Theme Functions that will be removed in 7.x ************/
-
-/**
- * DEPRECATED theme function. Please switch to theme_nice_menus_tree().
- */
-function theme_nice_menu_tree($menu_name, $mlid = NULL, $depth = -1, $menu = NULL) {
-  return theme('nice_menus_tree', $menu_name, $mlid = NULL, $depth = -1, $menu = NULL);
-}
-
-/**
- * DEPRECATED theme function. Please switch to theme_nice_menus_build().
- */
-function theme_nice_menu_build($menu, $depth = -1, $trail = NULL) {
-  return theme('nice_menus_build', $menu, $depth = -1, $trail = NULL);
-}
-
-/**
- * DEPRECATED theme function. Please switch to theme_nice_menus().
- */
-function theme_nice_menu($id, $menu_name, $mlid, $direction = 'right', $depth = -1, $menu = NULL) {
-  return theme('nice_menus', $id, $menu_name, $mlid, $direction = 'right', $depth = -1, $menu = NULL);
-}
-
-/**
- * DEPRECATED theme function. Please switch to
- * theme_nice_menus_primary_links().
- */
-function theme_nice_menu_primary_links($direction = 'down', $depth = -1, $menu = NULL) {
-  return theme('nice_menus_primary_links', $direction = 'down', $depth = -1, $menu = NULL);
-}
