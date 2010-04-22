@@ -19,4 +19,5 @@ $(document).ready(function() {
   // Add in Brandon Aaron’s bgIframe plugin for IE select issues.
   // http://plugins.jquery.com/node/46/release
   }).find('ul').bgIframe({opacity:false});
+  $('ul.nice-menu ul').css('display', 'none');
 });
