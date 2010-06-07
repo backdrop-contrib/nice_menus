@@ -1,6 +1,7 @@
 // $Id$
 
 === DRUPAL 6.x-2.x ===
+- BUG #800324: Take hidden menu items into account when applying first/last classes.
 - BUG #781856: Fixed Superfish animation speed.
 
 6.x-2.1-Beta1

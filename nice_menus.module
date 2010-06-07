@@ -412,13 +412,13 @@ function theme_nice_menus_build($menu, $depth = -1, $trail = NULL) {
   // Get to building the menu.
   foreach ($menu as $menu_item) {
     $mlid = $menu_item['link']['mlid'];
-    // Check our count and build first, last, odd/even classes.
-    $index++;
-    $first_class = $index == 1 ? ' first ' : '';
-    $oddeven_class = $index % 2 == 0 ? ' even ' : ' odd ';
-    $last_class = $index == $count ? ' last ' : '';
     // Check to see if it is a visible menu item.
     if ($menu_item['link']['hidden'] == 0) {
+      // Check our count and build first, last, odd/even classes.
+      $index++;
+      $first_class = $index == 1 ? ' first ' : '';
+      $oddeven_class = $index % 2 == 0 ? ' even ' : ' odd ';
+      $last_class = $index == $count ? ' last ' : '';
       // Build class name based on menu path
       // e.g. to give each menu item individual style.
       // Strip funny symbols.
