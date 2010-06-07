@@ -1,6 +1,8 @@
 // $Id$
 
 === DRUPAL 6.x-2.x ===
+- BUG #781856: Fixed Superfish animation speed.
+
 6.x-2.1-Beta1
 - BUG #730348: Fixed Superfish animation on first load.
 - BUG #363366: Moved menu-$mlid from a CSS ID to a class to prevent invalid HTML.
