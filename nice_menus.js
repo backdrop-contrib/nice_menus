@@ -6,8 +6,8 @@
 // Add Superfish to all Nice menus with some basic options.
 $(document).ready(function() {
   $('ul.nice-menu').superfish({
-    // Add the legacy hover class added for IE.
-    hoverClass: 'ie-over',
+    // Apply a generic hover class.
+    hoverClass: 'over',
     // Disable generation of arrow mark-up.
     autoArrows: false,
     // Disable drop shadows.

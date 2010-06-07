@@ -3,6 +3,7 @@
 === DRUPAL 6.x-2.x ===
 - BUG #800324: Take hidden menu items into account when applying first/last classes.
 - BUG #781856: Fixed Superfish animation speed.
+- FEATURE #762032: Changed ie-over class to generic over.
 
 6.x-2.1-Beta1
 - BUG #730348: Fixed Superfish animation on first load.

@@ -19,6 +19,9 @@ The menu-$menuid ID has been changed to a CLASS to avoid invalid HTML when displ
   #menu-3 {color: #ff0};
 would need to be changed to
   .menu-3 {color: #ff0};
+  
+IE-Specific Class removed
+The legacy "ie-over" class which was added for IE compatibility in the past has been replaced with a generic, non-browser-specific, "over" class since this is used by Superfish and should be general.
 
 
 4.7 ---> 5.x
