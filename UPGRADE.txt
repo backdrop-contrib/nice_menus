@@ -4,9 +4,7 @@ NICE MENUS UPGRADES
 ===================
 5.x, 6.x-1.x ---> 6.x-2.x
 -------------------------
-There is an update hook and you should run update.php to get things moved around properly.
-
-Aside from the minor database changes, there are a number of things you should be aware of, especially in light of any customizations you may have made.
+There is an update hook and you should run update.php to get things moved around properly. Aside from the minor database changes, there are a number of things you should be aware of, especially in light of any customizations you may have made.
 
 THEME FUNCTIONS RENAMED
 The theme functions have all been renamed to be more in line with Drupal standards, so if you are overwriting the functions in your theme's template.php or calling the functions anywhere in your theme, you should update the function names. The old functions were called theme_nice_menu_* and the new ones are theme_nice_menus_*, with an "s" to match the module name.
@@ -22,6 +20,10 @@ would need to be changed to
   
 IE-Specific Class removed
 The legacy "ie-over" class which was added for IE compatibility in the past has been replaced with a generic, non-browser-specific, "over" class since this is used by Superfish and should be general.
+
+5.x ---> 6.x
+------------
+Due to the menu system changes from 5 to 6, when you upgrade Nice Menus, your blocks will "forget" what menu they were set to. So take note of the blocks and menu settings prior to upgrade, then reset them after the upgrade. See the issue at http://drupal.org/node/524688 for more information.
 
 
 4.7 ---> 5.x
