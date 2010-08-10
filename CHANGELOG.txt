@@ -1,6 +1,9 @@
 // $Id$
 
 === DRUPAL 6.x-2.x ===
+6.x-2.1-Beta3
+- TASK #323784: Move JS and CSS to theme function and remove hook_init().
+
 6.x-2.1-Beta2
 - BUG #800324: Take hidden menu items into account when applying first/last classes.
 - BUG #781856: Fixed Superfish animation speed.

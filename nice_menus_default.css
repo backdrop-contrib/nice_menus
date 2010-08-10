@@ -27,38 +27,18 @@ ul.nice-menu li {
   border-top: 0;
   float: left; /* LTR */
   background-color: #eee;
-  /* Additional overrides to deal with Garland theme. */
-  margin: 0;
-  padding-left: 0; /* LTR */
-  background-image: none;
-}
-
-/* Overrides for Garland header. */
-#header-region ul.nice-menu li {
-  margin: 0;
-  /* Padding rules are needed to deal with Garland's header line-height. */
-  padding-top: 0.1em;
-  padding-bottom: 0.1em;
-  background: #eee;
 }
 
 ul.nice-menu a {
   padding: 0.3em 5px 0.3em 5px;
 }
 
-ul.nice-menu ul,
-/* Repeat for Garland header. */
-#header-region ul.nice-menu ul {
+ul.nice-menu ul {
   top: 1.8em;
   left: -1px; /* LTR */
   border: 0;
   border-top: 1px solid #ccc;
   margin-right: 0; /* LTR */
-}
-
-/* Override for Garland header. */
-#header-region ul.nice-menu ul {
-  top: 1.7em;
 }
 
 ul.nice-menu ul li {
@@ -154,9 +134,7 @@ ul.nice-menu-down ul li {
   clear: both;
 }
 
-ul.nice-menu-down li ul li ul,
-/* Repeat for Garland header. */
-#header-region ul.nice-menu-down li ul li ul {
+ul.nice-menu-down li ul li ul {
   left: 12.5em; /* LTR */
   top: -1px;
 }
@@ -165,29 +143,78 @@ ul.nice-menu-down .menuparent a {
   padding-right: 15px; /* LTR */
 }
 
-ul.nice-menu-down li.menuparent,
-/* Repeat for Garland header. */
-#header-region ul.nice-menu-down li.menuparent {
+ul.nice-menu-down li.menuparent {
   background: #eee url(arrow-down.png) right center no-repeat; /* LTR */
 }
 
 ul.nice-menu-down li.menuparent:hover,
-ul.nice-menu-down li.over,
-/* Repeat for Garland header. */
+ul.nice-menu-down li.over {
+  background: #ccc url(arrow-down.png) right center no-repeat; /* LTR */
+}
+
+ul.nice-menu-down li li.menuparent {
+  background: #eee url(arrow-right.png) right center no-repeat; /* LTR */
+}
+
+ul.nice-menu-down li li.menuparent:hover,
+ul.nice-menu-down li li.over {
+  background: #ccc url(arrow-right.png) right center no-repeat; /* LTR */
+}
+
+/******************************
+ Garland-specific CSS
+******************************/
+
+/**
+ * Global CSS for ALL menu types
+ */
+ul.nice-menu li {
+  margin: 0;
+  padding-left: 0; /* LTR */
+  background-image: none;
+}
+
+#header-region ul.nice-menu li {
+  margin: 0;
+  /* Padding rules are needed to deal with Garland's header line-height. */
+  padding-top: 0.1em;
+  padding-bottom: 0.1em;
+  background: #eee;
+}
+
+#header-region ul.nice-menu ul {
+  top: 1.8em;
+  left: -1px; /* LTR */
+  border: 0;
+  border-top: 1px solid #ccc;
+  margin-right: 0; /* LTR */
+}
+
+#header-region ul.nice-menu ul {
+  top: 1.7em;
+}
+
+/**
+ * HORIZONTAL (down) menus
+ */
+#header-region ul.nice-menu-down li ul li ul {
+  left: 12.5em; /* LTR */
+  top: -1px;
+}
+
+#header-region ul.nice-menu-down li.menuparent {
+  background: #eee url(arrow-down.png) right center no-repeat; /* LTR */
+}
+
 #header-region ul.nice-menu-down li.menuparent:hover,
 #header-region ul.nice-menu-down li.over {
   background: #ccc url(arrow-down.png) right center no-repeat; /* LTR */
 }
 
-ul.nice-menu-down li li.menuparent,
-/* Repeat for Garland header. */
 #header-region ul.nice-menu-down li li.menuparent {
   background: #eee url(arrow-right.png) right center no-repeat; /* LTR */
 }
 
-ul.nice-menu-down li li.menuparent:hover,
-ul.nice-menu-down li li.over,
-/* Repeat for Garland header. */
 #header-region ul.nice-menu-down li li.menuparent:hover,
 #header-region ul.nice-menu-down li li.over {
   background: #ccc url(arrow-right.png) right center no-repeat; /* LTR */
