@@ -10,16 +10,11 @@ things you should be aware of, especially in light of any customizations you
 may have made.
 
 THEME FUNCTIONS:
-* The theme functions have all been RENAMED to be more in line with Drupal 
+The theme functions have all been RENAMED to be more in line with Drupal 
 standards, so if you are overwriting the functions in your theme's 
 template.php or calling the functions anywhere in your theme, you should 
 update the function names. The old functions were called theme_nice_menu_* and 
 the new ones are theme_nice_menus_*, with an "s" to match the module name.
-
-* The drupal_add_js and drupal_add_css have been moved into the 
-theme_nice_menus() function and removed from nice_menus_init(). If you are 
-overriding theme_nice_menus(), you need to make sure you copy the new code 
-into your override or you won't have any JS or CSS added to you Nice Menus.
 
 NEW JAVASCRIPT:
 The old JS has been completely removed and replaced with JS that uses the 
@@ -41,7 +36,7 @@ example:
 would need to be changed to
   .menu-3 {color: #ff0};
   
-* IE-Specific Class removed
+IE-Specific Class removed
 The legacy "ie-over" class which was added for IE compatibility in the past 
 has been replaced with a generic, non-browser-specific, "over" class since 
 this is used by Superfish and should be general.

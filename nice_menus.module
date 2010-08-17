@@ -136,6 +136,44 @@ function nice_menus_settings_validate($form, &$form_state) {
 }
 
 /**
+ * Implementation of hook_init().
+ *
+ * We are adding the JavaScript and CSS here rather than theme_nice_menu
+ * because when block caching is enabled none of it would get fired
+ * and the menus are unstyled.
+ */
+function nice_menus_init() {
+  // Add Superfish JavaScript, if enabled.
+  if (variable_get('nice_menus_js', 1) == 1) {
+    // The script, from http://users.tpg.com.au/j_birch/plugins/superfish.
+    drupal_add_js(drupal_get_path('module', 'nice_menus') .'/superfish/js/superfish.js');
+    // Add the Superfish options variables.
+    drupal_add_js(array(
+      'nice_menus_options' => array(
+        'delay' => variable_get('nice_menus_sf_delay', 800),
+        'speed' => variable_get('nice_menus_sf_speed', 1),
+        )),'setting');
+    // Add the bgIframe plugin.
+    drupal_add_js(drupal_get_path('module', 'nice_menus') .'/superfish/js/jquery.bgiframe.min.js');
+    // Add the HoverIntent plugin.
+    drupal_add_js(drupal_get_path('module', 'nice_menus') .'/superfish/js/jquery.hoverIntent.minified.js');
+    // The Nice menus implementation.
+    drupal_add_js(drupal_get_path('module', 'nice_menus') .'/nice_menus.js');
+  }
+	
+  // Add main CSS functionality.
+  drupal_add_css(drupal_get_path('module', 'nice_menus') .'/nice_menus.css');
+  // Add custom CSS layout if specified.
+  if ($custom = variable_get('nice_menus_custom_css', '')) {
+    drupal_add_css($custom);
+  }
+  // Fall back to default layout.
+  else {
+    drupal_add_css(drupal_get_path('module', 'nice_menus') .'/nice_menus_default.css');
+  }
+}
+
+/**
  * Implementation of hook_block().
  */
 function nice_menus_block($op = 'list', $delta = 0, $edit = array()) {
@@ -440,35 +478,6 @@ function theme_nice_menus_build($menu, $depth = -1, $trail = NULL) {
  */
 function theme_nice_menus($id, $menu_name, $mlid, $direction = 'right', $depth = -1, $menu = NULL) {
   $output = array();
-  
-  // Add Superfish JavaScript, if enabled.
-  if (variable_get('nice_menus_js', 1) == 1) {
-    // The script, from http://users.tpg.com.au/j_birch/plugins/superfish.
-    drupal_add_js(drupal_get_path('module', 'nice_menus') .'/superfish/js/superfish.js');
-    // Add the Superfish options variables.
-    drupal_add_js(array(
-      'nice_menus_options' => array(
-        'delay' => variable_get('nice_menus_sf_delay', 800),
-        'speed' => variable_get('nice_menus_sf_speed', 1),
-        )),'setting');
-    // Add the bgIframe plugin.
-    drupal_add_js(drupal_get_path('module', 'nice_menus') .'/superfish/js/jquery.bgiframe.min.js');
-    // Add the HoverIntent plugin.
-    drupal_add_js(drupal_get_path('module', 'nice_menus') .'/superfish/js/jquery.hoverIntent.minified.js');
-    // The Nice menus implementation.
-    drupal_add_js(drupal_get_path('module', 'nice_menus') .'/nice_menus.js');
-  }
-
-  // Add main CSS functionality.
-  drupal_add_css(drupal_get_path('module', 'nice_menus') .'/nice_menus.css');
-  // Add custom CSS layout if specified.
-  if ($custom = variable_get('nice_menus_custom_css', '')) {
-    drupal_add_css($custom);
-  }
-  // Fall back to default layout.
-  else {
-    drupal_add_css(drupal_get_path('module', 'nice_menus') .'/nice_menus_default.css');
-  }
 
   if ($menu_tree = theme('nice_menus_tree', $menu_name, $mlid, $depth, $menu)) {
     if ($menu_tree['content']) {
