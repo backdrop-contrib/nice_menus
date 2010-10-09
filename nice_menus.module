@@ -344,7 +344,7 @@ function theme_nice_menus_tree($menu_name, $mlid = NULL, $depth = -1, $menu = NU
   }
 
   // Allow i18n module to translate strings where available.
-  if(module_exists('i18nmenu')) {
+  if (module_exists('i18nmenu')) {
     i18nmenu_localize_tree($menu);
   }
 
