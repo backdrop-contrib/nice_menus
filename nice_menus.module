@@ -413,7 +413,7 @@ function theme_nice_menus_build($menu, $depth = -1, $trail = NULL) {
   foreach ($menu as $menu_item) {
     $mlid = $menu_item['link']['mlid'];
     // Check to see if it is a visible menu item.
-    if ($menu_item['link']['hidden'] == 0) {
+    if (!isset($menu_item['link']['hidden']) || $menu_item['link']['hidden'] == 0) {
       // Check our count and build first, last, odd/even classes.
       $index++;
       $first_class = $index == 1 ? ' first ' : '';
