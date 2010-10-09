@@ -58,8 +58,7 @@ ul.nice-menu-down li.menuparent {
   background-position: left center;
 }
 
-ul.nice-menu-down li.menuparent:hover,
-ul.nice-menu-down li.over {
+ul.nice-menu-down li.menuparent:hover {
   background-position: left center;
 }
 
@@ -67,8 +66,7 @@ ul.nice-menu-down li li.menuparent {
   background: #eee url(arrow-left.png) left center no-repeat;
 }
 
-ul.nice-menu-down li li.menuparent:hover,
-ul.nice-menu-down li li.over {
+ul.nice-menu-down li li.menuparent:hover {
   background: #ccc url(arrow-left.png) left center no-repeat;
 }
 
@@ -101,8 +99,7 @@ ul.nice-menu li {
   background-position: left center;
 }
 
-#header-region ul.nice-menu-down li.menuparent:hover,
-#header-region ul.nice-menu-down li.over {
+#header-region ul.nice-menu-down li.menuparent:hover {
   background-position: left center;
 }
 
@@ -110,7 +107,6 @@ ul.nice-menu li {
   background: #eee url(arrow-left.png) left center no-repeat;
 }
 
-#header-region ul.nice-menu-down li li.menuparent:hover,
-#header-region ul.nice-menu-down li li.over {
+#header-region ul.nice-menu-down li li.menuparent:hover {
   background: #ccc url(arrow-left.png) left center no-repeat;
 }

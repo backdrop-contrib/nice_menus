@@ -74,9 +74,7 @@ ul.nice-menu-right li li.menuparent {
 }
 
 ul.nice-menu-right li.menuparent:hover,
-ul.nice-menu-right li.over,
-ul.nice-menu-right li li.menuparent:hover,
-ul.nice-menu-right li li.over {
+ul.nice-menu-right li li.menuparent:hover {
   background: #ccc url(arrow-right.png) right center no-repeat;
 }
 
@@ -99,9 +97,7 @@ ul.nice-menu-left li li.menuparent {
 }
 
 ul.nice-menu-left li.menuparent:hover,
-ul.nice-menu-left li.over,
-ul.nice-menu-left li li.menuparent:hover,
-ul.nice-menu-left li li.over {
+ul.nice-menu-left li li.menuparent:hover {
   background: #ccc url(arrow-left.png) left center no-repeat;
 }
 
@@ -147,8 +143,7 @@ ul.nice-menu-down li.menuparent {
   background: #eee url(arrow-down.png) right center no-repeat; /* LTR */
 }
 
-ul.nice-menu-down li.menuparent:hover,
-ul.nice-menu-down li.over {
+ul.nice-menu-down li.menuparent:hover {
   background: #ccc url(arrow-down.png) right center no-repeat; /* LTR */
 }
 
@@ -156,8 +151,7 @@ ul.nice-menu-down li li.menuparent {
   background: #eee url(arrow-right.png) right center no-repeat; /* LTR */
 }
 
-ul.nice-menu-down li li.menuparent:hover,
-ul.nice-menu-down li li.over {
+ul.nice-menu-down li li.menuparent:hover {
   background: #ccc url(arrow-right.png) right center no-repeat; /* LTR */
 }
 
@@ -206,8 +200,7 @@ ul.nice-menu li {
   background: #eee url(arrow-down.png) right center no-repeat; /* LTR */
 }
 
-#header-region ul.nice-menu-down li.menuparent:hover,
-#header-region ul.nice-menu-down li.over {
+#header-region ul.nice-menu-down li.menuparent:hover {
   background: #ccc url(arrow-down.png) right center no-repeat; /* LTR */
 }
 
@@ -215,7 +208,6 @@ ul.nice-menu li {
   background: #eee url(arrow-right.png) right center no-repeat; /* LTR */
 }
 
-#header-region ul.nice-menu-down li li.menuparent:hover,
-#header-region ul.nice-menu-down li li.over {
+#header-region ul.nice-menu-down li li.menuparent:hover {
   background: #ccc url(arrow-right.png) right center no-repeat; /* LTR */
 }
