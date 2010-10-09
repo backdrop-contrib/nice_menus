@@ -1,6 +1,11 @@
 // $Id$
 
 === DRUPAL 6.x-2.x ===
+6.x-2.1-RC1
+- BUG #834120: Fixed non-parent items displaying an arrow.
+- BUG #924324: Fixed PHP notices.
+- BUG #824916: Test depth before setting menuparent class.
+
 6.x-2.1-Beta3
 - TASK #323784: Move JS and CSS to theme function and remove hook_init().
 

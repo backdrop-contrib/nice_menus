@@ -434,7 +434,7 @@ function theme_nice_menus_build($menu, $depth = -1, $trail = NULL) {
         // Keep passing children into the function 'til we get them all.
         $children = theme('nice_menus_build', $menu_item['below'], $depth, $trail);
         // Set the class to parent only of children are displayed.
-        $parent_class = $children ? 'menuparent ' : '';
+        $parent_class = ($children && ($menu_item['link']['depth'] <= $depth || $depth == -1)) ? 'menuparent ' : '';
         $output .= '<li class="menu-' . $mlid . ' ' . $parent_class . $class . $first_class . $oddeven_class . $last_class .'">'. theme('menu_item_link', $menu_item['link']);
         // Check our depth parameters.
         if ($menu_item['link']['depth'] <= $depth || $depth == -1) {
