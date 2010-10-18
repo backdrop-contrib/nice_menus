@@ -2,4 +2,7 @@
 name = Nice Menus
 description = CSS/jQuery drop-down, drop-right and drop-left menus to be placed in blocks
 dependencies[] = menu
-core = 6.x
+core = 7.x
+
+files[] = nice_menus.install
+files[] = nice_menus.module

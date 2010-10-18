@@ -10,23 +10,23 @@
  */
 
 /**
- * Implementation of hook_help().
+ * Implements hook_help().
  */
 function nice_menus_help($path, $arg) {
   $output = '';
   switch ($path) {
-    case 'admin/settings/modules#description':
+    case 'admin/config/modules#description':
       $output .= t('Make drop down/flyout CSS menus for site and admin menus.');
       break;
-    case 'admin/settings/nice_menus':
-      $output .= t('<p>This is a simple module that enables the site to have drop down/flyout CSS menus for site and admin navigation.</p><p>Remember to activate and configure the menu blocks in !link</p>', array('!link' => l('admin/build/block', 'admin/build/block')));
+    case 'admin/config/nice_menus':
+      $output .= t('<p>This is a simple module that enables the site to have drop down/flyout CSS menus for site and admin navigation.</p><p>Remember to activate and configure the menu blocks in !link</p>', array('!link' => l('admin/structure/block', 'admin/structure/block')));
       break;
   }
   return $output;
 }
 
 /**
- * Implementation of hook_form_alter().
+ * Implements hook_form_alter().
  */
 function nice_menus_form_alter(&$form, $form_state, $form_id) {
   switch ($form_id) {
@@ -63,10 +63,10 @@ function nice_menus_system_theme_settings_submit($form, &$form_state) {
 }
 
 /**
- * Implementation of hook_menu().
+ * Implements hook_menu().
  */
 function nice_menus_menu() {
-  $items['admin/settings/nice_menus'] = array(
+  $items['admin/config/nice_menus'] = array(
     'title' => 'Nice menus',
     'description' => 'Configure Nice menus.',
     'page callback' => 'drupal_get_form',
@@ -82,7 +82,7 @@ function nice_menus_menu() {
 /**
  * Settings form as implemented by hook_menu
  */
-function nice_menus_admin_settings() {
+function nice_menus_admin_settings($form, &$form_state) {
   $form['nice_menus_number'] = array(
     '#type' => 'textfield',
     '#description' => t('The total number of independent Nice menus blocks you want. Enter a number between 0 and 99. If you set this to 0, you will have no blocks created but you can still use the Nice menus theme functions directly in your theme.'),
@@ -114,9 +114,13 @@ function nice_menus_admin_settings() {
     '#title' => t('Animation speed'),
     '#multiple' => FALSE,
     '#description' => t('Speed of the menu open/close animation.'),
-    '#options' => array('slow' => t('slow'), 'normal' => t('normal'), 'fast' => t('fast')),
+    '#options' => array(
+      'slow' => t('slow'),
+      'normal' => t('normal'),
+      'fast' => t('fast'),
+    ),
     '#default_value' => variable_get('nice_menus_sf_speed', 1),
-     );
+  );
 
   // Custom validation to make sure the user is entering numbers.
   $form['#validate'][] = 'nice_menus_settings_validate';
@@ -131,12 +135,12 @@ function nice_menus_settings_validate($form, &$form_state) {
   $number = $form_state['values']['nice_menus_number'];
   // Check to make sure it is a number and that is a maximum of 2 digits.
   if (!is_numeric($number) || strlen($number) > 2) {
-      form_set_error('nice_menus_number', t('You must enter a number from 0 to 99.'));
+    form_set_error('nice_menus_number', t('You must enter a number from 0 to 99.'));
   }
 }
 
 /**
- * Implementation of hook_init().
+ * Implements hook_init().
  *
  * We are adding the JavaScript and CSS here rather than theme_nice_menu
  * because when block caching is enabled none of it would get fired
@@ -146,149 +150,161 @@ function nice_menus_init() {
   // Add Superfish JavaScript, if enabled.
   if (variable_get('nice_menus_js', 1) == 1) {
     // The script, from http://users.tpg.com.au/j_birch/plugins/superfish.
-    drupal_add_js(drupal_get_path('module', 'nice_menus') .'/superfish/js/superfish.js');
+    drupal_add_js(drupal_get_path('module', 'nice_menus') . '/superfish/js/superfish.js');
     // Add the Superfish options variables.
     drupal_add_js(array(
       'nice_menus_options' => array(
         'delay' => variable_get('nice_menus_sf_delay', 800),
         'speed' => variable_get('nice_menus_sf_speed', 1),
-        )),'setting');
+      ),
+    ), array('type' => 'setting', 'scope' => JS_DEFAULT));
     // Add the bgIframe plugin.
-    drupal_add_js(drupal_get_path('module', 'nice_menus') .'/superfish/js/jquery.bgiframe.min.js');
+    drupal_add_js(drupal_get_path('module', 'nice_menus') . '/superfish/js/jquery.bgiframe.min.js');
     // Add the HoverIntent plugin.
-    drupal_add_js(drupal_get_path('module', 'nice_menus') .'/superfish/js/jquery.hoverIntent.minified.js');
+    drupal_add_js(drupal_get_path('module', 'nice_menus') . '/superfish/js/jquery.hoverIntent.minified.js');
     // The Nice menus implementation.
-    drupal_add_js(drupal_get_path('module', 'nice_menus') .'/nice_menus.js');
+    drupal_add_js(drupal_get_path('module', 'nice_menus') . '/nice_menus.js');
   }
-	
+
   // Add main CSS functionality.
-  drupal_add_css(drupal_get_path('module', 'nice_menus') .'/nice_menus.css');
+  drupal_add_css(drupal_get_path('module', 'nice_menus') . '/nice_menus.css');
   // Add custom CSS layout if specified.
   if ($custom = variable_get('nice_menus_custom_css', '')) {
     drupal_add_css($custom);
   }
   // Fall back to default layout.
   else {
-    drupal_add_css(drupal_get_path('module', 'nice_menus') .'/nice_menus_default.css');
+    drupal_add_css(drupal_get_path('module', 'nice_menus') . '/nice_menus_default.css');
   }
 }
 
 /**
- * Implementation of hook_block().
+ * Implements hook_block_info().
  */
-function nice_menus_block($op = 'list', $delta = 0, $edit = array()) {
-  global $user;
-
-  switch ($op) {
-    case 'list':
-      for ($i = 1; $i <= variable_get('nice_menus_number', '2'); $i++) {
-        $blocks[$i]['info'] = variable_get('nice_menus_name_'. $i, 'Nice menu '. $i) .' (Nice menu)';
-        // We have too many things changing per user, per page to cache.
-        $blocks[$i]['cache'] = BLOCK_NO_CACHE;
-      }
-      return $blocks;
-    break;
-
-    case 'configure':
-      $form['nice_menus_name_'. $delta] = array(
-        '#type' => 'textfield',
-        '#title' => t('Menu Name'),
-        '#default_value' => variable_get('nice_menus_name_'. $delta, 'Nice menu '. $delta),
-      );
-      $form['nice_menus_menu_'. $delta] = array(
-        '#type' => 'select',
-        '#title' => t('Menu Parent'),
-        '#description' => t('The menu parent from which to show a Nice menu.'),
-        '#default_value' => variable_get('nice_menus_menu_'. $delta, 'navigation:0'),
-        '#options' => menu_parent_options(menu_get_menus(), 0),
-      );
-      $form['nice_menus_depth_'. $delta] = array(
-       '#type' => 'select',
-       '#title' => t('Menu Depth'),
-       '#description' => t('The depth of the menu, i.e. the number of child levels starting with the parent selected above. Leave set to -1 to display all children and use 0 to display no children.'),
-       '#default_value' => variable_get('nice_menus_depth_'. $delta, -1),
-       '#options' => drupal_map_assoc(range(-1, 5))
-      );
-      $form['nice_menus_type_'. $delta] = array(
-        '#type' => 'select',
-        '#title' => t('Menu Style'),
-        '#description' => t('right: menu items are listed on top of each other and expand to the right') .'<br />'. t('left: menu items are listed on top of each other and expand to the left') .'<br />'. t('down: menu items are listed side by side and expand down'),
-        '#default_value' => variable_get('nice_menus_type_'. $delta, 'right'),
-        '#options' => drupal_map_assoc(array('right', 'left', 'down')),
-      );
-      return $form;
-    break;
-
-    case 'save':
-      variable_set('nice_menus_name_'. $delta, $edit['nice_menus_name_'. $delta]);
-      variable_set('nice_menus_menu_'. $delta, $edit['nice_menus_menu_'. $delta]);
-      variable_set('nice_menus_depth_'. $delta, $edit['nice_menus_depth_'. $delta]);
-      variable_set('nice_menus_type_'. $delta, $edit['nice_menus_type_'. $delta]);
-    break;
-
-    case 'view':
-      // Build the Nice menu for the block.
-      list($menu_name, $mlid) = explode(':', variable_get('nice_menus_menu_'. $delta, 'navigation:0'));
-      $direction = variable_get('nice_menus_type_'. $delta, 'right');
-      $depth = variable_get('nice_menus_depth_'. $delta, '-1');
-      if ($output = theme('nice_menus', $delta, $menu_name, $mlid, $direction, $depth)) {
-        $block['content'] = $output['content'];
-        if (variable_get('nice_menus_type_'. $delta, 'right') == 'down') {
-          $class = 'nice-menu-hide-title';
-        }
-        else {
-          $class = 'nice-menu-show-title';
-        }
-        // If we're building the navigation block
-        // use the same block title logic as menu module.
-        if ($output['subject'] == t('Navigation') && $user->uid) {
-          $subject = $user->name;
-        }
-        else {
-          $subject = $output['subject'];
-        }
-        $block['subject'] = '<span class="'. $class .'">'. check_plain($subject) .'</span>';
-      }
-      else {
-        $block['content'] = FALSE;
-      }
-      return $block;
-    break;
+function nice_menus_block_info() {
+  for ($i = 1; $i <= variable_get('nice_menus_number', '2'); $i++) {
+    $blocks[$i]['info'] = variable_get('nice_menus_name_' . $i, 'Nice menu ' . $i) . ' (Nice menu)';
+    // We have too many things changing per user, per page to cache.
+    $blocks[$i]['cache'] = BLOCK_NO_CACHE;
   }
+  return $blocks;
 }
 
 /**
- * Implementation of hook_theme().
+ * Implements hook_block_configure().
+ */
+function nice_menus_block_configure($delta) {
+  $form['nice_menus_name_' . $delta] = array(
+    '#type' => 'textfield',
+    '#title' => t('Menu Name'),
+    '#default_value' => variable_get('nice_menus_name_' . $delta, 'Nice menu ' . $delta),
+  );
+  $form['nice_menus_menu_' . $delta] = array(
+    '#type' => 'select',
+    '#title' => t('Menu Parent'),
+    '#description' => t('The menu parent from which to show a Nice menu.'),
+    '#default_value' => variable_get('nice_menus_menu_' . $delta, 'navigation:0'),
+    '#options' => menu_parent_options(menu_get_menus(), 0),
+  );
+  $form['nice_menus_depth_' . $delta] = array(
+    '#type' => 'select',
+    '#title' => t('Menu Depth'),
+    '#description' => t('The depth of the menu, i.e. the number of child levels starting with the parent selected above. Leave set to -1 to display all children and use 0 to display no children.'),
+    '#default_value' => variable_get('nice_menus_depth_' . $delta, -1),
+    '#options' => drupal_map_assoc(range(-1, 5)),
+  );
+  $form['nice_menus_type_' . $delta] = array(
+    '#type' => 'select',
+    '#title' => t('Menu Style'),
+    '#description' => t('right: menu items are listed on top of each other and expand to the right') . '<br />' . t('left: menu items are listed on top of each other and expand to the left') . '<br />' . t('down: menu items are listed side by side and expand down'),
+    '#default_value' => variable_get('nice_menus_type_' . $delta, 'right'),
+    '#options' => drupal_map_assoc(array('right', 'left', 'down')),
+  );
+  return $form;
+}
+
+/**
+ * Implements hook_block_save().
+ */
+function nice_menus_block_save($delta, $edit) {
+  variable_set('nice_menus_name_' . $delta, $edit['nice_menus_name_' . $delta]);
+  variable_set('nice_menus_menu_' . $delta, $edit['nice_menus_menu_' . $delta]);
+  variable_set('nice_menus_depth_' . $delta, $edit['nice_menus_depth_' . $delta]);
+  variable_set('nice_menus_type_' . $delta, $edit['nice_menus_type_' . $delta]);
+}
+
+/**
+ * Implements hook_block_view().
+ */
+function nice_menus_block_view($delta) {
+  // Build the Nice menu for the block.
+  list($menu_name, $mlid) = explode(':', variable_get('nice_menus_menu_' . $delta, 'navigation:0'));
+  $direction = variable_get('nice_menus_type_' . $delta, 'right');
+  $depth = variable_get('nice_menus_depth_' . $delta, '-1');
+  if ($output = theme('nice_menus', array('id' => $delta, 'menu_name' => $menu_name, 'mlid' => $mlid, 'direction' => $direction, 'depth' => $depth))) {
+    $block['content'] = $output['content'];
+    if (variable_get('nice_menus_type_' . $delta, 'right') == 'down') {
+      $class = 'nice-menu-hide-title';
+    }
+    else {
+      $class = 'nice-menu-show-title';
+    }
+    // If we're building the navigation block
+    // use the same block title logic as menu module.
+    if ($output['subject'] == t('Navigation') && $user->uid) {
+      $subject = $user->name;
+    }
+    else {
+      $subject = $output['subject'];
+    }
+    $block['subject'] = '<span class="' . $class . '">' . check_plain($subject) . '</span>';
+  }
+  else {
+    $block['content'] = FALSE;
+  }
+  return $block;
+}
+
+/**
+ * Implements hook_block().
+ */
+function nice_menus_block_OLD($op = 'list', $delta = 0, $edit = array()) {
+  // TODO Remaining code in this function needs to be moved to the appropriate new hook function.
+  global $user;
+}
+
+/**
+ * Implements hook_theme().
  */
 function nice_menus_theme() {
   return array(
     'nice_menus_tree' => array(
-      'arguments' => array('menu_name' => NULL, 'mlid' => NULL, 'depth' => -1, 'menu' => NULL),
+      'variables' => array('menu_name' => NULL, 'mlid' => NULL, 'depth' => -1, 'menu' => NULL),
     ),
     'nice_menus_build' => array(
-      'arguments' => array('menu' => NULL,  'depth' => -1, 'trail' => NULL),
+      'variables' => array('menu' => NULL, 'depth' => -1, 'trail' => NULL),
     ),
     'nice_menus' => array(
-      'arguments' => array('id' => NULL, 'menu_name' => NULL, 'mlid' => NULL, 'direction' => 'right', 'depth' => -1, 'menu' => NULL),
+      'variables' => array('id' => NULL, 'menu_name' => NULL, 'mlid' => NULL, 'direction' => 'right', 'depth' => -1, 'menu' => NULL),
     ),
     'nice_menus_primary_links' => array(
-      'arguments' => array('direction' => 'down', 'depth' => -1, 'menu' => NULL),
+      'variables' => array('direction' => 'down', 'depth' => -1, 'menu' => NULL),
     ),
     'nice_menus_secondary_links' => array(
-      'arguments' => array('direction' => 'down', 'depth' => -1, 'menu' => NULL),
+      'variables' => array('direction' => 'down', 'depth' => -1, 'menu' => NULL),
     ),
     // Deprecated theme functions that will be removed in 7.x.
     'nice_menu_tree' => array(
-      'arguments' => array('menu_name' => NULL, 'mlid' => NULL, 'depth' => -1, 'menu' => NULL),
+      'variables' => array('menu_name' => NULL, 'mlid' => NULL, 'depth' => -1, 'menu' => NULL),
     ),
     'nice_menu_build' => array(
-      'arguments' => array('menu' => NULL,  'depth' => -1, 'trail' => NULL),
+      'variables' => array('menu' => NULL, 'depth' => -1, 'trail' => NULL),
     ),
     'nice_menu' => array(
-      'arguments' => array('id' => NULL, 'menu_name' => NULL, 'mlid' => NULL, 'direction' => 'right', 'depth' => -1, 'menu' => NULL),
+      'variables' => array('id' => NULL, 'menu_name' => NULL, 'mlid' => NULL, 'direction' => 'right', 'depth' => -1, 'menu' => NULL),
     ),
     'nice_menu_primary_links' => array(
-      'arguments' => array('direction' => 'down', 'depth' => -1, 'menu' => NULL),
+      'variables' => array('direction' => 'down', 'depth' => -1, 'menu' => NULL),
     ),
   );
 }
@@ -333,7 +349,11 @@ function nice_menus_build_page_trail($page_menu) {
  * @return
  *   An HTML string of properly nested Nice menu lists.
  */
-function theme_nice_menus_tree($menu_name, $mlid = NULL, $depth = -1, $menu = NULL) {
+function theme_nice_menus_tree($variables) {
+  $menu_name = $variables['menu_name'];
+  $mlid = $variables['mlid'];
+  $depth = $variables['depth'];
+  $menu = $variables['menu'];
   // Load the full menu array.
   $menu = isset($menu) ? $menu : menu_tree_all_data($menu_name);
 
@@ -365,14 +385,14 @@ function theme_nice_menus_tree($menu_name, $mlid = NULL, $depth = -1, $menu = NU
       if ($sub_mlid = $item["p$p"]) {
         $subitem = menu_link_load($sub_mlid);
         // Menu sets these ghetto-ass keys in _menu_tree_check_access().
-        $menu = $menu[(50000 + $subitem['weight']) .' '. $subitem['title'] .' '. $subitem['mlid']]['below'];
+        $menu = $menu[(50000 + $subitem['weight']) . ' ' . $subitem['title'] . ' ' . $subitem['mlid']]['below'];
       }
     }
   }
   // Otherwise just set a title and move on.
   else {
     // Get the title from the DB since we don't have it in the $menu.
-    $result = db_result(db_query("SELECT title FROM {menu_custom} WHERE menu_name = '%s'", $menu_name));
+    $result = db_query("SELECT title FROM {menu_custom} WHERE menu_name = :menu_name", array(':menu_name' => $menu_name))->fetchField();
     $title = check_plain($result);
   }
 
@@ -382,7 +402,7 @@ function theme_nice_menus_tree($menu_name, $mlid = NULL, $depth = -1, $menu = NU
   if ($menu) {
     // Set the total menu depth counting from this parent if we need it.
     $depth =  ($depth > 0) ? ($parent_depth + $depth) : $depth;
-    $output['content'] .= theme('nice_menus_build', $menu, $depth, $trail);
+    $output['content'] .= theme('nice_menus_build', array('menu' => $menu, 'depth' => $depth, 'trail' => $trail));
   }
 
   return $output;
@@ -399,7 +419,10 @@ function theme_nice_menus_tree($menu_name, $mlid = NULL, $depth = -1, $menu = NU
  * @param $trail
  *   An array of parent menu items.
  */
-function theme_nice_menus_build($menu, $depth = -1, $trail = NULL) {
+function theme_nice_menus_build($variables) {
+  $menu = $variables['menu'];
+  $depth = $variables['depth'];
+  $trail = $variables['trail'];
   $output = '';
   // Prepare to count the links so we can mark first, last, odd and even.
   $index = 0;
@@ -425,17 +448,18 @@ function theme_nice_menus_build($menu, $depth = -1, $trail = NULL) {
       $clean_path = str_replace(array('http://', 'www', '<', '>', '&', '=', '?', ':', '.'), '', $menu_item['link']['href']);
       // Convert slashes to dashes.
       $clean_path = str_replace('/', '-', $clean_path);
-      $class = 'menu-path-'. $clean_path;
+      $class = 'menu-path-' . $clean_path;
       if ($trail && in_array($mlid, $trail)) {
         $class .= ' active-trail';
       }
       // If it has children build a nice little tree under it.
       if ((!empty($menu_item['link']['has_children'])) && (!empty($menu_item['below'])) && $depth != 0) {
         // Keep passing children into the function 'til we get them all.
-        $children = theme('nice_menus_build', $menu_item['below'], $depth, $trail);
+        $children = theme('nice_menus_build', array('menu' => $menu_item['below'], 'depth' => $depth, 'trail' => $trail));
         // Set the class to parent only of children are displayed.
         $parent_class = ($children && ($menu_item['link']['depth'] <= $depth || $depth == -1)) ? 'menuparent ' : '';
-        $output .= '<li class="menu-' . $mlid . ' ' . $parent_class . $class . $first_class . $oddeven_class . $last_class .'">'. theme('menu_item_link', $menu_item['link']);
+        // TODO Please change this theme call to use an associative array for the $variables parameter.
+        $output .= '<li class="menu-' . $mlid . ' ' . $parent_class . $class . $first_class . $oddeven_class . $last_class . '">' . theme('menu_item_link', $menu_item['link']);
         // Check our depth parameters.
         if ($menu_item['link']['depth'] <= $depth || $depth == -1) {
           // Build the child UL only if children are displayed for the user.
@@ -448,7 +472,8 @@ function theme_nice_menus_build($menu, $depth = -1, $trail = NULL) {
         $output .= "</li>\n";
       }
       else {
-        $output .= '<li class="menu-' . $mlid . ' ' . $class . $first_class . $oddeven_class . $last_class .'">'. theme('menu_item_link', $menu_item['link']) .'</li>'."\n";
+        // TODO Please change this theme call to use an associative array for the $variables parameter.
+        $output .= '<li class="menu-' . $mlid . ' ' . $class . $first_class . $oddeven_class . $last_class . '">' . theme('menu_item_link', $menu_item['link']) . '</li>' . "\n";
       }
     }
   }
@@ -476,12 +501,18 @@ function theme_nice_menus_build($menu, $depth = -1, $trail = NULL) {
  * @return
  *   An HTML string of Nice menu links.
  */
-function theme_nice_menus($id, $menu_name, $mlid, $direction = 'right', $depth = -1, $menu = NULL) {
+function theme_nice_menus($variables) {
+  $id = $variables['id'];
+  $menu_name = $variables['menu_name'];
+  $mlid = $variables['mlid'];
+  $direction = $variables['direction'];
+  $depth = $variables['depth'];
+  $menu = $variables['menu'];
   $output = array();
 
-  if ($menu_tree = theme('nice_menus_tree', $menu_name, $mlid, $depth, $menu)) {
+  if ($menu_tree = theme('nice_menus_tree', array('menu_name' => $menu_name, 'mlid' => $mlid, 'depth' => $depth, 'menu' => $menu))) {
     if ($menu_tree['content']) {
-      $output['content'] = '<ul class="nice-menu nice-menu-'. $direction .'" id="nice-menu-'. $id .'">'. $menu_tree['content'] .'</ul>'."\n";
+      $output['content'] = '<ul class="nice-menu nice-menu-' . $direction . '" id="nice-menu-' . $id . '">' . $menu_tree['content'] . '</ul>' . "\n";
       $output['subject'] = $menu_tree['subject'];
     }
   }
@@ -503,9 +534,12 @@ function theme_nice_menus($id, $menu_name, $mlid, $direction = 'right', $depth =
  * @return
  *   An HTML string of Nice menu primary links.
  */
-function theme_nice_menus_primary_links($direction = 'down', $depth = -1, $menu = NULL) {
+function theme_nice_menus_primary_links($variables) {
+  $direction = $variables['direction'];
+  $depth = $variables['depth'];
+  $menu = $variables['menu'];
   $menu_name = variable_get('menu_primary_links_source', 'primary-links');
-  $output = theme('nice_menus', 0, $menu_name, 0, $direction, $depth, $menu);
+  $output = theme('nice_menus', array('id' => 0, 'menu_name' => $menu_name, 'mlid' => 0, 'direction' => $direction, 'depth' => $depth, 'menu' => $menu));
   return $output['content'];
 }
 
@@ -524,8 +558,11 @@ function theme_nice_menus_primary_links($direction = 'down', $depth = -1, $menu 
  * @return
  *   An HTML string of nice menu secondary links.
  */
-function theme_nice_menus_secondary_links($direction = 'down', $depth = -1, $menu = NULL) {
+function theme_nice_menus_secondary_links($variables) {
+  $direction = $variables['direction'];
+  $depth = $variables['depth'];
+  $menu = $variables['menu'];
   $menu_name = variable_get('menu_secondary_links_source', 'secondary-links');
-  $output = theme('nice_menus', 0, $menu_name, 0, $direction, $depth, $menu);
+  $output = theme('nice_menus', array('id' => 0, 'menu_name' => $menu_name, 'mlid' => 0, 'direction' => $direction, 'depth' => $depth, 'menu' => $menu));
   return $output['content'];
 }
