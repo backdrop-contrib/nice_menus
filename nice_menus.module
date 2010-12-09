@@ -372,8 +372,8 @@ function theme_nice_menus_tree($variables) {
     // Load the parent menu item.
     $item = menu_link_load($mlid);
     $title = check_plain($item['title']);
-    // The depth for our parent item.
-    $parent_depth = $item['depth'];
+    // The depth for our parent item, if it exists.
+    $parent_depth = ($item['depth']) ? $item['depth'] : 0;
 
     // Narrow down the full menu to the specific sub-tree we need.
     for ($p = 1; $p < 10; $p++) {
