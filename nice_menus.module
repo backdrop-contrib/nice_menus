@@ -204,7 +204,7 @@ function nice_menus_block_configure($delta) {
     '#title' => t('Menu Parent'),
     '#description' => t('The menu parent from which to show a Nice menu.'),
     '#default_value' => variable_get('nice_menus_menu_' . $delta, 'navigation:0'),
-    '#options' => menu_parent_options(menu_get_menus(), 0),
+    '#options' => menu_get_menus(),
   );
   $form['nice_menus_depth_' . $delta] = array(
     '#type' => 'select',
@@ -238,10 +238,10 @@ function nice_menus_block_save($delta, $edit) {
  */
 function nice_menus_block_view($delta) {
   // Build the Nice menu for the block.
-  list($menu_name, $mlid) = explode(':', variable_get('nice_menus_menu_' . $delta, 'navigation:0'));
+  list($menu_name) = explode(':', variable_get('nice_menus_menu_' . $delta, 'navigation:0'));
   $direction = variable_get('nice_menus_type_' . $delta, 'right');
   $depth = variable_get('nice_menus_depth_' . $delta, '-1');
-  if ($output = theme('nice_menus', array('id' => $delta, 'menu_name' => $menu_name, 'mlid' => $mlid, 'direction' => $direction, 'depth' => $depth))) {
+  if ($output = theme('nice_menus', array('id' => $delta, 'menu_name' => $menu_name, 'direction' => $direction, 'depth' => $depth))) {
     $block['content'] = $output['content'];
     if (variable_get('nice_menus_type_' . $delta, 'right') == 'down') {
       $class = 'nice-menu-hide-title';
