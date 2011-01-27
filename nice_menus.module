@@ -66,7 +66,7 @@ function nice_menus_system_theme_settings_submit($form, &$form_state) {
  * Implements hook_menu().
  */
 function nice_menus_menu() {
-  $items['admin/config/nice_menus'] = array(
+  $items['admin/config/user-interface/nice_menus'] = array(
     'title' => 'Nice menus',
     'description' => 'Configure Nice menus.',
     'page callback' => 'drupal_get_form',
