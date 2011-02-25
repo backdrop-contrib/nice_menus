@@ -1,4 +1,3 @@
-// $Id$
 
 NICE MENUS MODULE
 -----------------

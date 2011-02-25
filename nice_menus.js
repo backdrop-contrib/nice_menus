@@ -1,4 +1,3 @@
-// $Id$
 
 // This uses Superfish 1.4.8
 // (http://users.tpg.com.au/j_birch/plugins/superfish)
