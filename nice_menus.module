@@ -166,14 +166,14 @@ function nice_menus_init() {
   }
 
   // Add main CSS functionality.
-  drupal_add_css(drupal_get_path('module', 'nice_menus') . '/nice_menus.css');
+  drupal_add_css(drupal_get_path('module', 'nice_menus') . '/nice_menus.css', array('group' => CSS_DEFAULT, 'basename' => 'nice_menus.css'));
   // Add custom CSS layout if specified.
   if ($custom = variable_get('nice_menus_custom_css', '')) {
-    drupal_add_css($custom);
+    drupal_add_css($custom, array('group' => CSS_DEFAULT, 'basename' => 'nice_menus_custom.css'));
   }
   // Fall back to default layout.
   else {
-    drupal_add_css(drupal_get_path('module', 'nice_menus') . '/nice_menus_default.css');
+    drupal_add_css(drupal_get_path('module', 'nice_menus') . '/nice_menus_default.css', array('group' => CSS_DEFAULT, 'basename' => 'nice_menus_default.css'));
   }
 }
 
@@ -590,3 +590,4 @@ function theme_nice_menus_menu_item_link($variables) {
   }
   return l($variables['element']['#title'], $variables['element']['#href'], $variables['element']['#localized_options']);
 }
+
