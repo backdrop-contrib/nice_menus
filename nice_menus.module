@@ -181,6 +181,7 @@ function nice_menus_init() {
  * Implements hook_block_info().
  */
 function nice_menus_block_info() {
+  $blocks = array();
   for ($i = 1; $i <= variable_get('nice_menus_number', '2'); $i++) {
     $blocks[$i]['info'] = variable_get('nice_menus_name_' . $i, 'Nice menu ' . $i) . ' (Nice menu)';
     // We have too many things changing per user, per page to cache.
