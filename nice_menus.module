@@ -514,13 +514,18 @@ function theme_nice_menus_build($variables) {
  *   An HTML string of Nice menu links.
  */
 function theme_nice_menus($variables) {
+  $output = array(
+    'content' => '',
+    'subject' => '',
+  );
+
   $id = $variables['id'];
   $menu_name = $variables['menu_name'];
   $mlid = $variables['mlid'];
   $direction = $variables['direction'];
   $depth = $variables['depth'];
   $menu = $variables['menu'];
-  $output = array();
+
   if ($menu_tree = theme('nice_menus_tree', array('menu_name' => $menu_name, 'mlid' => $mlid, 'depth' => $depth, 'menu' => $menu))) {
     if ($menu_tree['content']) {
       $output['content'] = '<ul class="nice-menu nice-menu-' . $direction . '" id="nice-menu-' . $id . '">' . $menu_tree['content'] . '</ul>' . "\n";
