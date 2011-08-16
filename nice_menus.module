@@ -449,7 +449,7 @@ function theme_nice_menus_build($variables) {
           '#below' => '',
           '#title' => $menu_item['link']['link_title'],
           '#href' =>  $menu_item['link']['href'],
-          '#localized_options' => array(),
+          '#localized_options' => $menu_item['link']['localized_options'],
           '#attributes' => array(),
         );
         $variables['element'] = $element;
@@ -472,7 +472,7 @@ function theme_nice_menus_build($variables) {
           '#below' => '',
           '#title' => $menu_item['link']['link_title'],
           '#href' =>  $menu_item['link']['href'],
-          '#localized_options' => array(),
+          '#localized_options' => $menu_item['link']['localized_options'],
           '#attributes' => array(),
         );
         $variables['element'] = $element;
