@@ -250,8 +250,8 @@ function nice_menus_block_view($delta) {
     }
     // If we're building the navigation block
     // use the same block title logic as menu module.
+    global $user;
     if ($output['subject'] == t('navigation') && $user->uid) {
-      global $user;
       $subject = $user->name;
     }
     else {
