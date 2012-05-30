@@ -461,6 +461,7 @@ function theme_nice_menus_build($variables) {
           '#attributes' => array(
             'class' => array('menu-' . $mlid, $parent_class, $class, $first_class, $oddeven_class, $last_class),
           ),
+          '#original_link' => $menu_item['link'],
         );
         $variables['element'] = $element;
         $output .= theme('menu_link', $variables);
@@ -476,6 +477,7 @@ function theme_nice_menus_build($variables) {
           '#attributes' => array(
             'class' => array('menu-' . $mlid, $class, $first_class, $oddeven_class, $last_class),
           ),
+          '#original_link' => $menu_item['link'],
         );
         $variables['element'] = $element;
         $output .= theme('menu_link', $variables);
