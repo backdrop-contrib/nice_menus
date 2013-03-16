@@ -105,8 +105,7 @@ function nice_menus_init() {
 /**
  * Implements hook_library()
  */
-function nice_menus_library() {
-  
+function nice_menus_library() { 
   $module_path = drupal_get_path('module', 'nice_menus'); 
   // Jquery bgiframe.
   $libraries['jquery.bgiframe'] = array(
