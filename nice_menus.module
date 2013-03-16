@@ -87,21 +87,7 @@ function nice_menus_menu() {
 function nice_menus_init() {
   // Add Superfish JavaScript, if enabled.
   if (variable_get('nice_menus_js', 1) == 1) {
-    // The script, from http://users.tpg.com.au/j_birch/plugins/superfish.
-    drupal_add_js(drupal_get_path('module', 'nice_menus') . '/superfish/js/superfish.js');
-    // Add the Superfish options variables.
-    drupal_add_js(array(
-      'nice_menus_options' => array(
-        'delay' => variable_get('nice_menus_sf_delay', 800),
-        'speed' => variable_get('nice_menus_sf_speed', 1),
-      ),
-    ), array('type' => 'setting', 'scope' => JS_DEFAULT));
-    // Add the bgIframe plugin.
-    drupal_add_js(drupal_get_path('module', 'nice_menus') . '/superfish/js/jquery.bgiframe.min.js');
-    // Add the HoverIntent plugin.
-    drupal_add_js(drupal_get_path('module', 'nice_menus') . '/superfish/js/jquery.hoverIntent.minified.js');
-    // The Nice menus implementation.
-    drupal_add_js(drupal_get_path('module', 'nice_menus') . '/nice_menus.js');
+    drupal_add_library('nice_menus', 'nice_menus');
   }
 
   // Add main CSS functionality.
@@ -114,6 +100,70 @@ function nice_menus_init() {
   else {
     drupal_add_css(drupal_get_path('module', 'nice_menus') . '/nice_menus_default.css', array('group' => CSS_DEFAULT, 'basename' => 'nice_menus_default.css'));
   }
+}
+
+/**
+ * Implements hook_library()
+ */
+function nice_menus_library() {
+  
+  $module_path = drupal_get_path('module', 'nice_menus'); 
+  // Jquery bgiframe.
+  $libraries['jquery.bgiframe'] = array(
+    'title' => 'bgiframe',
+    'website' => 'http://docs.jquery.com/Plugins/bgiframe',
+    'version' => '2.1',
+    'js' => array(
+      $module_path . '/superfish/js/jquery.bgiframe.min.js' => array(),
+    ),
+  );
+
+  // Jquery hoverIntent.
+  $libraries['jquery.hoverIntent'] = array(
+    'title' => 'hoverIntent',
+    'website' => 'http://cherne.net/brian/resources/jquery.hoverIntent.html',
+    'version' => '0.5',
+    'js' => array(
+      $module_path . '/superfish/js/jquery.hoverIntent.minified.js' => array(),
+    ),
+  );
+
+  // Superfish.
+  $libraries['superfish'] = array(
+    'title' => 'Superfish',
+    'website' => 'http://users.tpg.com.au/j_birch/plugins/superfish/',
+    'version' => '1.4.8',
+    'js' => array(
+      $module_path . '/superfish/js/superfish.js' => array(),
+    ),
+    'dependencies' => array(
+      array('nice_menus', 'jquery.bgiframe'),
+      array('nice_menus', 'jquery.hoverIntent'),
+    ),
+  );
+
+  // Nicemenus.
+  $libraries['nice_menus'] = array(
+    'title' => 'Nice Menus',
+    'website' => 'http://drupal.org/project/nice_menus',
+    'version' => '1.0',
+    'js' => array(
+      $module_path . '/nice_menus.js' => array(),
+      // Add the Superfish options variables.
+       array(
+         'type' => 'setting',
+         'data' => array('nice_menus_options' => array(
+            'delay' => variable_get('nice_menus_sf_delay', 800),
+            'speed' => variable_get('nice_menus_sf_speed', 1),
+          )),
+       ),
+    ),
+    'dependencies' => array(
+      array('nice_menus', 'superfish'),
+    ),
+  );
+
+  return $libraries;
 }
 
 /**
