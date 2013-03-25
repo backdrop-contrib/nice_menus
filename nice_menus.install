@@ -32,3 +32,17 @@ function nice_menus_update_6001() {
   // See http://drupal.org/node/224333#update_sql.
   return t('TODO Add a descriptive string here to show in the UI.') /* array() */;
 }
+
+/**
+ * Update the menu selection variables to match the new format that allows
+ * selection of the exact menu item to start the display from.
+ */
+function nice_menus_update_6002() {
+  for ($delta = 1; $delta <= variable_get('nice_menus_number', '2'); $delta++) {
+    $menu = variable_get('nice_menus_menu_' . $delta, 'navigation');
+    // If no menu item is selected
+    if (strpos($menu, ':') === FALSE) {
+      variable_set('nice_menus_menu_' . $delta, $menu . ':0');
+    }
+  }
+}
