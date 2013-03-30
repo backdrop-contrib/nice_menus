@@ -453,6 +453,15 @@ function theme_nice_menus_build($variables) {
           '#original_link' => $menu_item['link'],
         );
         $variables['element'] = $element;
+        
+        // Check for context reactions menu
+        if (module_exists('context')) {
+          context_preprocess_menu_link($variables);
+          if (isset($variables['element']['#localized_options']['attributes']['class']) && in_array('active',  $variables['element']['#localized_options']['attributes']['class']) && !in_array('active-trail',  $variables['element']['#attributes']['class'])) {
+            $variables['element']['#attributes']['class'][] = ' active-trail';
+          }
+        }
+
         $output .= theme('menu_link', $variables);
         
       }
@@ -469,6 +478,15 @@ function theme_nice_menus_build($variables) {
           '#original_link' => $menu_item['link'],
         );
         $variables['element'] = $element;
+        
+        // Check for context reactions menu
+        if (module_exists('context')) {
+          context_preprocess_menu_link($variables);
+          if (isset($variables['element']['#localized_options']['attributes']['class']) && in_array('active',  $variables['element']['#localized_options']['attributes']['class']) && !in_array('active-trail',  $variables['element']['#attributes']['class'])) {
+            $variables['element']['#attributes']['class'][] = ' active-trail';
+          }
+        }
+
         $output .= theme('menu_link', $variables);
       }
     }
