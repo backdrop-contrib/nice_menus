@@ -208,6 +208,16 @@ function nice_menus_block_configure($delta) {
     '#default_value' => variable_get('nice_menus_type_' . $delta, 'right'),
     '#options' => drupal_map_assoc(array('right', 'left', 'down')),
   );
+  $form['nice_menus_respect_expand_' . $delta] = array(
+    '#type' => 'select',
+    '#title' => t('Respect "Show as expanded" option'),
+    '#description' => t('Menu items have a "Show as expanded" option, which is disabled by default. Since menu items do NOT have this option checked by default, you should choose Yes here once you have configured the menu items that you DO want to expand.'),
+    '#options' => array(
+      0 => t('No'),
+      1 => t('Yes'),
+    ),
+    '#default_value' => variable_get('nice_menus_respect_expand_' . $delta, 0),
+  );
   return $form;
 }
 
@@ -219,6 +229,7 @@ function nice_menus_block_save($delta, $edit) {
   variable_set('nice_menus_menu_' . $delta, $edit['nice_menus_menu_' . $delta]);
   variable_set('nice_menus_depth_' . $delta, $edit['nice_menus_depth_' . $delta]);
   variable_set('nice_menus_type_' . $delta, $edit['nice_menus_type_' . $delta]);
+  variable_set('nice_menus_respect_expand_' . $delta, $edit['nice_menus_respect_expand_' . $delta]);
 }
 
 /**
@@ -229,7 +240,8 @@ function nice_menus_block_view($delta = 1) {
   list($menu_name, $mlid) = explode(':', variable_get('nice_menus_menu_' . $delta, 'navigation:0'));
   $direction = variable_get('nice_menus_type_' . $delta, 'right');
   $depth = variable_get('nice_menus_depth_' . $delta, '-1');
-  if ($output = theme('nice_menus', array('id' => $delta, 'menu_name' => $menu_name, 'mlid' => $mlid, 'direction' => $direction, 'depth' => $depth))) {
+  $respect_expanded = variable_get('nice_menus_respect_expand_' . $delta, 0);
+  if ($output = theme('nice_menus', array('id' => $delta, 'menu_name' => $menu_name, 'mlid' => $mlid, 'direction' => $direction, 'depth' => $depth, 'respect_expanded' => $respect_expanded))) {
     $block['content'] = $output['content'];
     if (variable_get('nice_menus_type_' . $delta, 'right') == 'down') {
       $class = 'nice-menu-hide-title';
@@ -260,13 +272,13 @@ function nice_menus_block_view($delta = 1) {
 function nice_menus_theme() {
   return array(
     'nice_menus_tree' => array(
-      'variables' => array('menu_name' => NULL, 'mlid' => NULL, 'depth' => -1, 'menu' => NULL),
+      'variables' => array('menu_name' => NULL, 'mlid' => NULL, 'depth' => -1, 'menu' => NULL, 'respect_expanded' => 0),
     ),
     'nice_menus_build' => array(
-      'variables' => array('menu' => NULL, 'depth' => -1, 'trail' => NULL),
+      'variables' => array('menu' => NULL, 'depth' => -1, 'trail' => NULL, 'respect_expanded' => 0),
     ),
     'nice_menus' => array(
-      'variables' => array('id' => NULL, 'menu_name' => NULL, 'mlid' => NULL, 'direction' => 'right', 'depth' => -1, 'menu' => NULL),
+      'variables' => array('id' => NULL, 'menu_name' => NULL, 'mlid' => NULL, 'direction' => 'right', 'depth' => -1, 'respect_expanded' => 0, 'menu' => NULL),
     ),
     'nice_menus_main_menu' => array(
       'variables' => array('direction' => 'down', 'depth' => -1),
@@ -324,6 +336,7 @@ function theme_nice_menus_tree($variables) {
   $mlid = $variables['mlid'];
   $depth = $variables['depth'];
   $menu = $variables['menu'];
+  $respect_expanded = $variables['respect_expanded'];
   // Load the full menu array.
   $menu = isset($menu) ? $menu : menu_tree_all_data($menu_name);
   if (isset($menu)) {
@@ -374,7 +387,7 @@ function theme_nice_menus_tree($variables) {
   if ($menu) {
     // Set the total menu depth counting from this parent if we need it.
     $depth =  ($depth > 0) ? ($parent_depth + $depth) : $depth;
-    $output['content'] .= theme('nice_menus_build', array('menu' => $menu, 'depth' => $depth, 'trail' => $trail));
+    $output['content'] .= theme('nice_menus_build', array('menu' => $menu, 'depth' => $depth, 'trail' => $trail, 'respect_expanded' => $respect_expanded));
   }
   
   return $output;
@@ -395,6 +408,8 @@ function theme_nice_menus_build($variables) {
   $menu = $variables['menu'];
   $depth = $variables['depth'];
   $trail = $variables['trail'];
+  $respect_expanded = $variables['respect_expanded'];
+  //dpm(debug_backtrace(), 'test');
   $output = '';
   // Prepare to count the links so we can mark first, last, odd and even.
   $index = 0;
@@ -424,7 +439,11 @@ function theme_nice_menus_build($variables) {
         $class .= ' active-trail';
       }
       // If it has children build a nice little tree under it.
-      if ((!empty($menu_item['link']['has_children'])) && (!empty($menu_item['below'])) && $depth != 0) {
+      // Build a nice little tree under it if it has children, and has been set
+      // to expand (when that option is being respected).
+      if ((!empty($menu_item['link']['has_children'])) &&
+          (!empty($menu_item['below'])) && $depth != 0 &&
+          ($respect_expanded == 0 || $menu_item['link']['expanded'])) {
         // Keep passing children into the function 'til we get them all.
         if ($menu_item['link']['depth'] <= $depth || $depth == -1) {
           $children = array(
@@ -434,6 +453,7 @@ function theme_nice_menus_build($variables) {
             '#menu' => $menu_item['below'],
             '#depth' => $depth,
             '#trail' => $trail,
+            '#respect_expanded' => $respect_expanded,
           );
         }
         else {
@@ -485,7 +505,7 @@ function theme_nice_menus_build($variables) {
             $variables['element']['#attributes']['class'][] = ' active-trail';
           }
         }
-
+        
         $output .= theme('menu_link', $variables);
       }
     }
@@ -527,8 +547,8 @@ function theme_nice_menus($variables) {
   $direction = $variables['direction'];
   $depth = $variables['depth'];
   $menu = $variables['menu'];
-
-  if ($menu_tree = theme('nice_menus_tree', array('menu_name' => $menu_name, 'mlid' => $mlid, 'depth' => $depth, 'menu' => $menu))) {
+  $respect_expanded = $variables['respect_expanded'];
+  if ($menu_tree = theme('nice_menus_tree', array('menu_name' => $menu_name, 'mlid' => $mlid, 'depth' => $depth, 'menu' => $menu, 'respect_expanded' => $respect_expanded))) {
     if ($menu_tree['content']) {
       $output['content'] = '<ul class="nice-menu nice-menu-' . $direction . '" id="nice-menu-' . $id . '">' . $menu_tree['content'] . '</ul>' . "\n";
       $output['subject'] = $menu_tree['subject'];
