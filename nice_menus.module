@@ -416,11 +416,10 @@ function theme_nice_menus_build($variables) {
       $last_class = $index == $count ? ' last ' : '';
       // Build class name based on menu path
       // e.g. to give each menu item individual style.
+      $class =  str_replace(array('http', 'https', '://', 'www'), '', $menu_item['link']['href']);
+      
       // Strip funny symbols.
-      $clean_path = str_replace(array('http://', 'www', '<', '>', '&', '=', '?', ':', '.'), '', $menu_item['link']['href']);
-      // Convert slashes to dashes.
-      $clean_path = str_replace('/', '-', $clean_path);
-      $class = 'menu-path-' . $clean_path;
+      $class = drupal_html_class('menu-path-' . $class);
       if ($trail && in_array($mlid, $trail)) {
         $class .= ' active-trail';
       }
