@@ -6,7 +6,7 @@
  */
 
 /**
- * Settings form as implemented by hook_menu
+ * Settings form as implemented by hook_menu.
  */
 function nice_menus_admin_settings($form, &$form_state) {
   $form['nice_menus_number'] = array(

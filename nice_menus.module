@@ -2,7 +2,7 @@
 
 /**
  * @file
- *  Module to enable CSS dropdown and flyout menus.
+ * Module to enable CSS dropdown and flyout menus.
  *
  * Maintainer: Addison Berry (add1sun)
  * Originally written by Jake Gordon (jakeg)
@@ -30,7 +30,6 @@ function nice_menus_help($path, $arg) {
 function nice_menus_form_alter(&$form, $form_state, $form_id) {
   switch ($form_id) {
     case 'system_theme_settings':
-
       // This is a global setting, so only insert the field
       // on the global settings page.
       if (arg(4) && arg(4) != 'global') {
@@ -103,10 +102,10 @@ function nice_menus_init() {
 }
 
 /**
- * Implements hook_library()
+ * Implements hook_library().
  */
-function nice_menus_library() { 
-  $module_path = drupal_get_path('module', 'nice_menus'); 
+function nice_menus_library() {
+  $module_path = drupal_get_path('module', 'nice_menus');
   // Jquery bgiframe.
   $libraries['jquery.bgiframe'] = array(
     'title' => 'bgiframe',
@@ -149,13 +148,13 @@ function nice_menus_library() {
     'js' => array(
       $module_path . '/js/nice_menus.js' => array(),
       // Add the Superfish options variables.
-       array(
-         'type' => 'setting',
-         'data' => array('nice_menus_options' => array(
+      array(
+        'type' => 'setting',
+        'data' => array('nice_menus_options' => array(
             'delay' => variable_get('nice_menus_sf_delay', 800),
             'speed' => variable_get('nice_menus_sf_speed', 1),
-          )),
-       ),
+        )),
+      ),
     ),
     'dependencies' => array(
       array('nice_menus', 'superfish'),
@@ -241,7 +240,13 @@ function nice_menus_block_view($delta = 1) {
   $direction = variable_get('nice_menus_type_' . $delta, 'right');
   $depth = variable_get('nice_menus_depth_' . $delta, '-1');
   $respect_expanded = variable_get('nice_menus_respect_expand_' . $delta, 0);
-  if ($output = theme('nice_menus', array('id' => $delta, 'menu_name' => $menu_name, 'mlid' => $mlid, 'direction' => $direction, 'depth' => $depth, 'respect_expanded' => $respect_expanded))) {
+  if ($output = theme('nice_menus', array(
+                                                                            'id' => $delta,
+                                                                            'menu_name' =>$menu_name,
+                                                                            'mlid' =>$mlid,
+                                                                            'direction' =>$direction,
+                                                                            'depth' => $depth,
+                                                                            'respect_expanded' => $respect_expanded))) {
     $block['content'] = $output['content'];
     if (variable_get('nice_menus_type_' . $delta, 'right') == 'down') {
       $class = 'nice-menu-hide-title';
@@ -313,28 +318,34 @@ function nice_menus_build_page_trail($page_menu) {
 
 /**
  * Builds the final Nice menu.
- *
- * @param $menu_name
- *   The top-level menu name that contains the menu to use (e.g. navigation
- *   or main-menu) for Drupal menus. For custom $menus this is just the
- *   name for menu display.
- * @param $mlid
- *   The menu ID from which to start building the items, i.e. the parent
- *   of the displayed menu.
- * @param $depth
- *   The number of children levels to display. Use -1 to display all children
- *   and use 0 to display no children.
- * @param $menu
- *   Optional. A custom menu array to use for theming -- it should have
- *   the same structure as that returned by menu_tree_all_data().
- *
+ * 
  * @return
  *   An HTML string of properly nested Nice menu lists.
  */
 function theme_nice_menus_tree($variables) {
+  /**
+   * The top-level menu name that contains the menu to use (e.g. navigation
+   * or main-menu) for Drupal menus. For custom $menus this is just the
+   * name for menu display.
+   */
   $menu_name = $variables['menu_name'];
+  
+  /**
+   * The menu ID from which to start building the items, i.e. the parent
+   * of the displayed menu.
+   */
   $mlid = $variables['mlid'];
+  
+  /**
+   * The number of children levels to display. Use -1 to display all children
+   * and use 0 to display no children.
+   */
   $depth = $variables['depth'];
+  
+  /**
+   * Optional. A custom menu array to use for theming -- it should have.
+   * the same structure as that returned by menu_tree_all_data().
+   */
   $menu = $variables['menu'];
   $respect_expanded = $variables['respect_expanded'];
   // Load the full menu array.
@@ -353,8 +364,8 @@ function theme_nice_menus_tree($variables) {
   // Assume depth == 0 by default, overriden if mlid is specified.
   $parent_depth = 0;
   
-  // For custom $menus and menus built all the way from the top-level we
-  // don't need to "create" the specific sub-menu and we need to get the title
+  // For custom $menus and menus built all the way from the top-level we.
+  // don't need to "create" the specific sub-menu and we need to get the title.
   // from the $menu_name since there is no "parent item" array.
 
   // Create the specific menu if we have a mlid.
@@ -409,7 +420,7 @@ function theme_nice_menus_build($variables) {
   $depth = $variables['depth'];
   $trail = $variables['trail'];
   $respect_expanded = $variables['respect_expanded'];
-  //dpm(debug_backtrace(), 'test');
+
   $output = '';
   // Prepare to count the links so we can mark first, last, odd and even.
   $index = 0;
@@ -431,8 +442,7 @@ function theme_nice_menus_build($variables) {
       $last_class = $index == $count ? ' last ' : '';
       // Build class name based on menu path
       // e.g. to give each menu item individual style.
-      $class =  str_replace(array('http', 'https', '://', 'www'), '', $menu_item['link']['href']);
-      
+      $class = str_replace(array('http', 'https', '://', 'www'), '', $menu_item['link']['href']);
       // Strip funny symbols.
       $class = drupal_html_class('menu-path-' . $class);
       if ($trail && in_array($mlid, $trail)) {
