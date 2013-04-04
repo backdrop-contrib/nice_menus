@@ -91,14 +91,14 @@ function nice_menus_init() {
   }
 
   // Add main CSS functionality.
-  drupal_add_css(drupal_get_path('module', 'nice_menus') . '/nice_menus.css', array('group' => CSS_DEFAULT, 'basename' => 'nice_menus.css'));
+  drupal_add_css(drupal_get_path('module', 'nice_menus') . '/css/nice_menus.css', array('group' => CSS_DEFAULT, 'basename' => 'nice_menus.css'));
   // Add custom CSS layout if specified.
   if ($custom = variable_get('nice_menus_custom_css', '')) {
-    drupal_add_css($custom, array('group' => CSS_DEFAULT, 'basename' => 'nice_menus_custom.css'));
+    drupal_add_css($custom, array('group' => CSS_DEFAULT, 'basename' => '/css/nice_menus_custom.css'));
   }
   // Fall back to default layout.
   else {
-    drupal_add_css(drupal_get_path('module', 'nice_menus') . '/nice_menus_default.css', array('group' => CSS_DEFAULT, 'basename' => 'nice_menus_default.css'));
+    drupal_add_css(drupal_get_path('module', 'nice_menus') . '/css/nice_menus_default.css', array('group' => CSS_DEFAULT, 'basename' => '/css/nice_menus_default.css'));
   }
 }
 
@@ -113,7 +113,7 @@ function nice_menus_library() {
     'website' => 'http://docs.jquery.com/Plugins/bgiframe',
     'version' => '2.1',
     'js' => array(
-      $module_path . '/superfish/js/jquery.bgiframe.min.js' => array(),
+      $module_path . '/js/jquery.bgiframe.min.js' => array(),
     ),
   );
 
@@ -123,7 +123,7 @@ function nice_menus_library() {
     'website' => 'http://cherne.net/brian/resources/jquery.hoverIntent.html',
     'version' => '0.5',
     'js' => array(
-      $module_path . '/superfish/js/jquery.hoverIntent.minified.js' => array(),
+      $module_path . '/js/jquery.hoverIntent.minified.js' => array(),
     ),
   );
 
@@ -133,7 +133,7 @@ function nice_menus_library() {
     'website' => 'http://users.tpg.com.au/j_birch/plugins/superfish/',
     'version' => '1.4.8',
     'js' => array(
-      $module_path . '/superfish/js/superfish.js' => array(),
+      $module_path . '/js/superfish.js' => array(),
     ),
     'dependencies' => array(
       array('nice_menus', 'jquery.bgiframe'),
@@ -147,7 +147,7 @@ function nice_menus_library() {
     'website' => 'http://drupal.org/project/nice_menus',
     'version' => '1.0',
     'js' => array(
-      $module_path . '/nice_menus.js' => array(),
+      $module_path . '/js/nice_menus.js' => array(),
       // Add the Superfish options variables.
        array(
          'type' => 'setting',
