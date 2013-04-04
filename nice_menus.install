@@ -6,6 +6,31 @@
  */
 
 /**
+ * Implements hook_uninstall().
+ */
+function nice_menus_uninstall() {
+  // Remove all the configuration variables added by the module.
+  db_delete('variable')
+    ->condition('name', 'nice_menus_%', 'LIKE')
+    ->execute();
+
+  // Remove all the block configurations of the module.
+  if (module_exists('block')) {
+    db_delete('block')
+      ->condition('module', 'nice_menus')
+      ->execute();
+    db_delete('block_node_type')
+      ->condition('module', 'nice_menus')
+      ->execute();
+    db_delete('block_role')
+      ->condition('module', 'nice_menus')
+      ->execute();
+  }
+
+  cache_clear_all();
+}
+
+/**
  * Implements hook_update_N().
  */
 function nice_menus_update_6000() {
