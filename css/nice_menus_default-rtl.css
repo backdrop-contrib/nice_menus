@@ -1,4 +1,5 @@
-ul.nice-menu,ul.nice-menu ul {
+ul.nice-menu,
+ul.nice-menu ul {
   border-top: 1px solid #ccc;
   list-style: none;
   margin: 0;
@@ -52,7 +53,8 @@ ul.nice-menu-right li li.menuparent {
   background: #eee url("../images/arrow-right.png") right center no-repeat;
 }
 
-ul.nice-menu-right li.menuparent:hover, ul.nice-menu-right li li.menuparent:hover {
+ul.nice-menu-right li.menuparent:hover,
+ul.nice-menu-right li li.menuparent:hover {
   background: #ccc url("../images/arrow-right.png") right center no-repeat;
 }
 
@@ -68,15 +70,18 @@ ul.nice-menu-left li ul li ul {
   width: 12.5em;
 }
 
-ul.nice-menu-left li.menuparent, ul.nice-menu-left li li.menuparent {
+ul.nice-menu-left li.menuparent,
+ul.nice-menu-left li li.menuparent {
   background: #eee url("../images/arrow-left.png") left center no-repeat;
 }
 
-ul.nice-menu-left li.menuparent:hover, ul.nice-menu-left li li.menuparent:hover {
+ul.nice-menu-left li.menuparent:hover,
+ul.nice-menu-left li li.menuparent:hover {
   background: #ccc url("../images/arrow-left.png") left center no-repeat;
 }
 
-ul.nice-menu-left a, ul.nice-menu-left ul a {
+ul.nice-menu-left a,
+ul.nice-menu-left ul a {
   padding-right: 14px;
 }
 

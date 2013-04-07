@@ -37,8 +37,8 @@ function nice_menus_update_6000() {
   // Existing blocks need to be set to no caching.
   $ret = array();
   /*
-   * TODO update_sql has been removed. Use the database API for any schema or data
-   * changes.
+   * TODO update_sql has been removed. Use the database API for any
+   * schema or data changes.
    * update_sql("UPDATE {block} SET cache = -1 WHERE module = 'nice_menus'") 
    */
   $ret[] = array();
@@ -65,7 +65,7 @@ function nice_menus_update_6001() {
 }
 
 /**
- * Update the menu selection variables to match the new format that allows.
+ * Update the menu selection variables to match the new format that allows
  * selection of the exact menu item to start the display from.
  */
 function nice_menus_update_6002() {
