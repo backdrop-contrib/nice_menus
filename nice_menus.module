@@ -150,10 +150,12 @@ function nice_menus_library() {
       // Add the Superfish options variables.
       array(
         'type' => 'setting',
-        'data' => array('nice_menus_options' => array(
+        'data' => array(
+          'nice_menus_options' => array(
             'delay' => variable_get('nice_menus_sf_delay', 800),
             'speed' => variable_get('nice_menus_sf_speed', 1),
-        )),
+          )
+        ),
       ),
     ),
     'dependencies' => array(
@@ -241,12 +243,12 @@ function nice_menus_block_view($delta = 1) {
   $depth = variable_get('nice_menus_depth_' . $delta, '-1');
   $respect_expanded = variable_get('nice_menus_respect_expand_' . $delta, 0);
   if ($output = theme('nice_menus', array(
-                                                                            'id' => $delta,
-                                                                            'menu_name' =>$menu_name,
-                                                                            'mlid' =>$mlid,
-                                                                            'direction' =>$direction,
-                                                                            'depth' => $depth,
-                                                                            'respect_expanded' => $respect_expanded))) {
+    'id' => $delta,
+    'menu_name' => $menu_name,
+    'mlid' => $mlid,
+    'direction' => $direction,
+    'depth' => $depth,
+    'respect_expanded' => $respect_expanded))) {
     $block['content'] = $output['content'];
     if (variable_get('nice_menus_type_' . $delta, 'right') == 'down') {
       $class = 'nice-menu-hide-title';
@@ -284,7 +286,7 @@ function nice_menus_theme() {
     ),
     'nice_menus' => array(
       'variables' => array('id' => NULL, 'menu_name' => NULL, 'mlid' => NULL, 'direction' => 'right', 'depth' => -1, 'respect_expanded' => 0, 'menu' => NULL),
-    ),
+      ),
     'nice_menus_main_menu' => array(
       'variables' => array('direction' => 'down', 'depth' => -1),
     ),
@@ -298,7 +300,7 @@ function nice_menus_theme() {
  * Builds the active trail from the page's menu data.
  *
  * @param $page_menu
- *   The menu data for a page.
+ * The menu data for a page.
  *
  * @return
  *   An array of parent menu item ids.
@@ -320,29 +322,30 @@ function nice_menus_build_page_trail($page_menu) {
  * Builds the final Nice menu.
  * 
  * @return
- *   An HTML string of properly nested Nice menu lists.
+ * An HTML string of properly nested Nice menu lists.
  */
 function theme_nice_menus_tree($variables) {
-  /**
+
+  /*
    * The top-level menu name that contains the menu to use (e.g. navigation
    * or main-menu) for Drupal menus. For custom $menus this is just the
    * name for menu display.
    */
   $menu_name = $variables['menu_name'];
-  
-  /**
+
+  /*
    * The menu ID from which to start building the items, i.e. the parent
    * of the displayed menu.
    */
   $mlid = $variables['mlid'];
-  
-  /**
+
+  /*
    * The number of children levels to display. Use -1 to display all children
    * and use 0 to display no children.
    */
   $depth = $variables['depth'];
-  
-  /**
+
+  /*
    * Optional. A custom menu array to use for theming -- it should have.
    * the same structure as that returned by menu_tree_all_data().
    */
@@ -360,10 +363,9 @@ function theme_nice_menus_tree($variables) {
   if (module_exists('i18n_menu')) {
     $menu = i18n_menu_localize_tree($menu);
   }
-  
   // Assume depth == 0 by default, overriden if mlid is specified.
   $parent_depth = 0;
-  
+
   // For custom $menus and menus built all the way from the top-level we.
   // don't need to "create" the specific sub-menu and we need to get the title.
   // from the $menu_name since there is no "parent item" array.

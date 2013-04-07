@@ -3,4 +3,3 @@ description = CSS/jQuery drop-down, drop-right and drop-left menus to be placed 
 dependencies[] = menu
 core = 7.x
 configure = admin/config/user-interface/nice_menus
-

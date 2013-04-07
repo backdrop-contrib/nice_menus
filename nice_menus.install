@@ -2,7 +2,7 @@
 
 /**
  * @file
- *Update functions for Nice menus.
+ * Update functions for Nice menus.
  */
 
 /**
@@ -36,14 +36,14 @@ function nice_menus_uninstall() {
 function nice_menus_update_6000() {
   // Existing blocks need to be set to no caching.
   $ret = array();
-  /**
+  /*
    * TODO update_sql has been removed. Use the database API for any schema or data
    * changes.
    * update_sql("UPDATE {block} SET cache = -1 WHERE module = 'nice_menus'") 
    */
   $ret[] = array();
-  
-  /* hook_update_N() no longer returns a $ret array. Instead, return
+  /*
+   * hook_update_N() no longer returns a $ret array. Instead, return
    * nothing or a translated string indicating the update ran successfully.
    * See http://drupal.org/node/224333#update_sql.
    */
@@ -71,7 +71,7 @@ function nice_menus_update_6001() {
 function nice_menus_update_6002() {
   for ($delta = 1; $delta <= variable_get('nice_menus_number', '2'); $delta++) {
     $menu = variable_get('nice_menus_menu_' . $delta, 'navigation');
-    // If no menu item is selected
+    // If no menu item is selected.
     if (strpos($menu, ':') === FALSE) {
       variable_set('nice_menus_menu_' . $delta, $menu . ':0');
     }
