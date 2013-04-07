@@ -4,21 +4,36 @@ NICE MENUS MODULE
 
 Currently maintained by: Addison Berry (add1sun)
 
-Orginally created by: Jake Gordon (jakeg) http://drupal.org/user/15674/contact and http://www.jakeg.co.uk/
+Orginally created by: Jake Gordon (jakeg)
+http://drupal.org/user/15674/contact and http://www.jakeg.co.uk/
 
-This module makes it easy to add dropdown and flyout menus, using the Superfish jQuery plugin (http://users.tpg.com.au/j_birch/plugins/superfish), and falling back to CSS-only functionality when JS is disabled.
+This module makes it easy to add dropdown and flyout menus,
+using the Superfish jQuery plugin
+(http://users.tpg.com.au/j_birch/plugins/superfish),
+and falling back to CSS-only functionality when JS is disabled.
 
-Please report any bugs, feature requests, etc. at: http://drupal.org/project/issues/nice_menus.
+Please report any bugs, feature requests, etc. at:
+http://drupal.org/project/issues/nice_menus.
 
 
 Installation
 ------------
 1. Copy nice_modules folder to your sites/all/modules directory.
-2. At Administer -> Site building -> Modules (admin/build/modules) enable the module.
-3. Configure the module settings at Administer -> Site configuration -> Nice Menus (admin/settings/nice_menus).
-4. Configure the Nice Menus block(s) at Administer -> Site building -> Blocks (admin/build/block), setting the source menu and menu style, etc.
-5. Return to the blocks page and enable the Nice menus block(s), e.g. 'Nice Menu 1 (Nice Menu)' by putting it in a region.
-6. See below sections on Customization and Advanced Theming as well as the handbook page (http://drupal.org/node/185543) for more tips.
+2. At Administer -> Site building -> Modules (admin/build/modules)
+enable the module.
+
+3. Configure the module settings at
+Administer -> Site configuration -> Nice Menus (admin/settings/nice_menus).
+
+4. Configure the Nice Menus block(s) at
+Administer -> Site building -> Blocks (admin/build/block),
+setting the source menu and menu style, etc.
+
+5. Return to the blocks page and enable the Nice menus block(s),
+e.g. 'Nice Menu 1 (Nice Menu)' by putting it in a region.
+
+6. See below sections on Customization and Advanced Theming as
+well as the handbook page (http://drupal.org/node/185543) for more tips.
 
 Upgrading
 ---------
@@ -30,7 +45,15 @@ You can track known issues at http://drupal.org/project/issues/nice_menus.
 
 Customization
 -------------
-The module includes a default CSS layout file (nice_menus_default.css) which is loaded for all pages.  If you don't like the default layout, it is suggested that you create a separate customized CSS file, and replace the default CSS file at Administer -> Themes -> Configure -> Global settings -> "Path to custom nice menus CSS file". This ensures smooth future upgrades as no editing of the module files is necessary. NOTE: you should not edit the regular nice_menus.css file since this contains the "logic" that makes Nice menus work.
+The module includes a default CSS layout file (nice_menus_default.css)
+which is loaded for all pages.  If you don't like the default layout,
+it is suggested that you create a separate customized CSS file,
+and replace the default CSS file at
+Administer -> Themes -> Configure -> Global settings -> "Path to
+custom nice menus CSS file".
+This ensures smooth future upgrades as no editing of the module files is necessary.
+NOTE: you should not edit the regular nice_menus.
+css file since this contains the "logic" that makes Nice menus work.
 
 To help understand the CSS, the HTML looks like this, where
   x is a number;

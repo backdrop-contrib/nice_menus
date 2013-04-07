@@ -8,7 +8,6 @@
  *
  * CHANGELOG: http://users.tpg.com.au/j_birch/plugins/superfish/changelog.txt
  */
-
 ;(function($){
   $.fn.superfish = function(op){
 
@@ -24,9 +23,9 @@
       var $$ = $(this), menu = getMenu($$), o = sf.op;
       clearTimeout(menu.sfTimer);
       menu.sfTimer = setTimeout(function(){
-        o.retainPath = ($.inArray($$[0],o.$path)>-1);
+        o.retainPath = ($.inArray($$[0],o.$path) > -1);
         $$.hideSuperfishUl();
-        if (o.$path.length && $$.parents(['li.', o.hoverClass].join('')).length<1){
+        if (o.$path.length && $$.parents(['li.', o.hoverClass].join('')).length < 1){
           over.call(o.$path);
         }
       }, o.delay);	
@@ -70,7 +69,9 @@
 
     }).each(function() {
       var menuClasses = [c.menuClass];
-      if (sf.op.dropShadows  && !($.browser.msie && $.browser.version < 7)) menuClasses.push(c.shadowClass);
+      if (sf.op.dropShadows  && !($.browser.msie && $.browser.version < 7)) {
+        menuClasses.push(c.shadowClass);
+      }
       $(this).addClass(menuClasses.join(' '));
     });
   };
@@ -111,7 +112,7 @@
   $.fn.extend({
     hideSuperfishUl : function() {
       var o = sf.op,
-      not = (o.retainPath===true) ? o.$path : '';
+      not = (o.retainPath === true) ? o.$path : '';
       o.retainPath = false;
       var $ul = $(['li.',o.hoverClass].join(''),this).add(this).not(not).removeClass(o.hoverClass)
       .find('>ul').hide().css('visibility','hidden');

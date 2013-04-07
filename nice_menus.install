@@ -39,7 +39,7 @@ function nice_menus_update_6000() {
   /*
    * TODO update_sql has been removed. Use the database API for any
    * schema or data changes.
-   * update_sql("UPDATE {block} SET cache = -1 WHERE module = 'nice_menus'") 
+   * update_sql("UPDATE {block} SET cache = -1 WHERE module = 'nice_menus'").
    */
   $ret[] = array();
   /*
@@ -65,6 +65,8 @@ function nice_menus_update_6001() {
 }
 
 /**
+ * Implements hook_update_N().
+ * 
  * Update the menu selection variables to match the new format that allows
  * selection of the exact menu item to start the display from.
  */
