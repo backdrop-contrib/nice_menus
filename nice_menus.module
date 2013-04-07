@@ -17,8 +17,9 @@ function nice_menus_help($path, $arg) {
     case 'admin/config/modules#description':
       $output .= t('Make drop down/flyout CSS menus for site and admin menus.');
       break;
+
     case 'admin/config/nice_menus':
-      $output .= t('<p>This is a simple module that enables the site to have drop down/flyout CSS menus for site and admin navigation.</p><p>Remember to activate and configure the menu blocks in !link</p>', array('!link' => l('admin/structure/block', 'admin/structure/block')));
+      $output .= t('<p>This is a simple module that enables the site to have drop down/flyout CSS menus for site and admin navigation.</p><p>Remember to activate and configure the menu blocks in ' . l('admin/structure/block', 'admin/structure/block') . '.</p>');
       break;
   }
   return $output;
@@ -146,8 +147,6 @@ function nice_menus_library() {
     'website' => 'http://drupal.org/project/nice_menus',
     'version' => '1.0',
     'js' => array(
-      $module_path . '/js/nice_menus.js' => array(),
-      // Add the Superfish options variables.
       array(
         'type' => 'setting',
         'data' => array(
@@ -157,6 +156,8 @@ function nice_menus_library() {
           ),
         ),
       ),
+      $module_path . '/js/nice_menus.js' => array(),
+      // Add the Superfish options variables.
     ),
     'dependencies' => array(
       array('nice_menus', 'superfish'),
@@ -284,7 +285,7 @@ function nice_menus_theme() {
         'mlid' => NULL,
         'depth' => -1,
         'menu' => NULL,
-        'respect_expanded' => 0
+        'respect_expanded' => 0,
       ),
     ),
     'nice_menus_build' => array(
@@ -292,7 +293,7 @@ function nice_menus_theme() {
         'menu' => NULL,
         'depth' => -1,
         'trail' => NULL,
-        'respect_expanded' => 0
+        'respect_expanded' => 0,
       ),
     ),
     'nice_menus' => array(
@@ -302,7 +303,7 @@ function nice_menus_theme() {
         'mlid' => NULL, 'direction' =>
         'right', 'depth' => -1,
         'respect_expanded' => 0,
-        'menu' => NULL
+        'menu' => NULL,
       ),
     ),
     'nice_menus_main_menu' => array(
@@ -316,9 +317,9 @@ function nice_menus_theme() {
 
 /**
  * Builds the active trail from the page's menu data.
- * @param array $page_menu
+ * @param $page_menu
  *   The menu data for a page.
- * 
+ *
  * @return mixed
  *   An array of parent menu item ids.
  */
@@ -337,7 +338,7 @@ function nice_menus_build_page_trail($page_menu) {
 
 /**
  * Builds the final Nice menu.
- * 
+ *
  * @return mixed
  *   An HTML string of properly nested Nice menu lists.
  */
@@ -506,14 +507,14 @@ function theme_nice_menus_build($variables) {
               $parent_class, $class,
               $first_class,
               $oddeven_class,
-              $last_class
+              $last_class,
             ),
           ),
           '#original_link' => $menu_item['link'],
         );
         $variables['element'] = $element;
 
-        // Check for context reactions menu
+        // Check for context reactions menu.
         if (module_exists('context')) {
           context_preprocess_menu_link($variables);
           if (isset($variables['element']['#localized_options']['attributes']['class']) &&
@@ -524,7 +525,6 @@ function theme_nice_menus_build($variables) {
         }
 
         $output .= theme('menu_link', $variables);
-        
       }
       else {
         $element = array(
@@ -538,7 +538,7 @@ function theme_nice_menus_build($variables) {
               $class,
               $first_class,
               $oddeven_class,
-              $last_class
+              $last_class,
             ),
           ),
           '#original_link' => $menu_item['link'],
@@ -564,7 +564,9 @@ function theme_nice_menus_build($variables) {
 
 /**
  * Theme function to allow any menu tree to be themed as a Nice menu.
- * @param array $variables
+ * @param $variables
+ *   is an array, menu arguments.
+ *
  * @return mixed
  *   An HTML string of Nice menu links.
  */

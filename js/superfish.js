@@ -1,4 +1,4 @@
-/**
+/*!
  * Superfish v1.4.8 - jQuery menu widget
  * Copyright (c) 2008 Joel Birch
  *
@@ -28,7 +28,7 @@
         if (o.$path.length && $$.parents(['li.', o.hoverClass].join('')).length < 1){
           over.call(o.$path);
         }
-      }, o.delay);	
+      }, o.delay);
     },
     getMenu = function($menu){
       var menu = $menu.parents(['ul.',c.menuClass,':first'].join(''))[0];
@@ -103,7 +103,7 @@
     speed               : 'normal',
     autoArrows	   : true,
     dropShadows : true,
-    disableHI     : false,		// true disables hoverIntent detection
+    disableHI     : false,// true disables hoverIntent detection.
     onInit          : function(){}, // callback functions
     onBeforeShow: function(){},
     onShow          : function(){},
