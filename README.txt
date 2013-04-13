@@ -148,4 +148,5 @@ theme_nice_menus_main_menu() -- themes your main menu as a Nice menu.
 theme_nice_menus_secondary_menu() -- themes your secondary menu as a Nice menu.
 
 If you really know what you're doing, you can probably even customize the menu
-tree in creative ways, as those functions allow you to pass in a custom menu tree.
+tree in creative ways, as those functions allow you to pass in a custom
+menu tree.

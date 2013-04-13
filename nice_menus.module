@@ -18,8 +18,8 @@ function nice_menus_help($path, $arg) {
       $output .= t('Make drop down/flyout CSS menus for site and admin menus.');
       break;
 
-    case 'admin/config/nice_menus':
-      $output .= t('<p>This is a simple module that enables the site to have drop down/flyout CSS menus for site and admin navigation.</p><p>Remember to activate and configure the menu blocks in ' . l('admin/structure/block', 'admin/structure/block') . '.</p>');
+    case 'admin/config/user-interface/nice_menus':
+      $output .= st('<p>This is a simple module that enables the site to have drop down/flyout CSS menus for site and admin navigation.</p><p>Remember to activate and configure the menu blocks in !link</p>', array('!link' => l('admin/structure/block', 'admin/structure/block')));
       break;
   }
   return $output;
@@ -147,6 +147,8 @@ function nice_menus_library() {
     'website' => 'http://drupal.org/project/nice_menus',
     'version' => '1.0',
     'js' => array(
+      $module_path . '/js/nice_menus.js' => array(),
+       // Add the Superfish options variables.
       array(
         'type' => 'setting',
         'data' => array(
@@ -156,8 +158,6 @@ function nice_menus_library() {
           ),
         ),
       ),
-      $module_path . '/js/nice_menus.js' => array(),
-      // Add the Superfish options variables.
     ),
     'dependencies' => array(
       array('nice_menus', 'superfish'),
@@ -317,7 +317,8 @@ function nice_menus_theme() {
 
 /**
  * Builds the active trail from the page's menu data.
- * @param $page_menu
+ *
+ * @param array $page_menu
  *   The menu data for a page.
  *
  * @return mixed
@@ -564,7 +565,8 @@ function theme_nice_menus_build($variables) {
 
 /**
  * Theme function to allow any menu tree to be themed as a Nice menu.
- * @param $variables
+ *
+ * @param array $variables
  *   is an array, menu arguments.
  *
  * @return mixed
