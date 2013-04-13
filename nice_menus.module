@@ -250,7 +250,7 @@ function nice_menus_block_view($delta = 1) {
     'direction' => $direction,
     'depth' => $depth,
     'respect_expanded' => $respect_expanded))) {
-    $block['content'] = $output['content'];
+    $block['content']['#markup'] = $output['content'];
     if (variable_get('nice_menus_type_' . $delta, 'right') == 'down') {
       $class = 'nice-menu-hide-title';
     }
@@ -267,6 +267,7 @@ function nice_menus_block_view($delta = 1) {
       $subject = $output['subject'];
     }
     $block['subject'] = '<span class="' . $class . '">' . check_plain($subject) . '</span>';
+    $block['content']['#contextual_links']['simple_menus'] = array('admin/structure/menu/manage', array($menu_name));
   }
   else {
     $block['content'] = FALSE;
