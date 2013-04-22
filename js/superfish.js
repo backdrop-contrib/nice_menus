@@ -104,7 +104,8 @@
     speed               : 'normal',
     autoArrows	   : true,
     dropShadows : true,
-    disableHI     : false, // true disables hoverIntent detection.
+    // true disables hoverIntent detection.
+    disableHI     : false,
     onInit          : function(){}, // callback functions
     onBeforeShow: function(){},
     onShow          : function(){},

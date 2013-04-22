@@ -19,7 +19,7 @@ function nice_menus_help($path, $arg) {
       break;
 
     case 'admin/config/user-interface/nice_menus':
-      $output .= st('<p>This is a simple module that enables the site to have drop down/flyout CSS menus for site and admin navigation.</p><p>Remember to activate and configure the menu blocks in !link</p>', array('!link' => l('admin/structure/block', 'admin/structure/block')));
+      $output .= t('<p>This is a simple module that enables the site to have drop down/flyout CSS menus for site and admin navigation.</p><p>Remember to activate and configure the menu blocks in !link</p>', array('!link' => l(t('admin/structure/block'), 'admin/structure/block')));
       break;
   }
   return $output;
@@ -147,20 +147,21 @@ function nice_menus_library() {
     'website' => 'http://drupal.org/project/nice_menus',
     'version' => '1.0',
     'js' => array(
+      // Add the Superfish options variables.
       $module_path . '/js/nice_menus.js' => array(),
-       // Add the Superfish options variables.
-      array(
-        'type' => 'setting',
-        'data' => array(
-          'nice_menus_options' => array(
-            'delay' => variable_get('nice_menus_sf_delay', 800),
-            'speed' => variable_get('nice_menus_sf_speed', 'slow'),
-          ),
-        ),
-      ),
     ),
     'dependencies' => array(
       array('nice_menus', 'superfish'),
+    ),
+  );
+  // Add the javascript according to configuration settings.
+  $libraries['nice_menus']['js'][] = array(
+    'type' => 'setting',
+    'data' => array(
+      'nice_menus_options' => array(
+        'delay' => variable_get('nice_menus_sf_delay', 800),
+        'speed' => variable_get('nice_menus_sf_speed', 'slow'),
+      ),
     ),
   );
 
@@ -446,7 +447,7 @@ function theme_nice_menus_build($variables) {
 
   // An array of parent menu items.
   $trail = $variables['trail'];
-  //"Show as expanded" option
+  // "Show as expanded" option.
   $respect_expanded = $variables['respect_expanded'];
 
   $output = '';
@@ -598,7 +599,7 @@ function theme_nice_menus($variables) {
    * by menu_tree_all_data(). Default is the standard menu tree.
    */
   $menu = $variables['menu'];
-  //"Show as expanded" option
+  // "Show as expanded" option.
   $respect_expanded = $variables['respect_expanded'];
   if ($menu_tree = theme('nice_menus_tree', array(
     'menu_name' => $menu_name,
