@@ -154,7 +154,7 @@ function nice_menus_library() {
         'data' => array(
           'nice_menus_options' => array(
             'delay' => variable_get('nice_menus_sf_delay', 800),
-            'speed' => variable_get('nice_menus_sf_speed', 1),
+            'speed' => variable_get('nice_menus_sf_speed', 'slow'),
           ),
         ),
       ),
