@@ -446,6 +446,7 @@ function theme_nice_menus_build($variables) {
 
   // An array of parent menu items.
   $trail = $variables['trail'];
+  //"Show as expanded" option
   $respect_expanded = $variables['respect_expanded'];
 
   $output = '';
@@ -464,16 +465,16 @@ function theme_nice_menus_build($variables) {
     if (!isset($menu_item['link']['hidden']) || $menu_item['link']['hidden'] == 0) {
       // Check our count and build first, last, odd/even classes.
       $index++;
-      $first_class = $index == 1 ? ' first ' : '';
-      $oddeven_class = $index % 2 == 0 ? ' even ' : ' odd ';
-      $last_class = $index == $count ? ' last ' : '';
+      $first_class = ($index == 1) ? 'first' : '';
+      $oddeven_class = ($index % 2 == 0) ? 'even' : 'odd';
+      $last_class = ($index == $count) ? 'last' : '';
       // Build class name based on menu path
       // e.g. to give each menu item individual style.
       $class = str_replace(array('http', 'https', '://', 'www'), '', $menu_item['link']['href']);
       // Strip funny symbols.
       $class = drupal_html_class('menu-path-' . $class);
       if ($trail && in_array($mlid, $trail)) {
-        $class .= ' active-trail';
+        $class .= 'active-trail';
       }
       // If it has children build a nice little tree under it.
       // Build a nice little tree under it if it has children, and has been set
@@ -506,7 +507,8 @@ function theme_nice_menus_build($variables) {
           '#attributes' => array(
             'class' => array(
               'menu-' . $mlid,
-              $parent_class, $class,
+              $parent_class,
+              $class,
               $first_class,
               $oddeven_class,
               $last_class,
@@ -596,6 +598,7 @@ function theme_nice_menus($variables) {
    * by menu_tree_all_data(). Default is the standard menu tree.
    */
   $menu = $variables['menu'];
+  //"Show as expanded" option
   $respect_expanded = $variables['respect_expanded'];
   if ($menu_tree = theme('nice_menus_tree', array(
     'menu_name' => $menu_name,
