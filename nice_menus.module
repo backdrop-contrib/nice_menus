@@ -608,7 +608,7 @@ function theme_nice_menus($variables) {
     'menu' => $menu,
     'respect_expanded' => $respect_expanded))) {
     if ($menu_tree['content']) {
-      $output['content'] = '<ul class="nice-menu nice-menu-' . $direction . '" id="nice-menu-' . $id . '">' . $menu_tree['content'] . '</ul>' . "\n";
+      $output['content'] = '<ul class="nice-menu nice-menu-' . $direction . ' nice-menu-' . $menu_name . '" id="nice-menu-' . $id . '">' . $menu_tree['content'] . '</ul>' . "\n";
       $output['subject'] = $menu_tree['subject'];
     }
   }
