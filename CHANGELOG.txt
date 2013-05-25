@@ -1,5 +1,5 @@
 
-=== DRUPAL 6.x-2.x ===
+=== DRUPAL 7.x-2.x ===
 7.x-2.0-beta1
 - FEATURE: Initial coder_upgrade changes to start the D7 upgrade.
 - BUG #735848: functional port to Drupal 7.
