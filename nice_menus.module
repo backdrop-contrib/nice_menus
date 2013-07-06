@@ -78,31 +78,6 @@ function nice_menus_menu() {
 }
 
 /**
- * Implements hook_init().
- *
- * We are adding the JavaScript and CSS here rather than theme_nice_menu
- * because when block caching is enabled none of it would get fired
- * and the menus are unstyled.
- */
-function nice_menus_init() {
-  // Add Superfish JavaScript, if enabled.
-  if (variable_get('nice_menus_js', 1) == 1) {
-    drupal_add_library('nice_menus', 'nice_menus');
-  }
-
-  // Add main CSS functionality.
-  drupal_add_css(drupal_get_path('module', 'nice_menus') . '/css/nice_menus.css', array('group' => CSS_DEFAULT, 'basename' => 'nice_menus.css'));
-  // Add custom CSS layout if specified.
-  if ($custom = variable_get('nice_menus_custom_css', '')) {
-    drupal_add_css($custom, array('group' => CSS_DEFAULT, 'basename' => '/css/nice_menus_custom.css'));
-  }
-  // Fall back to default layout.
-  else {
-    drupal_add_css(drupal_get_path('module', 'nice_menus') . '/css/nice_menus_default.css', array('group' => CSS_DEFAULT, 'basename' => '/css/nice_menus_default.css'));
-  }
-}
-
-/**
  * Implements hook_library().
  */
 function nice_menus_library() {
@@ -274,6 +249,30 @@ function nice_menus_block_view($delta = 1) {
     $block['content'] = FALSE;
   }
   return $block;
+}
+
+/**
+ * Implements hook_block_view_alter().
+ */
+function nice_menus_block_view_alter(&$data, $block) {
+  static $is_load = FALSE;
+  if ($block->module == 'nice_menus' && $is_load === FALSE) {
+    // Add Superfish JavaScript, if enabled.
+    if (variable_get('nice_menus_js', 1) == 1) {
+      drupal_add_library('nice_menus', 'nice_menus');
+    }
+    // Add main CSS functionality.
+    drupal_add_css(drupal_get_path('module', 'nice_menus') . '/css/nice_menus.css', array('group' => CSS_DEFAULT, 'basename' => 'nice_menus.css'));
+    // Add custom CSS layout if specified.
+    if ($custom = variable_get('nice_menus_custom_css', '')) {
+      drupal_add_css($custom, array('group' => CSS_DEFAULT, 'basename' => '/css/nice_menus_custom.css'));
+    }
+    // Fall back to default layout.
+    else {
+      drupal_add_css(drupal_get_path('module', 'nice_menus') . '/css/nice_menus_default.css', array('group' => CSS_DEFAULT, 'basename' => '/css/nice_menus_default.css'));
+    }
+    $is_load = TRUE;
+  }
 }
 
 /**
