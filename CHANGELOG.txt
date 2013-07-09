@@ -65,3 +65,8 @@ is the fricken man.
 
 7.x-2.3
 - BUG #1992154: Fixed active-trail class not properly applied
+
+7.x-2.4
+- BUG #2036343 Minor typo in the module's config page.
+- BUG #2020617 move all js and css to hook_block_view_alter().
+- FEATURE #2001616 upgrade included superfish,bgiframe and hoverIntent library.
