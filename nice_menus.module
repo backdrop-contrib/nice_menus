@@ -340,11 +340,11 @@ function nice_menus_block_view($delta = 1) {
 }
 
 /**
- * Implements hook_block_view_alter().
+ * add nice_menus js library.
  */
-function nice_menus_block_view_alter(&$data, $block) {
+function _load_nice_menus_library() {
   static $is_load = FALSE;
-  if ($block->module == 'nice_menus' && $is_load === FALSE) {
+  if ($is_load === FALSE) {
     // Add Superfish JavaScript, if enabled.
     if (variable_get('nice_menus_js', 1) == 1) {
       drupal_add_library('nice_menus', 'nice_menus');
@@ -433,6 +433,8 @@ function nice_menus_build_page_trail($page_menu) {
  *   An HTML string of properly nested Nice menu lists.
  */
 function theme_nice_menus_tree($variables) {
+  // load nice_menus js and css.
+  _load_nice_menus_library();
 
   /*
    * The top-level menu name that contains the menu to use (e.g. navigation
