@@ -690,7 +690,7 @@ function theme_nice_menus($variables) {
    */
   $menu = $variables['menu'];
   // "Show as expanded" option.
-  $respect_expanded = $variables['respect_expanded'];
+  $respect_expanded = isset($variables['respect_expanded']) ? $variables['respect_expanded'] : 0;
   if ($menu_tree = theme('nice_menus_tree', array(
     'menu_name' => $menu_name,
     'mlid' => $mlid,
