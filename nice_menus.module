@@ -679,10 +679,10 @@ function theme_nice_menus($variables) {
   // The menu ID from which to build the displayed menu.
   $mlid = $variables['mlid'];
   // Optional. The direction the menu expands. Default is 'right'.
-  $direction = $variables['direction'];
+  $direction = isset($variables['direction']) ? $variables['direction'] : 'right';
   // The number of children levels to display. Use -1 to display all children
   // and use 0 to display no children.
-  $depth = $variables['depth'];
+  $depth = isset($variables['depth']) ? $variables['depth'] : '-1';
   /*
    * Optional. A custom menu array to use for theming --
    * it should have the same structure as that returned
@@ -713,11 +713,11 @@ function theme_nice_menus($variables) {
  */
 function theme_nice_menus_main_menu($variables) {
   // Optional. The direction the menu expands. Default is 'down'.
-  $direction = $variables['direction'];
+  $direction = isset($variables['direction']) ? $variables['direction'] : 'down';
 
   // The number of children levels to display. Use -1 to display all children.
   // and use 0 to display no children.
-  $depth = $variables['depth'];
+  $depth = isset($variables['depth']) ? $variables['depth'] : '-1';
   $menu_name = variable_get('menu_main_links_source', 'main-menu');
   $output = theme('nice_menus', array(
     'id' => 0,
