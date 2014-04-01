@@ -19,6 +19,13 @@ function nice_menus_admin_settings($form, &$form_state) {
     '#title_display' => 'invisible',
     '#maxlength' => 2,
   );
+  // Disable default css(css/nice_menus_default.css).
+  $form['nice_menud_disable_default_css'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Disable default css'),
+    '#description' => t('This will disable loaded the css/nice_menus_default.css.'),
+    '#default_value' => variable_get('nice_menud_disable_default_css', FALSE),
+  );
   // Use JavaScript configuration setting.
   $form['nice_menus_js'] = array(
     '#type' => 'checkbox',

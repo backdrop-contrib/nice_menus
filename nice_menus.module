@@ -356,7 +356,7 @@ function _load_nice_menus_library() {
       drupal_add_css($custom, array('group' => CSS_DEFAULT, 'basename' => '/css/nice_menus_custom.css'));
     }
     // Fall back to default layout.
-    else {
+    elseif (!variable_get('nice_menud_disable_default_css', FALSE)){
       drupal_add_css(drupal_get_path('module', 'nice_menus') . '/css/nice_menus_default.css', array('group' => CSS_DEFAULT, 'basename' => '/css/nice_menus_default.css'));
     }
     $is_load = TRUE;
