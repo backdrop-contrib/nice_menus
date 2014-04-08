@@ -33,7 +33,8 @@ function nice_menus_form_alter(&$form, $form_state, $form_id) {
     case 'system_theme_settings':
       // This is a global setting, so only insert the field
       // on the global settings page.
-      if (arg(4) && arg(4) != 'global') {
+      $args = arg();
+      if (!empty($args) && array_pop($args) != 'settings') {
         return;
       }
 
