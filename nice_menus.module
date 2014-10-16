@@ -481,7 +481,7 @@ function theme_nice_menus_tree($variables) {
   // don't need to "create" the specific sub-menu and we need to get the title.
   // from the $menu_name since there is no "parent item" array.
   // Create the specific menu if we have a mlid.
-  if (!empty($mlid)) {
+  if (!empty($mlid) && !empty($menu)) {
     // Load the parent menu item.
     $item = menu_link_load($mlid);
     $title = check_plain($item['title']);
