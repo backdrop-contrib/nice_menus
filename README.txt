@@ -156,3 +156,8 @@ superfish plugin, requirement for jQuery 1.7+. download plugins to:
 site/all/libraries/jquery.hoverIntent/jquery.hoverIntent.js
 site/all/libraries/jquery.bgiframe/jquery.bgiframe.js
 site/all/libraries/superfish/superfish.js
+
+Download:
+http://cherne.net/brian/resources/jquery.hoverIntent.html
+https://github.com/brandonaaron/bgiframe
+http://users.tpg.com.au/j_birch/plugins/superfish/
