@@ -5,77 +5,46 @@
  * Update functions for Nice menus.
  */
 
+ 
 /**
- * Implements hook_uninstall().
+ * Convert module settings to use configuration files.
  */
-function nice_menus_uninstall() {
-  // Remove all the configuration variables added by the module.
-  db_delete('variable')
-    ->condition('name', 'nice_menus_%', 'LIKE')
-    ->execute();
-
-  // Remove all the block configurations of the module.
-  if (module_exists('block')) {
-    db_delete('block')
-      ->condition('module', 'nice_menus')
-      ->execute();
-    db_delete('block_node_type')
-      ->condition('module', 'nice_menus')
-      ->execute();
-    db_delete('block_role')
-      ->condition('module', 'nice_menus')
-      ->execute();
+function nice_menus_update_1000() {
+  // Get the number of custom menus installed.
+  $number = update_variable_get('nice_menus_number', '2');
+  // Migrate variables to config.
+  $config = config('nice_menus.settings');
+  $config->set('nice_menus_number', update_variable_get('nice_menus_number', 2));
+  $config->set('nice_menus_js', update_variable_get('nice_menus_js', 1));
+  $config->set('nice_menus_sf_delay', update_variable_get('nice_menus_sf_delay', 800));
+  $config->set('nice_menus_sf_speed', update_variable_get('nice_menus_sf_speed', 'slow'));
+  $config->set('nice_menus_custom_css', update_variable_get('nice_menus_custom_css', ''));
+  $config->set('menu_main_links_source', update_variable_get('menu_main_links_source', 'main-menu'));
+  $config->set('menu_secondary_links_source', update_variable_get('menu_secondary_links_source', 'user-menu'));
+  
+  // Set config for all custom menus.
+  for ($i = 1; $i <= $number; $i++) {
+    $config->set('nice_menus_name_' . $i, update_variable_get('nice_menus_name_' . $i, 'Nice menu ' . $i));
+    $config->set('nice_menus_menu_' . $i, update_variable_get('nice_menus_menu_' . $i, 'management:0'));
+    $config->set('nice_menus_depth_' . $i, update_variable_get('nice_menus_depth_' . $i, -1));
+    $config->set('nice_menus_type_' . $i, update_variable_get('nice_menus_type_' . $i, 'right'));
+    $config->set('nice_menus_respect_expand_' . $i, update_variable_get('nice_menus_respect_expand_' . $i, 0));
   }
-
-  cache_clear_all();
-}
-
-/**
- * Implements hook_update_N().
- */
-function nice_menus_update_6000() {
-  // Existing blocks need to be set to no caching.
-  $ret = array();
-  /*
-   * TODO update_sql has been removed. Use the database API for any
-   * schema or data changes.
-   * update_sql("UPDATE {block} SET cache = -1 WHERE module = 'nice_menus'").
-   */
-  $ret[] = array();
-  /*
-   * hook_update_N() no longer returns a $ret array. Instead, return
-   * nothing or a translated string indicating the update ran successfully.
-   * See http://drupal.org/node/224333#update_sql.
-   */
-  return t('TODO Add a descriptive string here to show in the UI.');
-}
-
-/**
- * Implements hook_update_N().
- */
-function nice_menus_update_6001() {
-  // Switch the JS toggle variable name.
-  $old_setting = variable_get('nice_menus_ie', 1);
-  variable_set('nice_menus_js', $old_setting);
-  variable_del('nice_menus_ie');
-  // hook_update_N() no longer returns a $ret array. Instead, return
-  // nothing or a translated string indicating the update ran successfully.
-  // See http://drupal.org/node/224333#update_sql.
-  return t('TODO Add a descriptive string here to show in the UI.');
-}
-
-/**
- * Implements hook_update_N().
- *
- * Update the menu selection variables to match the new format that allows
- * selection of the exact menu item to start the display from.
- */
-function nice_menus_update_6002() {
-  for ($delta = 1; $delta <= variable_get('nice_menus_number', '2'); $delta++) {
-    $menu = variable_get('nice_menus_menu_' . $delta, 'navigation');
-    // If no menu item is selected.
-    if (strpos($menu, ':') === FALSE) {
-      variable_set('nice_menus_menu_' . $delta, $menu . ':0');
-    }
-  }
+  $config->save();
+  
+  update_variable_del('nice_menus_number');
+  update_variable_del('nice_menus_js');
+  update_variable_del('nice_menus_sf_delay');
+  update_variable_del('nice_menus_sf_speed');
+  update_variable_del('nice_menus_custom_css');
+  update_variable_del('menu_main_links_source');
+  update_variable_del('menu_secondary_links_source');
+  
+  for ($i = 1; $i <= $number; $i++) {
+    update_variable_del('nice_menus_name_' . $i);
+    update_variable_del('nice_menus_menu_' . $i);
+    update_variable_del('nice_menus_depth_' . $i);
+    update_variable_del('nice_menus_type_' . $i);
+    update_variable_del('nice_menus_respect_expand_' . $i);
+  }  
 }

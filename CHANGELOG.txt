@@ -52,8 +52,8 @@ drop-down.
 - TASK #1710492: Fixed Improve class from menu path.
 - TASK #1331264: Added Integrate with Context UI for setting active menu?.
 - TASK #1298114: Starting level/depth of a Nice Menu in Drupal 7.
-- TASK #1608510: Remove all drupal_add_js with hook_libraries Remove all
-drupal_add_js with hook_libraries.
+- TASK #1608510: Remove all backdrop_add_js with hook_libraries Remove all
+backdrop_add_js with hook_libraries.
 - BUG #1050352: translated menu items displayed in the default language.
 - TASK #1932752: Moved admin config form page to admin.inc file.
 - TASK #1476504: An Notice: "Undefined index: #original_link" appears on

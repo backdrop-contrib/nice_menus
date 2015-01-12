@@ -10,7 +10,7 @@
   /**
    * Add Superfish to all Nice Menus with some basic options.
    */
-  Drupal.behaviors.niceMenus = {
+  Backdrop.behaviors.niceMenus = {
     attach: function (context, settings) {
       $('ul.nice-menu:not(.nice-menus-processed)').addClass('nice-menus-processed').each(function () {
         $(this).superfish({
@@ -21,9 +21,9 @@
           // Disable drop shadows.
           dropShadows: false,
           // Mouse delay.
-          delay: Drupal.settings.nice_menus_options.delay,
+          delay: Backdrop.settings.nice_menus_options.delay,
           // Animation speed.
-          speed: Drupal.settings.nice_menus_options.speed
+          speed: Backdrop.settings.nice_menus_options.speed
         });
 
         // Add in Brandon Aaron’s bgIframe plugin for IE select issues.

@@ -5,8 +5,7 @@
   then configure the module to use your custom CSS file
   (this is done in the global settings tab of the theme administration.)
 
-  See README.txt and the handbook page (http://drupal.org/node/185543)
-  for more information on using the CSS.
+  See README.txt for more information on using the CSS.
 */
 
 /******************************
@@ -188,17 +187,6 @@ ul.nice-menu li {
 
 #header-region ul.nice-menu ul {
   top: 1.7em;
-}
-
-/******************************
- Bartik-specific CSS
-******************************/
-/**
- * Global CSS for ALL menu types
- */
-.block ul.nice-menu,
-.block ul.nice-menu ul {
-  padding: 0;
 }
 
 /**

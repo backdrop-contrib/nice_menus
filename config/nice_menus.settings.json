@@ -1,0 +1,20 @@
+{
+    "_config_name": "nice_menus.settings",
+    "nice_menus_number": 2,
+    "nice_menus_js": 1,
+    "nice_menus_sf_delay": 800,
+    "nice_menus_sf_speed": "slow",
+    "nice_menus_custom_css": "",
+    "menu_main_links_source": "main-menu",
+    "menu_secondary_links_source": "user-menu",
+    "nice_menus_name_1": "Nice menu 1",
+    "nice_menus_menu_1": "management:0",
+    "nice_menus_depth_1": -1,
+    "nice_menus_type_1": "right",
+    "nice_menus_respect_expand_1": 0,
+    "nice_menus_name_2": "Nice menu 2",
+    "nice_menus_menu_2": "management:0",
+    "nice_menus_depth_2": -1,
+    "nice_menus_type_2": "right",
+    "nice_menus_respect_expand_2": 0
+}

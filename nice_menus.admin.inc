@@ -9,29 +9,23 @@
  * Settings form as implemented by hook_menu.
  */
 function nice_menus_admin_settings($form, &$form_state) {
-  // Number of Nice Menus blocks.
   $form['nice_menus_number'] = array(
     '#type' => 'textfield',
-    '#title' => t('Number of Nice Menus blocks'),
     '#description' => t('The total number of independent Nice menus blocks you want. Enter a number between 0 and 99. If you set this to 0, you will have no blocks created but you can still use the Nice menus theme functions directly in your theme.'),
-    '#default_value' => variable_get('nice_menus_number', 2),
+    '#default_value' => config_get('nice_menus.settings', 'nice_menus_number'),
     '#size' => 2,
-    '#title_display' => 'invisible',
-    '#maxlength' => 2,
   );
-  // Disable default css(css/nice_menus_default.css).
-  $form['nice_menud_disable_default_css'] = array(
-    '#type' => 'checkbox',
-    '#title' => t('Disable default css'),
-    '#description' => t('This will disable loaded the css/nice_menus_default.css.'),
-    '#default_value' => variable_get('nice_menud_disable_default_css', FALSE),
+  $form['nice_menus_custom_css'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Path to custom Nice menus CSS file'),
+    '#description' => t('To override the default Nice menus CSS layout, enter the path to your custom CSS file.  It should be a relative path from the root of your Backdrop install (e.g. themes/example/mymenu.css).'),
+    '#default_value' => config_get('nice_menus.settings', 'nice_menus_custom_css'),
   );
-  // Use JavaScript configuration setting.
   $form['nice_menus_js'] = array(
     '#type' => 'checkbox',
     '#title' => t('Use JavaScript'),
     '#description' => t('This will add Superfish jQuery to Nice menus. This is required for Nice menus to work properly in Internet Explorer.'),
-    '#default_value' => variable_get('nice_menus_js', TRUE),
+    '#default_value' => config_get('nice_menus.settings', 'nice_menus_js'),
   );
   $form['nice_menus_sf_options'] = array(
     '#type' => 'fieldset',
@@ -40,31 +34,34 @@ function nice_menus_admin_settings($form, &$form_state) {
     '#collapsible' => TRUE,
     '#collapsed' => TRUE,
   );
-  // Mouse delay textfield for the time before the menus is closed.
   $form['nice_menus_sf_options']['nice_menus_sf_delay'] = array(
     '#type' => 'textfield',
     '#title' => t('Mouse delay'),
     '#description' => t('The delay in milliseconds that the mouse can remain outside a submenu without it closing.'),
-    '#default_value' => variable_get('nice_menus_sf_delay', 800),
+    '#default_value' => config_get('nice_menus.settings', 'nice_menus_sf_delay'),
     '#size' => 5,
   );
-  // Display speed of the animation for the menu to open/close.
   $form['nice_menus_sf_options']['nice_menus_sf_speed'] = array(
     '#type' => 'select',
     '#title' => t('Animation speed'),
+    '#multiple' => FALSE,
     '#description' => t('Speed of the menu open/close animation.'),
     '#options' => array(
       'slow' => t('slow'),
       'normal' => t('normal'),
       'fast' => t('fast'),
     ),
-    '#default_value' => variable_get('nice_menus_sf_speed', 'normal'),
+    '#default_value' => config_get('nice_menus.settings', 'nice_menus_sf_speed'),
   );
 
   // Custom validation to make sure the user is entering numbers.
   $form['#validate'][] = 'nice_menus_settings_validate';
+  $form['submit_button'] = array(
+    '#type' => 'submit',
+    '#value' => t('Submit'),
+  );
 
-  return system_settings_form($form);
+  return $form;
 }
 
 /**
@@ -76,4 +73,15 @@ function nice_menus_settings_validate($form, &$form_state) {
   if (!is_numeric($number) || strlen($number) > 2) {
     form_set_error('nice_menus_number', t('You must enter a number from 0 to 99.'));
   }
+}
+
+function nice_menus_admin_settings_submit($form, &$form_state) {
+  $config = config('nice_menus.settings');
+  $config->set('nice_menus_number', $form_state['values']['nice_menus_number']);
+  $config->set('nice_menus_custom_css', $form_state['values']['nice_menus_custom_css']);
+  $config->set('nice_menus_js', $form_state['values']['nice_menus_js']);
+  $config->set('nice_menus_sf_delay', $form_state['values']['nice_menus_sf_delay']);
+  $config->set('nice_menus_sf_speed', $form_state['values']['nice_menus_sf_speed']);
+  $config->save();
+
 }
