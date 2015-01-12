@@ -2,7 +2,7 @@
 NICE MENUS MODULE
 -----------------
 
-Currently maintained by: Addison Berry (add1sun)
+Currently maintained on Drupal by: Addison Berry (add1sun)
 
 Orginally created by: Jake Gordon (jakeg)
 http://drupal.org/user/15674/contact and http://www.jakeg.co.uk/
@@ -18,22 +18,17 @@ http://drupal.org/project/issues/nice_menus.
 
 Installation
 ------------
-1. Copy nice_modules folder to your sites/all/modules directory.
-2. At Administer -> Site building -> Modules (admin/build/modules)
-enable the module.
+1. Copy nice_modules folder to your /modules directory.
+2. At Functionality -> Modules (admin/modules) enable the module.
 
 3. Configure the module settings at
-Administer -> Site configuration -> Nice Menus (admin/settings/nice_menus).
+Configuration -> User Interface -> Nice Menus (admin/config/user-interface).
 
-4. Configure the Nice Menus block(s) at
-Administer -> Site building -> Blocks (admin/build/block),
-setting the source menu and menu style, etc.
+4. Add Nice Menus Blocks to your Layout
 
-5. Return to the blocks page and enable the Nice menus block(s),
-e.g. 'Nice Menu 1 (Nice Menu)' by putting it in a region.
+5. Configure options on th configuration step in Layouts
 
-6. See below sections on Customization and Advanced Theming as
-well as the handbook page (http://drupal.org/node/185543) for more tips.
+6. See below sections on Customization and Advanced Theming.
 
 Upgrading
 ---------
