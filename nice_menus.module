@@ -302,7 +302,6 @@ function nice_menus_block_view($delta = 1) {
     else {
       $subject = $output['subject'];
     }
-    $block['subject'] = '<span class="' . $class . '">' . check_plain($subject) . '</span>';
     $block['content']['#contextual_links']['simple_menus'] = array('admin/structure/menu/manage', array($menu_name));
   }
   else {
