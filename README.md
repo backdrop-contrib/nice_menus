@@ -152,6 +152,6 @@ Maintainers
 
 Drupal version currently maintained on Drupal by: Addison Berry (add1sun)
 
-Orginally created by: Jake Gordon (jakeg)
+Originally created by: Jake Gordon (jakeg)
 http://drupal.org/user/15674/contact and http://www.jakeg.co.uk/
 
