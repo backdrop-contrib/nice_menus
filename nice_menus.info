@@ -1,6 +1,7 @@
 name = Nice Menus
 description = CSS/jQuery drop-down, drop-right and drop-left menus to be placed in blocks
 dependencies[] = menu
+type = module
 backdrop = 1.x
 configure = admin/config/user-interface/nice_menus
 
